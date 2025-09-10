@@ -23,7 +23,7 @@ ASSETS := $(FONTS) $(SPRITES) $(AUDIO_SFX) $(AUDIO_BGM)
 
 MKFONT_FLAGS ?=
 MKSPRITE_FLAGS ?=
-AUDIOCONV_FLAGS ?=
+AUDIOCONV_FLAGS ?= --wav-resample 16000 --wav-mono
 
 all: $(ROM).z64
 
