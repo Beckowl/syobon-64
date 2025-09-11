@@ -6,8 +6,8 @@ ROM_TITLE := "Syobon Action 64"
 include $(N64_INST)/include/n64.mk
 
 SRCS := $(shell find $(SOURCE_DIR) \( -name '*.c' -o -name '*.cpp' \))
-OBJS := $(patsubst $(SOURCE_DIR)/%,$(BUILD_DIR)/%,$(SRCS:.c=.o))
-OBJS := $(OBJS:.cpp=.o)
+OBJS := $(SRCS:$(SOURCE_DIR)/%.c=$(BUILD_DIR)/%.o)
+OBJS := $(OBJS:$(SOURCE_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 
 TTF := $(wildcard res/*.ttf)
 PNG := $(wildcard res/*.png)
@@ -62,6 +62,7 @@ $(ROM).z64: $(BUILD_DIR)/$(ROM).elf $(BUILD_DIR)/$(ROM).dfs
 clean:
 	rm -rf $(BUILD_DIR) filesystem $(ROM).z64
 
--include $(wildcard $(BUILD_DIR)/*.d)
+DEPS := $(OBJS:.o=.d)
+-include $(DEPS)
 
 .PHONY: all clean
