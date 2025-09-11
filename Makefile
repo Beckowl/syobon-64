@@ -29,6 +29,8 @@ all: $(ROM).z64
 
 filesystem/res/sazanami-gothic.font64: MKFONT_FLAGS += --compress 1 --range 20-7F --range 3000-9FFF --size 20 --outline 1 --monochrome
 
+$(AUDIO_BGM): AUDIOCONV_FLAGS += --wav-loop true
+
 filesystem/res/%.sprite: res/%.png
 	@mkdir -p $(dir $@)
 	@echo "    [SPRITE] $@"
