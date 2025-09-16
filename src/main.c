@@ -1,15 +1,17 @@
 #include <libdragon.h>
+#include "sa_graphics.h"
 
 void init(void) {
     dfs_init(DFS_DEFAULT_LOCATION);
-    display_init(RESOLUTION_640x480, DEPTH_16_BPP, 2, GAMMA_NONE, FILTERS_DISABLED);
-    rdpq_init();
+    sa_graphics_init();
     joypad_init();
 }
 
 void update_game(void) { }
 
-void draw_game(void) { }
+void draw_game(void) {
+
+}
 
 int main(void) {
     init();
