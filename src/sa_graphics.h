@@ -11,14 +11,20 @@ typedef struct {
     int height;
 } SpriteInfo;
 
+#define PI 3.1415926
+
 void sa_graphics_init(void);
 
 void set_draw_color(color_t color);
 
 SpriteInfo* make_sprite(sprite_t* source, int sourceX, int sourceY, int width, int height);
+void free_sprite(SpriteInfo* sprite);
 
 void draw_sprite(SpriteInfo* sprite, int x, int y, bool flip);
 void draw_rect(int x, int y, int width, int height);
 void draw_rect_outline(int x, int y, int width, int height);
+void draw_line(int x1, int y1, int x2, int y2);
+void draw_circle(int x, int y, int radius);
+void draw_circle_outline(int x, int y, int radius);
 
 #endif

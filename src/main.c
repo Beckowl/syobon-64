@@ -9,9 +9,7 @@ void init(void) {
 
 void update_game(void) { }
 
-void draw_game(void) {
-
-}
+void draw_game(void) { }
 
 int main(void) {
     init();
