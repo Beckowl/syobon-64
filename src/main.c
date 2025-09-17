@@ -1,9 +1,11 @@
 #include <libdragon.h>
 #include "sa_graphics.h"
+#include "sa_audio.h"
 
 void init(void) {
     dfs_init(DFS_DEFAULT_LOCATION);
     sa_graphics_init();
+    sa_audio_init();
     joypad_init();
 }
 
@@ -16,6 +18,7 @@ int main(void) {
 
     while (!exception_reset_time()) {
         joypad_poll();
+        process_audio();
         update_game();
 
         surface_t *disp = display_get();
