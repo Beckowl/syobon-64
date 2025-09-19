@@ -1,11 +1,13 @@
 #include <libdragon.h>
 #include "sa_graphics.h"
 #include "sa_audio.h"
+#include "sa_input.h"
 
 void init(void) {
     dfs_init(DFS_DEFAULT_LOCATION);
     sa_graphics_init();
     sa_audio_init();
+    sa_input_init();
     joypad_init();
 }
 
