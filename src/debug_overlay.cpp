@@ -8,8 +8,8 @@
 #include "profiler.hpp"
 #include "debug_overlay.hpp"
 
-#define OVERLAY_X 20
-#define OVERLAY_Y_START 20
+#define OVERLAY_X 50
+#define OVERLAY_Y_START 50
 #define LINE_SPACING 18
 
 static Profiler** sProfilers = NULL;
