@@ -32,7 +32,6 @@ int main(void) {
 
         surface_t *disp = display_get();
         rdpq_attach(disp, NULL);
-        rdpq_clear(RGBA32(0x7f, 0x7f, 0x7f, 0xFF));
 
         draw_game();
 
