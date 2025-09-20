@@ -20,8 +20,8 @@ void profiler_clear(Profiler* p) {
     p->elapsedTime = 0;
     p->avgTime = 0;
     p->numCalls = 0;
+    p->totalTime = 0;
 }
-
 
 void profiler_end(Profiler* p) {
     uint64_t endTime = get_ticks_us();
