@@ -40,8 +40,8 @@ static void handle_scrolling(void) {
 }
 
 static void select_stage(byte num) {
-    sta = (num - 1) / 4 + 1;
-    stb = (num - 1) % 4 + 1;
+    sta = (num - 1) / 4 + 1; // current world?
+    stb = (num - 1) % 4 + 1; // current level??
     stc = 0;
 }
 
@@ -81,8 +81,7 @@ void title_screen_draw(void) {
 
     // syobon action logo
     rdpq_set_mode_standard();
-    rdpq_mode_alphacompare(1);
-    rdpq_sprite_blit(mgrap[30], 50, 60, NULL);
+    rdpq_sprite_blit(mgrap[30], 91, 60, NULL);
 
     // decor
     draw_sprite(grap[0][4], 360, 278, false);
@@ -90,25 +89,26 @@ void title_screen_draw(void) {
     draw_sprite(grap[0][0], 60, 330, false); // this is syobon!!
 
     // floor
-    for (t = 0; t <= 16; t++) {
+    for (t = 0; t <= 19; t++) {
         draw_sprite(grap[5][1], 29 * t, 365, false);
         draw_sprite(grap[6][1], 29 * t, 394, false);
     }
 
-    if (gControllerFound) {
-        draw_text("Enterキーを押せ!!", 160, 250);
-    } else {
-        draw_text("No controller!", 160, 250);
+    if (!gControllerFound) {
+        draw_text("No controller!", 192, 250);
+        return;
     }
+
+    draw_text("Enterキーを押せ!!", 192, 250);
 
     static char buf[32];
 
     if (sShowStageNum) {
         if (sStageNum != STAGE_MYSTERY_DUNGEON) {
             sprintf(buf, "Stage number: %d", sStageNum);
-            draw_text(buf, 160, 270);
+            draw_text(buf, 192, 270);
         } else {
-            draw_text("Mystery Dungeon", 160, 270);
+            draw_text("Mystery Dungeon", 192, 270);
         }
     }
 }
