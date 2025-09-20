@@ -19,6 +19,8 @@ void sa_graphics_init(void) {
 
     rdpq_font_style(sFont, FONT_SAZANAMI, &style);
     rdpq_text_register_font(FONT_SAZANAMI, sFont);
+
+    display_set_fps_limit(30);
 }
 
 void sa_graphics_deinit(void) {

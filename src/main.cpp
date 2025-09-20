@@ -3,7 +3,7 @@
 #include "sa_audio.h"
 #include "sa_input.h"
 
-#include "game/main.h"
+#include "game/game.h"
 
 void init(void) {
     dfs_init(DFS_DEFAULT_LOCATION);
@@ -11,15 +11,15 @@ void init(void) {
     sa_audio_init();
     sa_input_init();
 
-    loadg();
+    game_init();
 }
 
-void update_game(void) { }
+void update_game(void) { 
+    game_update();
+}
 
 void draw_game(void) {
-    DrawString(50, 50, "hello", 0);
-    DrawGraph(100, 100, grap[16][1], 0);
-    DrawTurnGraph(130, 100, grap[0][0], 0);
+    game_draw();
  }
 
 int main(void) {
@@ -38,6 +38,8 @@ int main(void) {
 
         rdpq_detach_show();
     }
+
+    game_deinit();
     
     while (true) {
         __asm__ volatile("nop");

@@ -13,9 +13,9 @@ RSPASFLAGS += -g
 LDFLAGS  += -g
 endif
 
-CXXFLAGS += -Isrc
+CXXFLAGS += -Isrc -Wno-error=parentheses -Wno-error=narrowing -fcommon # NOT MY FAULT!!!!
 
-EXCLUDE_SRCS := src/game/main.cpp
+EXCLUDE_SRCS :=
 
 SRCS := $(shell find $(SOURCE_DIR) \( -name '*.c' -o -name '*.cpp' \))
 SRCS := $(filter-out $(EXCLUDE_SRCS), $(SRCS))

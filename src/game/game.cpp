@@ -1,36 +1,27 @@
-#include "main.h"
+#include <libdragon.h>
 
-// プログラムは WinMain から始まります
-//Changed to ansi c++ main()
-int main(int argc, char *argv[])
-{
-    parseArgs(argc, argv);
-    if (DxLib_Init() == -1)
-	return 1;
+#include "DxLib.h"
+#include "game.h"
+#include "sa_input.h"
+#include "sa_audio.h"
 
-//全ロード
-    loadg();
+#define BUTTON_NONE 		0							// placeholder
+#define BUTTON_JUMP 		(BUTTON_A | BUTTON_D_UP)
+#define BUTTON_LEFT 		BUTTON_D_LEFT
+#define BUTTON_RIGHT 		BUTTON_D_RIGHT
+#define BUTTON_DOWN 		BUTTON_D_DOWN
+#define BUTTON_SUICIDE		(BUTTON_L | BUTTON_R)		// press L+R to suicide
+#define BUTTON_START_PAUSE 	BUTTON_START
+#define BUTTON_PAGE_UP 		BUTTON_L					// title screen level select
+#define BUTTON_PAGE_DOWN 	BUTTON_R					// title screen level select
 
-//フォント
-    SetFontSize(16);
-//SetFontThickness(4) ;
-
-//ループ
-//for (maint=0;maint<=2;maint++){
-    while (ProcessMessage() == 0 && CheckHitKey(KEY_INPUT_ESCAPE) == 0) {
-	UpdateKeys();
+void game_init() {
+	loadg();
 	maint = 0;
-	Mainprogram();
-	if (maint == 3)
-	    break;
-    }
-
-//ＤＸライブラリ使用の終了処理
-    end();
 }
 
 //メイン描画
-void rpaint()
+void game_draw()
 {
 
 //ダブルバッファリング
@@ -1110,7 +1101,7 @@ void rpaint()
 	setcolor(160, 180, 250);
 	fillrect(0, 0, fxmax, fymax);
 
-	drawimage(mgrap[30], 240 - 380 / 2, 60);
+	rdpq_sprite_blit(mgrap[30], 240 - 380 / 2, 60, NULL);
 
 	drawimage(grap[0][4], 12 * 30, 10 * 29 - 12);
 	drawimage(grap[1][4], 6 * 30, 12 * 29 - 12);
@@ -1131,7 +1122,7 @@ void rpaint()
 }				//rpaint()
 
 //メインプログラム
-void Mainprogram()
+void game_update()
 {
 
     stime = long (GetNowCount());
@@ -1216,29 +1207,30 @@ void Mainprogram()
 	actaon[2] = 0;
 	actaon[3] = 0;
 	if (mkeytm <= 0) {
-	    if (CheckHitKey(KEY_INPUT_LEFT)
+	    if (CheckHitKey(BUTTON_LEFT)
 		&& keytm <= 0) {
 		actaon[0] = -1;
 		mmuki = 0;
 		actaon[4] = -1;
 	    }
-	    if (CheckHitKey(KEY_INPUT_RIGHT)
+	    if (CheckHitKey(BUTTON_RIGHT)
 		&& keytm <= 0) {
 		actaon[0] = 1;
 		mmuki = 1;
 		actaon[4] = 1;
 	    }
-	    if (CheckHitKey(KEY_INPUT_DOWN)
+	    if (CheckHitKey(BUTTON_DOWN)
 		) {
 		actaon[3] = 1;
 	    }
 	}
 //if (CheckHitKey(KEY_INPUT_F1)==1){end();}
-	if (CheckHitKey(KEY_INPUT_F1) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    mainZ = 100;
 	}
 //if (CheckHitKey(KEY_INPUT_Q)==1){mkeytm=0;}
-	if (CheckHitKey(KEY_INPUT_O) == 1) {
+	joypad_buttons_t down = joypad_get_buttons_held(gMainController);
+	if ((down.raw & BUTTON_SUICIDE) == BUTTON_SUICIDE) {
 	    if (mhp >= 1)
 		mhp = 0;
 	    if (stc >= 5) {
@@ -1248,8 +1240,7 @@ void Mainprogram()
 	}
 
 	if (mkeytm <= 0) {
-	    if (CheckHitKey(KEY_INPUT_Z) == 1 || CheckHitKey(KEY_INPUT_UP) == 1
-		|| SDL_JoystickGetButton(joystick, JOYSTICK_JUMP)) {
+	    if (CheckHitKey(BUTTON_JUMP) == 1) {
 		if (actaon[1] == 10) {
 		    actaon[1] = 1;
 		    xx[0] = 1;
@@ -1258,9 +1249,7 @@ void Mainprogram()
 	    }
 	}
 
-	if (CheckHitKey(KEY_INPUT_Z) == 1
-	    || CheckHitKey(KEY_INPUT_UP) == 1
-	    || SDL_JoystickGetButton(joystick, JOYSTICK_JUMP)) {
+	if (CheckHitKey(BUTTON_JUMP) == 1) {
 	    if (mjumptm == 8 && md >= -900) {
 		md = -1300;
 //ダッシュ中
@@ -1407,8 +1396,9 @@ if (mc>=800 || mc<=-800){md=-1800;}
 	    mhp = -20;
 	    mtype = 200;
 	    mtm = 0;
-	    Mix_HaltChannel(-1);
-	    Mix_HaltMusic();
+		// TODO: stop all sounds
+	    //Mix_HaltChannel(-1);
+	    stop_background_music();
 	    ot(oto[12]);
 	    StopSoundMem(oto[16]);
 	}			//mhp
@@ -1446,7 +1436,7 @@ if (mc>=800 || mc<=-800){md=-1800;}
 		blacktm = 20;
 		stc += 5;
 		stagerr = 0;
-		Mix_HaltMusic();
+		stop_background_music();
 		mtm = 0;
 		mtype = 0;
 		mkeytm = -1;
@@ -1566,7 +1556,7 @@ if (mc>=800 || mc<=-800){md=-1800;}
 			blackx = 1;
 			blacktm = 20;
 			stagerr = 0;
-			Mix_HaltMusic();
+			stop_background_music();
 		    }
 		}
 	    }			//00
@@ -1859,7 +1849,7 @@ if (mtm==250)end();
 						    = 800;
 					    }
 					}
-					Mix_HaltMusic();
+					stop_background_music();
 				    }
 //音符+
 				    else if (ttype[t]
@@ -2074,7 +2064,7 @@ if (mtm==250)end();
 			    ta[t] = -800000;	//ot(oto[4]);
 			    sracttype[20] = 1;
 			    sron[20] = 1;
-			    Mix_HaltMusic();
+			    stop_background_music();
 			    mtype = 301;
 			    mtm = 0;
 			    ot(oto[16]);
@@ -2704,7 +2694,7 @@ if (mtm==250)end();
 			    if (sxtype[t] == 30) {
 				sa[t] = -80000000;
 				md = 0;
-				Mix_HaltMusic();
+				stop_background_music();
 				mtype = 302;
 				mtm = 0;
 				ot(oto[16]);
@@ -2768,7 +2758,7 @@ if (mtm==250)end();
 			    && mtype == 0
 			    && mb <
 			    xx[9] + sd[t] + xx[0] - 3000 && mhp >= 1) {
-			    Mix_HaltMusic();
+			    stop_background_music();
 			    mtype = 300;
 			    mtm = 0;
 			    ma = sa[t] - fx - 2000;
@@ -4324,10 +4314,10 @@ if (atype[t]==133){msoubi=4;}
 	maintm++;
 
 	xx[7] = 46;
-	if (CheckHitKey(KEY_INPUT_1) == 1) {
-	    end();
-	}
-	if (CheckHitKey(KEY_INPUT_SPACE) == 1) {
+
+	// TODO: figure what this is doing
+	//if (CheckHitKey(KEY_INPUT_SPACE) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    for (t = 0; t <= xx[7]; t += 1) {
 		xx[12 + t] -= 300;
 	    }
@@ -4410,61 +4400,64 @@ if (atype[t]==133){msoubi=4;}
 	    over = 0;
 	}
 
-	if (CheckHitKey(KEY_INPUT_1) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    sta = 1;
 	    stb = 1;
 	    stc = 0;
 	}
-	if (CheckHitKey(KEY_INPUT_2) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    sta = 1;
 	    stb = 2;
 	    stc = 0;
 	}
-	if (CheckHitKey(KEY_INPUT_3) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    sta = 1;
 	    stb = 3;
 	    stc = 0;
 	}
-	if (CheckHitKey(KEY_INPUT_4) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    sta = 1;
 	    stb = 4;
 	    stc = 0;
 	}
-	if (CheckHitKey(KEY_INPUT_5) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    sta = 2;
 	    stb = 1;
 	    stc = 0;
 	}
-	if (CheckHitKey(KEY_INPUT_6) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    sta = 2;
 	    stb = 2;
 	    stc = 0;
 	}
-	if (CheckHitKey(KEY_INPUT_7) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    sta = 2;
 	    stb = 3;
 	    stc = 0;
 	}
-	if (CheckHitKey(KEY_INPUT_8) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    sta = 2;
 	    stb = 4;
 	    stc = 0;
 	}
-	if (CheckHitKey(KEY_INPUT_9) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    sta = 3;
 	    stb = 1;
 	    stc = 0;
 	}
-	if (CheckHitKey(KEY_INPUT_0) == 1) {
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    xx[0] = 1;
 	    over = 1;
 	}
 //if (CheckHitKeyAll() == 0){end();}
-	if (CheckHitKey(KEY_INPUT_RETURN) == 1) {
+	// KEY_INPUT_RETURN??? is that enter??
+	// TODO: Map this to something
+	if (CheckHitKey(BUTTON_NONE) == 1) {
 	    xx[0] = 1;
 	}
 //if (CheckHitKey(KEY_INPUT_SPACE)==1){xx[0]=1;}
-	if (CheckHitKey(KEY_INPUT_Z) == 1) {
+	// the hell??
+	if (CheckHitKey(BUTTON_Z) == 1) {
 	    xx[0] = 1;
 	}
 
@@ -4480,19 +4473,6 @@ if (atype[t]==133){msoubi=4;}
 	}
 
     }				//100
-
-//描画
-    rpaint();
-
-//30-fps
-    xx[0] = 30;
-    if (CheckHitKey(KEY_INPUT_SPACE) == 1) {
-	xx[0] = 60;
-    }
-    wait2(stime, long (GetNowCount()), 1000 / xx[0]);
-
-//wait(20);
-
 }				//Mainprogram()
 
 void tekizimen()
@@ -4701,40 +4681,25 @@ int rand(int Rand)
 }
 
 //終了
-void deinit()
+void game_deinit()
 {
     setc0();
     FillScreen();
     DrawString(200, 200, "EXITING...", GetColor(255, 255, 255));
-    SDL_Flip(screen);
 
 //SURFACES
     for (t = 0; t < 51; t++)
-	SDL_FreeSurface(mgrap[t]);
+		sprite_free(mgrap[t]); // TODO: rename SpriteInfo functions, this is messy
     for (int i = 0; i < 161; i++)
 	for (int j = 0; j < 8; j++)
-	    SDL_FreeSurface(grap[i][j]);
+	    free_sprite(grap[i][j]); // lmao
 //--
 
 //SOUNDS
     for (int i = 1; i < 6; i++)
-	Mix_FreeMusic(otom[i]);
+	free_sound(otom[i]);
     for (int i = 1; i < 19; i++)
-	Mix_FreeChunk(oto[i]);
-//--
-
-//Font
-    for (int i = 0; i < FONT_MAX; i++)
-	TTF_CloseFont(font[i]);
-
-//Joystick
-    SDL_JoystickClose(joystick);
-
-//Close libraries
-    IMG_Quit();
-    TTF_Quit();
-    Mix_Quit();
-    SDL_Quit();
+	free_sound(oto[i]);
 }
 
 //画像関係
@@ -4743,7 +4708,7 @@ void deinit()
 void setcolor(int red, int green, int blue)
 {
     color = GetColor(red, green, blue);
-    gfxcolor = red << 8 * 3 | green << 8 * 2 | blue << 8 | 0xFF;
+    gfxcolor = color;
 }
 
 //色かえ(黒)(白)
@@ -4760,52 +4725,62 @@ void setc1()
 //点
 void drawpixel(int a, int b)
 {
-    pixelColor(screen, a, b, gfxcolor);
+	rdpq_set_fill_color(gfxcolor);
+	rdpq_draw_pixel(a, b);
 }
 
 //線
 void drawline(int a, int b, int c, int d)
 {
-    lineColor(screen, a, b, c, d, gfxcolor);
+	set_draw_color(gfxcolor);
+	draw_line(a, b, c, d);
 }
 
 //四角形(塗り無し)
 void drawrect(int a, int b, int c, int d)
 {
-    rectangleColor(screen, a, b, a + c - 1, b + d - 1, gfxcolor);
+	set_draw_color(gfxcolor);
+	draw_rect_outline(a, b, c, d); // TODO: check if w/h to screen coords math is the same
+    // rectangleColor(screen, a, b, a + c - 1, b + d - 1, gfxcolor);
 }
 
 //四角形(塗り有り)
 void fillrect(int a, int b, int c, int d)
 {
-    boxColor(screen, a, b, a + c - 1, b + d - 1, gfxcolor);
+	set_draw_color(gfxcolor);
+	draw_rect(a, b, c, d); // TODO: check if w/h to screen coords math is the same
+    // boxColor(screen, a, b, a + c - 1, b + d - 1, gfxcolor);
 }
 
 //円(塗り無し)
 void drawarc(int a, int b, int c, int d)
 {
-    ellipseColor(screen, a, b, c, d, gfxcolor);
+	set_draw_color(gfxcolor);
+	draw_circle_outline(a, b, c); // TODO: draw an actual ellipse?? the comment above says circle though
+    // ellipseColor(screen, a, b, c, d, gfxcolor);
 }
 
 //円(塗り有り)
 void fillarc(int a, int b, int c, int d)
 {
-    filledEllipseColor(screen, a, b, c, d, gfxcolor);
+	set_draw_color(gfxcolor);
+	draw_circle(a, b, c);  // TODO: draw an actual ellipse?? the comment above says circle though
+    // filledEllipseColor(screen, a, b, c, d, gfxcolor);
 }
 
 void FillScreen()
 {
-    SDL_FillRect(screen, 0, color);
+	rdpq_clear(color);
 }
 
 //画像の読み込み
-SDL_Surface *loadimage(string x)
+sprite_t *loadimage(string x)
 {
 //mgrap[a]=LoadGraph(b);
     return LoadGraph(x.c_str());
 }
 
-SDL_Surface *loadimage(SDL_Surface * a, int x, int y, int r, int z)
+SDL_Surface *loadimage(sprite_t * a, int x, int y, int r, int z)
 {
     return DerivationGraph(x, y, r, z, a);
 }
@@ -4819,7 +4794,7 @@ void drawimage(SDL_Surface * mx, int a, int b)
 	DrawTurnGraph(a, b, mx, TRUE);
 }
 
-void drawimage(SDL_Surface * mx, int a, int b, int c, int d, int e, int f)
+void drawimage(sprite_t * mx, int a, int b, int c, int d, int e, int f)
 {
     SDL_Surface *m;
     m = DerivationGraph(c, d, e, f, mx);
@@ -4827,7 +4802,7 @@ void drawimage(SDL_Surface * mx, int a, int b, int c, int d, int e, int f)
 	DrawGraph(a, b, m, TRUE);
     if (mirror == 1)
 	DrawTurnGraph(a, b, m, TRUE);
-    SDL_FreeSurface(m);
+    free_sprite(m);
 }
 
 /*
@@ -10405,12 +10380,10 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 //BGM変更
 void bgmchange(Mix_Music * x)
 {
-    Mix_HaltMusic();
+    stop_background_music();
 //otom[0]=0;
     otom[0] = x;
-    Mix_PlayMusic(otom[0], -1);;
-    if(x == otom[2]) Mix_VolumeMusic(MIX_MAX_VOLUME * 40 / 100);
-    else Mix_VolumeMusic(MIX_MAX_VOLUME * 50 / 100);
+	set_background_music(x);
 }				//bgmchange()
 
 //ブロック出現

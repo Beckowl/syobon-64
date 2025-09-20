@@ -11,7 +11,7 @@
 #define byte unsigned char
 
 #define ScreenFlip() { }	// buffer swapping will be handled by src/main.cpp
-#define GetNowCount() get_ticks_us();
+#define GetNowCount() get_ticks_us()
 
 //UNIMPLEMENTED - macro substitution
 #define SetFontThickness(f);
@@ -40,8 +40,8 @@ extern SDL_Surface *screen;
 #define SetFontSize(size) { }
 #define ChangeFontType(type) { }
 
-void DrawString(int a, int b, const char *x, Uint32 c);
-void DrawFormatString(int a, int b, Uint32 color, const char *str, ...);
+void DrawString(int a, int b, const char *x, color_t c);
+void DrawFormatString(int a, int b, color_t color, const char *str, ...);
 
 #define UpdateKeys() { }
 #define ProcessMessage() { }

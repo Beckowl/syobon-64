@@ -9,12 +9,12 @@ bool sound = true;
 
 //Strings
 
-void DrawString(int a, int b, const char *x, Uint32 c)
+void DrawString(int a, int b, const char *x, color_t c)
 {
     draw_text(x, a, b);
 }
 
-void DrawFormatString(int a, int b, Uint32 color, const char *str, ...)
+void DrawFormatString(int a, int b, color_t color, const char *str, ...)
 {
     va_list args;
     char *newstr = new char[strlen(str) + 16];
