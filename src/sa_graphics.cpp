@@ -7,14 +7,13 @@ static color_t sDrawColor = RGBA32(0xff, 0xff, 0xff, 0xff);
 static rdpq_font_t* sFont;
 
 void sa_graphics_init(void) {
-
     resolution_t resolution = {
         .width = SCREEN_WIDTH,
         .height = SCREEN_HEIGHT,
         .interlaced = INTERLACE_MODE,
     };
 
-    display_init(resolution, DEPTH_16_BPP, 2, GAMMA_NONE, FILTERS_RESAMPLE);
+    display_init(resolution, DEPTH_16_BPP, 3, GAMMA_NONE, FILTERS_RESAMPLE);
     rdpq_init();
 
     sFont = rdpq_font_load("rom:/res/sazanami-gothic.font64");
