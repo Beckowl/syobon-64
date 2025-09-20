@@ -228,7 +228,7 @@ inline int fmaZ = 0, fmb = 0;
 //強制スクロール
 inline int kscroll = 0;
 //画面サイズ(ファミコンサイズ×2)(256-224)
-inline int fxmax = 48000, fymax = 42000;
+inline int fxmax = SCREEN_WIDTH * 100, fymax = SCREEN_HEIGHT * 100;
 
 
 

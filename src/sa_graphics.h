@@ -3,6 +3,10 @@
 
 #include <libdragon.h>
 
+#define SCREEN_WIDTH 560
+#define SCREEN_HEIGHT 420
+#define INTERLACE_MODE INTERLACE_HALF
+
 typedef struct {
     sprite_t* source;
     int sourceX;
