@@ -1,11 +1,32 @@
 #include <libdragon.h>
 #include "sa_graphics.h"
 
+#define FONT_SAZANAMI 1
+
 static color_t sDrawColor = RGBA32(0xff, 0xff, 0xff, 0xff);
+static rdpq_font_t* sFont;
 
 void sa_graphics_init(void) {
     display_init(RESOLUTION_640x480, DEPTH_16_BPP, 2, GAMMA_NONE, FILTERS_RESAMPLE);
     rdpq_init();
+
+    sFont = rdpq_font_load("rom:/res/sazanami-gothic.font64");
+
+    rdpq_fontstyle_t style = {
+        .color = RGBA32(0xFF, 0xFF, 0xFF, 0xFF),
+        .outline_color = RGBA32(0x00, 0x00, 0x00, 0xFF)
+    };
+
+    rdpq_font_style(sFont, FONT_SAZANAMI, &style);
+    rdpq_text_register_font(FONT_SAZANAMI, sFont);
+}
+
+void sa_graphics_deinit(void) {
+    rdpq_text_unregister_font(FONT_SAZANAMI);
+    rdpq_font_free(sFont);
+
+    rdpq_close();
+    display_close();
 }
 
 void set_draw_color(color_t color) {
@@ -132,3 +153,7 @@ void draw_circle_outline(int cx, int cy, int radius) {
     }
 }
 
+void draw_text(const char* text, int x, int y) {
+    rdpq_set_mode_standard();
+    rdpq_text_print(NULL, FONT_SAZANAMI, x, y, text);
+}

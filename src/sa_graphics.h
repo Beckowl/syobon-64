@@ -14,6 +14,7 @@ typedef struct {
 #define PI 3.1415926
 
 void sa_graphics_init(void);
+void sa_graphics_deinit(void);
 
 void set_draw_color(color_t color);
 
@@ -26,5 +27,7 @@ void draw_rect_outline(int x, int y, int width, int height);
 void draw_line(int x1, int y1, int x2, int y2);
 void draw_circle(int x, int y, int radius);
 void draw_circle_outline(int x, int y, int radius);
+
+void draw_text(const char* text, int x, int y);
 
 #endif

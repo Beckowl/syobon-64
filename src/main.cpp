@@ -12,7 +12,9 @@ void init(void) {
 
 void update_game(void) { }
 
-void draw_game(void) { }
+void draw_game(void) {
+    draw_text("hello", 50, 50);
+ }
 
 int main(void) {
     init();
