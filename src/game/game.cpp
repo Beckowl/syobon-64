@@ -2,18 +2,12 @@
 
 #include "DxLib.h"
 #include "game.h"
+#include "controls.h"
+
+#include "title_screen.h"
+
 #include "sa_input.h"
 #include "sa_audio.h"
-
-#define BUTTON_NONE 		0							// placeholder
-#define BUTTON_JUMP 		(BUTTON_A | BUTTON_D_UP)
-#define BUTTON_LEFT 		BUTTON_D_LEFT
-#define BUTTON_RIGHT 		BUTTON_D_RIGHT
-#define BUTTON_DOWN 		BUTTON_D_DOWN
-#define BUTTON_SUICIDE		(BUTTON_L | BUTTON_R)		// press L+R to suicide
-#define BUTTON_START_PAUSE 	BUTTON_START
-#define BUTTON_PAGE_UP 		BUTTON_L					// title screen level select
-#define BUTTON_PAGE_DOWN 	BUTTON_R					// title screen level select
 
 void game_init() {
 	loadg();
@@ -1097,25 +1091,7 @@ void game_draw()
     }
 //タイトル
     if (mainZ == 100) {
-
-	setcolor(160, 180, 250);
-	fillrect(0, 0, fxmax, fymax);
-
-	rdpq_sprite_blit(mgrap[30], 240 - 380 / 2, 60, NULL);
-
-	drawimage(grap[0][4], 12 * 30, 10 * 29 - 12);
-	drawimage(grap[1][4], 6 * 30, 12 * 29 - 12);
-
-//プレイヤー
-	drawimage(grap[0][0], 2 * 30, 12 * 29 - 12 - 6);
-	for (t = 0; t <= 16; t++) {
-	    drawimage(grap[5][1], 29 * t, 13 * 29 - 12);
-	    drawimage(grap[6][1], 29 * t, 14 * 29 - 12);
-	}
-
-	setcolor(0, 0, 0);
-	str("Enterキーを押せ!!", 240 - 8 * 20 / 2, 250);
-
+		title_screen_draw();
     }
     ScreenFlip();
 
@@ -4389,86 +4365,7 @@ if (atype[t]==133){msoubi=4;}
 
 //タイトル
     if (mainZ == 100) {
-	maintm++;
-	xx[0] = 0;
-	if (maintm <= 10) {
-	    maintm = 11;
-	    sta = 1;
-	    stb = 1;
-	    stc = 0;
-	    over = 0;
-	}
-
-	if (CheckHitKey(BUTTON_NONE) == 1) {
-	    sta = 1;
-	    stb = 1;
-	    stc = 0;
-	}
-	if (CheckHitKey(BUTTON_NONE) == 1) {
-	    sta = 1;
-	    stb = 2;
-	    stc = 0;
-	}
-	if (CheckHitKey(BUTTON_NONE) == 1) {
-	    sta = 1;
-	    stb = 3;
-	    stc = 0;
-	}
-	if (CheckHitKey(BUTTON_NONE) == 1) {
-	    sta = 1;
-	    stb = 4;
-	    stc = 0;
-	}
-	if (CheckHitKey(BUTTON_NONE) == 1) {
-	    sta = 2;
-	    stb = 1;
-	    stc = 0;
-	}
-	if (CheckHitKey(BUTTON_NONE) == 1) {
-	    sta = 2;
-	    stb = 2;
-	    stc = 0;
-	}
-	if (CheckHitKey(BUTTON_NONE) == 1) {
-	    sta = 2;
-	    stb = 3;
-	    stc = 0;
-	}
-	if (CheckHitKey(BUTTON_NONE) == 1) {
-	    sta = 2;
-	    stb = 4;
-	    stc = 0;
-	}
-	if (CheckHitKey(BUTTON_NONE) == 1) {
-	    sta = 3;
-	    stb = 1;
-	    stc = 0;
-	}
-	if (CheckHitKey(BUTTON_NONE) == 1) {
-	    xx[0] = 1;
-	    over = 1;
-	}
-//if (CheckHitKeyAll() == 0){end();}
-	if (CheckHitKey(BUTTON_START_PAUSE) == 1) {
-	    xx[0] = 1;
-	}
-//if (CheckHitKey(KEY_INPUT_SPACE)==1){xx[0]=1;}
-	// the hell??
-	if (CheckHitKey(BUTTON_Z) == 1) {
-	    xx[0] = 1;
-	}
-
-	if (xx[0] == 1) {
-	    mainZ = 10;
-	    zxon = 0;
-	    maintm = 0;
-	    nokori = 2;
-
-	    fast = 0;
-	    trap = 0;
-	    tyuukan = 0;
-	}
-
+		title_screen_update();
     }				//100
 }				//Mainprogram()
 

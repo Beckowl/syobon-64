@@ -113,7 +113,7 @@ void draw_line(int x1, int y1, int x2, int y2) {
     rdpq_triangle(&TRIFMT_FILL, v2, v3, v4);
 }
 
-#define NUM_CIRCLE_SEGMENTS 32
+#define NUM_CIRCLE_SEGMENTS 8
 
 static void get_circle_points(int cx, int cy, int radius, float points[][2]) {
     for (int i = 0; i <= NUM_CIRCLE_SEGMENTS; i++) {
