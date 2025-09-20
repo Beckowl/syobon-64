@@ -4450,9 +4450,7 @@ if (atype[t]==133){msoubi=4;}
 	    over = 1;
 	}
 //if (CheckHitKeyAll() == 0){end();}
-	// KEY_INPUT_RETURN??? is that enter??
-	// TODO: Map this to something
-	if (CheckHitKey(BUTTON_NONE) == 1) {
+	if (CheckHitKey(BUTTON_START_PAUSE) == 1) {
 	    xx[0] = 1;
 	}
 //if (CheckHitKey(KEY_INPUT_SPACE)==1){xx[0]=1;}

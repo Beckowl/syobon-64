@@ -55,8 +55,6 @@ void free_sprite(SpriteInfo* sprite) {
 
 void draw_sprite(SpriteInfo* sprite, int x, int y, bool flip) {
     rdpq_set_mode_standard();
-    rdpq_mode_combiner(RDPQ_COMBINER_TEX_FLAT);
-    rdpq_set_prim_color(sDrawColor);
     rdpq_mode_alphacompare(1);
 
     rdpq_blitparms_t parms = {
