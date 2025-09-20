@@ -3,17 +3,23 @@
 #include "sa_audio.h"
 #include "sa_input.h"
 
+#include "game/main.h"
+
 void init(void) {
     dfs_init(DFS_DEFAULT_LOCATION);
     sa_graphics_init();
     sa_audio_init();
     sa_input_init();
+
+    loadg();
 }
 
 void update_game(void) { }
 
 void draw_game(void) {
-    draw_text("hello", 50, 50);
+    DrawString(50, 50, "hello", 0);
+    DrawGraph(100, 100, grap[16][1], 0);
+    DrawTurnGraph(130, 100, grap[0][0], 0);
  }
 
 int main(void) {

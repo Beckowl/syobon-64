@@ -13,7 +13,13 @@ RSPASFLAGS += -g
 LDFLAGS  += -g
 endif
 
+CXXFLAGS += -Isrc
+
+EXCLUDE_SRCS := src/game/main.cpp
+
 SRCS := $(shell find $(SOURCE_DIR) \( -name '*.c' -o -name '*.cpp' \))
+SRCS := $(filter-out $(EXCLUDE_SRCS), $(SRCS))
+
 OBJS := $(SRCS:$(SOURCE_DIR)/%.c=$(BUILD_DIR)/%.o)
 OBJS := $(OBJS:$(SOURCE_DIR)/%.cpp=$(BUILD_DIR)/%.o)
 

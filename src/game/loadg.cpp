@@ -2,7 +2,7 @@
 
 extern int ma, t, tt;
 extern SDL_Surface *grap[161][8];
-extern SDL_Surface *mgrap[51];
+extern sprite_t *mgrap[51];
 int x1;
 extern Mix_Music *otom[6];
 extern Mix_Chunk *oto[19];
@@ -37,23 +37,23 @@ grap[t][tt]=0;
 //SetTransColor( 9*16+9 , 255 , 255 ) ;
 
 //プレイヤー
-    mgrap[0] = LoadGraph("res/player.PNG");
+    mgrap[0] = LoadGraph("rom:/res/player.sprite");
 //ブロック
-    mgrap[1] = LoadGraph("res/brock.PNG");
+    mgrap[1] = LoadGraph("rom:/res/brock.sprite");
 //アイテム
-    mgrap[2] = LoadGraph("res/item.PNG");
+    mgrap[2] = LoadGraph("rom:/res/item.sprite");
 //敵
-    mgrap[3] = LoadGraph("res/teki.PNG");
+    mgrap[3] = LoadGraph("rom:/res/teki.sprite");
 //背景
-    mgrap[4] = LoadGraph("res/haikei.PNG");
+    mgrap[4] = LoadGraph("rom:/res/haikei.sprite");
 //ブロック2
-    mgrap[5] = LoadGraph("res/brock2.PNG");
+    mgrap[5] = LoadGraph("rom:/res/brock2.sprite");
 //おまけ
-    mgrap[6] = LoadGraph("res/omake.PNG");
+    mgrap[6] = LoadGraph("rom:/res/omake.sprite");
 //おまけ2
-    mgrap[7] = LoadGraph("res/omake2.PNG");
+    mgrap[7] = LoadGraph("rom:/res/omake2.sprite");
 //タイトル
-    mgrap[30] = LoadGraph("res/syobon3.PNG");
+    mgrap[30] = LoadGraph("rom:/res/syobon3.sprite");
 
 
 //プレイヤー読み込み
@@ -170,8 +170,8 @@ grap[t][tt]=0;
     x1 = 3;
     for (t = 0; t <= 140; t++) {
 	if (grap[t][x1]) {
-	    anx[t] = grap[t][x1]->w;
-	    any[t] = grap[t][x1]->h;
+	    anx[t] = grap[t][x1]->width;
+	    any[t] = grap[t][x1]->height;
 //GetGraphSize(grap[t][x1] ,&anx[t] ,&any[t]);
 	    anx[t] *= 100;
 	    any[t] *= 100;
@@ -189,8 +189,8 @@ grap[t][tt]=0;
     x1 = 4;
     for (t = 0; t < 40; t++) {
 	if (grap[t][x1]) {
-	    ne[t] = grap[t][x1]->w;
-	    nf[t] = grap[t][x1]->h;
+	    ne[t] = grap[t][x1]->width;
+	    nf[t] = grap[t][x1]->height;
 //GetGraphSize(grap[t][x1] ,&ne[t] ,&nf[t]);
 //ne[t]*=100;nf[t]*=100;
 	} else {
@@ -217,32 +217,32 @@ anx[3]=30;any[3]=44;
 //ogg読み込み
 //try{
 //oto[2] = LoadSoundMem( "SE/1.mp3" ) ;
-    otom[1] = LoadMusicMem("BGM/field.ogg"); //50
-    otom[2] = LoadMusicMem("BGM/dungeon.ogg"); //40
-    otom[3] = LoadMusicMem("BGM/star4.ogg"); //50
-    otom[4] = LoadMusicMem("BGM/castle.ogg"); //50
-    otom[5] = LoadMusicMem("BGM/puyo.ogg"); //50
-//otom[6]=LoadMusicMem( "BGM/last.ogg");
+    otom[1] = LoadMusicMem("rom:/BGM/field.wav64"); //50
+    otom[2] = LoadMusicMem("rom:/BGM/dungeon.wav64"); //40
+    otom[3] = LoadMusicMem("rom:/BGM/star4.wav64"); //50
+    otom[4] = LoadMusicMem("rom:/BGM/castle.wav64"); //50
+    otom[5] = LoadMusicMem("rom:/BGM/puyo.wav64"); //50
+//otom[6]=LoadMusicMem( "BGM/last.wav64");
 //ChangeVolumeSoundMem(50, otom[6]);
 
-    oto[1] = LoadSoundMem("SE/jump.ogg");
-//oto[2] = LoadSoundMem("SE/brockcoin.ogg");
-    oto[3] = LoadSoundMem("SE/brockbreak.ogg");
-    oto[4] = LoadSoundMem("SE/coin.ogg");
-    oto[5] = LoadSoundMem("SE/humi.ogg");
-    oto[6] = LoadSoundMem("SE/koura.ogg");
-    oto[7] = LoadSoundMem("SE/dokan.ogg");
-    oto[8] = LoadSoundMem("SE/brockkinoko.ogg");
-    oto[9] = LoadSoundMem("SE/powerup.ogg");
-    oto[10] = LoadSoundMem("SE/kirra.ogg");
-    oto[11] = LoadSoundMem("SE/goal.ogg");
-    oto[12] = LoadSoundMem("SE/death.ogg");
-    oto[13] = LoadSoundMem("SE/Pswitch.ogg");
-    oto[14] = LoadSoundMem("SE/jumpBlock.ogg");
-    oto[15] = LoadSoundMem("SE/hintBlock.ogg");
-    oto[16] = LoadSoundMem("SE/4-clear.ogg");
-    oto[17] = LoadSoundMem("SE/allclear.ogg");
-    oto[18] = LoadSoundMem("SE/tekifire.ogg");
+    oto[1] = LoadSoundMem("rom:/SE/jump.wav64");
+//oto[2] = LoadSoundMem("rom:/SE/brockcoin.wav64");
+    oto[3] = LoadSoundMem("rom:/SE/brockbreak.wav64");
+    oto[4] = LoadSoundMem("rom:/SE/coin.wav64");
+    oto[5] = LoadSoundMem("rom:/SE/humi.wav64");
+    oto[6] = LoadSoundMem("rom:/SE/koura.wav64");
+    oto[7] = LoadSoundMem("rom:/SE/dokan.wav64");
+    oto[8] = LoadSoundMem("rom:/SE/brockkinoko.wav64");
+    oto[9] = LoadSoundMem("rom:/SE/powerup.wav64");
+    oto[10] = LoadSoundMem("rom:/SE/kirra.wav64");
+    oto[11] = LoadSoundMem("rom:/SE/goal.wav64");
+    oto[12] = LoadSoundMem("rom:/SE/death.wav64");
+    oto[13] = LoadSoundMem("rom:/SE/Pswitch.wav64");
+    oto[14] = LoadSoundMem("rom:/SE/jumpBlock.wav64");
+    oto[15] = LoadSoundMem("rom:/SE/hintBlock.wav64");
+    oto[16] = LoadSoundMem("rom:/SE/4-clear.wav64");
+    oto[17] = LoadSoundMem("rom:/SE/allclear.wav64");
+    oto[18] = LoadSoundMem("rom:/SE/tekifire.wav64");
 
 //}catch( int num){end();}
 
@@ -255,11 +255,3 @@ anx[3]=30;any[3]=44;
 }
 
 extern bool sound;
-void parseArgs(int argc, char* argv[])
-{
-    if(argc <= 1) return;
-    for(int i = 0; i < argc; i++)
-    {
-        if(!strcasecmp(argv[i], "-nosound")) sound = false;
-    }
-}
