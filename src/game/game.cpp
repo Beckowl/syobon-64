@@ -1396,11 +1396,10 @@ if (mc>=800 || mc<=-800){md=-1800;}
 	    mhp = -20;
 	    mtype = 200;
 	    mtm = 0;
-		// TODO: stop all sounds
-	    //Mix_HaltChannel(-1);
+
+	    stop_sound_effects();
 	    stop_background_music();
 	    ot(oto[12]);
-	    StopSoundMem(oto[16]);
 	}			//mhp
 //if (mhp<=-10){
 	if (mtype == 200) {

@@ -39,12 +39,18 @@ void stop_background_music(void) {
     sCurrBgMusic = NULL;
 }
 
-void play_sound(wav64_t* sound) {
+void play_sound_effect(wav64_t* sound) {
     for (int ch = CH_SFX1; ch < CH_COUNT; ++ch) {
         if (!mixer_ch_playing(ch)) {
             wav64_play(sound, ch);
 
             return;
         }
+    }
+}
+
+void stop_sound_effects(void) {
+    for (int ch = CH_SFX1; ch < CH_COUNT; ++ch) {
+        mixer_ch_stop(ch);
     }
 }

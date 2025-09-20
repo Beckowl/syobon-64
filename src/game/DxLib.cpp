@@ -80,7 +80,7 @@ sprite_t *LoadGraph(const char *filename)
 void PlaySoundMem(Mix_Chunk* s, int l)
 {
     if(sound) {
-        play_sound(s);
+        play_sound_effect(s);
     }
 }
 

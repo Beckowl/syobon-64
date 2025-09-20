@@ -34,6 +34,7 @@ void free_sound(wav64_t* sound);
 
 void set_background_music(wav64_t* music);
 void stop_background_music(void);
-void play_sound(wav64_t* sound);
+void play_sound_effect(wav64_t* sound);
+void stop_sound_effects(void);
 
 #endif
