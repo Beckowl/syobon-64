@@ -47,7 +47,7 @@ void DrawGraphZ(int a, int b, SDL_Surface * mx)
 {
     if(mx)
     {
-        draw_sprite(mx, a, b, false);
+        draw_sprite(mx, a, b);
     }
 }
 
@@ -61,8 +61,7 @@ void DrawTurnGraphZ(int a, int b, SDL_Surface * mx)
 
 void DrawVertTurnGraph(int a, int b, SDL_Surface * mx)
 {
-    // TODO: flip sprite vertically
-    draw_sprite(mx, a, b, false);
+    draw_sprite(mx, a, b, false, true);
 }
 
 SDL_Surface *DerivationGraph(int srcx, int srcy, int width, int height,

@@ -84,14 +84,14 @@ void title_screen_draw(void) {
     rdpq_sprite_blit(mgrap[30], 91, 60, NULL);
 
     // decor
-    draw_sprite(grap[0][4], 360, 278, false);
-    draw_sprite(grap[1][4], 180, 336, false);
-    draw_sprite(grap[0][0], 60, 330, false); // this is syobon!!
+    draw_sprite(grap[0][4], 360, 278);
+    draw_sprite(grap[1][4], 180, 336);
+    draw_sprite(grap[0][0], 60, 330); // this is syobon!!
 
     // floor
     for (t = 0; t <= 19; t++) {
-        draw_sprite(grap[5][1], 29 * t, 365, false);
-        draw_sprite(grap[6][1], 29 * t, 394, false);
+        draw_sprite(grap[5][1], 29 * t, 365);
+        draw_sprite(grap[6][1], 29 * t, 394);
     }
 
     if (!gControllerFound) {

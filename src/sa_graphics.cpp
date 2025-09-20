@@ -59,7 +59,7 @@ void free_sprite(SpriteInfo* sprite) {
     free(sprite);
 }
 
-void draw_sprite(SpriteInfo* sprite, int x, int y, bool flip) {
+void draw_sprite(SpriteInfo* sprite, int x, int y, bool flipX, bool flipY) {
     rdpq_set_mode_standard();
     rdpq_mode_alphacompare(1);
 
@@ -68,7 +68,8 @@ void draw_sprite(SpriteInfo* sprite, int x, int y, bool flip) {
         .t0 = sprite->sourceY,
         .width = sprite->width,
         .height = sprite->height,
-        .flip_x = flip,
+        .flip_x = flipX,
+        .flip_y = flipY,
     };
 
     rdpq_sprite_blit(sprite->source, x, y, &parms);

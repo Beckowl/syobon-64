@@ -256,13 +256,13 @@ void game_draw()
 		    mirror = 1;
 		}
 		if (atype[t] == 3 && axtype[t] == 1) {
-		    DrawVertTurnGraph(xx[0] / 100 + 13,
-				      xx[1] / 100 + 15, grap[atype[t]][3]);
+		    DrawVertTurnGraph(xx[0] / 100,
+				      xx[1] / 100, grap[atype[t]][3]);
 		    xx[16] = 1;
 		}
 		if (atype[t] == 9 && ad[t] >= 1) {
-		    DrawVertTurnGraph(xx[0] / 100 + 13,
-				      xx[1] / 100 + 15, grap[atype[t]][3]);
+		    DrawVertTurnGraph(xx[0] / 100,
+				      xx[1] / 100, grap[atype[t]][3]);
 		    xx[16] = 1;
 		}
 		if (atype[t] >= 100 && amuki[t] == 1)
