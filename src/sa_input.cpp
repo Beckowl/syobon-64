@@ -1,4 +1,4 @@
-#include "sa_input.h"
+#include "sa_input.hpp"
 #include <libdragon.h>
 
 joypad_port_t gMainController = JOYPAD_PORT_1;

@@ -1,5 +1,5 @@
 #include <libdragon.h>
-#include "sa_graphics.h"
+#include "sa_graphics.hpp"
 
 #define FONT_SAZANAMI 1
 

@@ -1,10 +1,10 @@
 #include <libdragon.h>
 
-#include "title_screen.h"
-#include "game.h"
-#include "sa_graphics.h"
-#include "sa_input.h"
-#include "controls.h"
+#include "title_screen.hpp"
+#include "game.hpp"
+#include "sa_graphics.hpp"
+#include "sa_input.hpp"
+#include "controls.hpp"
 
 #define STAGE_MAX 10 // 1-9 + mystery dungeon (randomized map)
 #define STAGE_MIN 1

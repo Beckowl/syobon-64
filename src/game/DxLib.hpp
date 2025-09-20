@@ -4,7 +4,7 @@
 #include <math.h>
 #include <string>
 
-#include "sa_graphics.h"
+#include "sa_graphics.hpp"
 
 #define TRUE 1
 #define FALSE 0

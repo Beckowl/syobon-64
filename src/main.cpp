@@ -1,9 +1,9 @@
 #include <libdragon.h>
-#include "sa_graphics.h"
-#include "sa_audio.h"
-#include "sa_input.h"
+#include "sa_graphics.hpp"
+#include "sa_audio.hpp"
+#include "sa_input.hpp"
 
-#include "game/game.h"
+#include "game/game.hpp"
 
 void init(void) {
     dfs_init(DFS_DEFAULT_LOCATION);

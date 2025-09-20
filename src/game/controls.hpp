@@ -1,7 +1,7 @@
 #ifndef CONTROLS_H
 #define CONTROLS_H
 
-#include "sa_input.h"
+#include "sa_input.hpp"
 
 #define CONTROL_NONE 		0							// placeholder button
 #define CONTROL_JUMP 		(BUTTON_A | BUTTON_D_UP)

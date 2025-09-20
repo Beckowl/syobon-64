@@ -1,9 +1,9 @@
 #include <libdragon.h>
 
-#include "DxLib.h"
-#include "sa_graphics.h"
-#include "sa_input.h"
-#include "sa_audio.h"
+#include "DxLib.hpp"
+#include "sa_graphics.hpp"
+#include "sa_input.hpp"
+#include "sa_audio.hpp"
 
 bool sound = true;
 

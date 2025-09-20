@@ -1,13 +1,13 @@
 #include <libdragon.h>
 
-#include "DxLib.h"
-#include "game.h"
-#include "controls.h"
+#include "DxLib.hpp"
+#include "game.hpp"
+#include "controls.hpp"
 
-#include "title_screen.h"
+#include "title_screen.hpp"
 
-#include "sa_input.h"
-#include "sa_audio.h"
+#include "sa_input.hpp"
+#include "sa_audio.hpp"
 
 void game_init() {
 	loadg();

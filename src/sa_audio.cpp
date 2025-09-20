@@ -1,5 +1,5 @@
 #include <libdragon.h>
-#include "sa_audio.h"
+#include "sa_audio.hpp"
 
 static wav64_t* sCurrBgMusic;
 

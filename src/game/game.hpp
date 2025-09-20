@@ -1,6 +1,6 @@
 #include <libdragon.h>
 
-#include "DxLib.h"
+#include "DxLib.hpp"
 using namespace std;
 
 #define SHORT
