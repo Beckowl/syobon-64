@@ -8,7 +8,6 @@ void init(void) {
     sa_graphics_init();
     sa_audio_init();
     sa_input_init();
-    joypad_init();
 }
 
 void update_game(void) { }

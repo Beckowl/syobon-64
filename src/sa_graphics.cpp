@@ -13,7 +13,7 @@ void set_draw_color(color_t color) {
 }
 
 SpriteInfo* make_sprite(sprite_t* source, int sourceX, int sourceY, int width, int height) {
-    SpriteInfo* sprite = malloc(sizeof(SpriteInfo));
+    SpriteInfo* sprite = (SpriteInfo*)malloc(sizeof(SpriteInfo));
 
     if (!sprite) { return NULL; }
 
@@ -27,9 +27,6 @@ SpriteInfo* make_sprite(sprite_t* source, int sourceX, int sourceY, int width, i
 }
 
 void free_sprite(SpriteInfo* sprite) {
-    if (!sprite) { return; }
-
-    free(sprite->source);
     free(sprite);
 }
 
@@ -113,7 +110,7 @@ void draw_circle(int x, int y, int radius) {
     float points[NUM_CIRCLE_SEGMENTS + 1][2];
     get_circle_points(x, y, radius, points);
 
-    float center[2] = { x, y };
+    float center[2] = { (float)x, (float)y };
 
     for (int i = 0; i < NUM_CIRCLE_SEGMENTS; i++) {
         rdpq_triangle(&TRIFMT_FILL, center, points[i], points[i+1]);
