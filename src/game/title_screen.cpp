@@ -21,8 +21,8 @@ static void title_screen_init(void) {
 }
 
 static void handle_scrolling(void) {
-    bool lPressed = is_button_pressed(BUTTON_PAGE_DOWN);
-    bool rPressed = is_button_pressed(BUTTON_PAGE_UP);
+    bool lPressed = is_button_pressed(CONTROL_PAGE_DOWN);
+    bool rPressed = is_button_pressed(CONTROL_PAGE_UP);
 
     if (lPressed || rPressed) {
         if (!sShowStageNum) {
@@ -69,7 +69,7 @@ void title_screen_update(void) {
 
     handle_scrolling();
 
-	if (CheckHitKey(BUTTON_START_PAUSE) == 1) {
+	if (CheckHitKey(CONTROL_START_PAUSE) == 1) {
         select_stage(sStageNum);
 	    enter_stage();
         sInitialized = false;

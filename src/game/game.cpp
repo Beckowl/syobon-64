@@ -1183,30 +1183,32 @@ void game_update()
 	actaon[2] = 0;
 	actaon[3] = 0;
 	if (mkeytm <= 0) {
-	    if (CheckHitKey(BUTTON_LEFT)
+	    if (CheckHitKey(CONTROL_LEFT)
 		&& keytm <= 0) {
 		actaon[0] = -1;
 		mmuki = 0;
 		actaon[4] = -1;
 	    }
-	    if (CheckHitKey(BUTTON_RIGHT)
+	    if (CheckHitKey(CONTROL_RIGHT)
 		&& keytm <= 0) {
 		actaon[0] = 1;
 		mmuki = 1;
 		actaon[4] = 1;
 	    }
-	    if (CheckHitKey(BUTTON_DOWN)
+	    if (CheckHitKey(CONTROL_DOWN)
 		) {
 		actaon[3] = 1;
 	    }
 	}
 //if (CheckHitKey(KEY_INPUT_F1)==1){end();}
-	if (CheckHitKey(BUTTON_NONE) == 1) {
+	// TODO: Add code to go back to title screen (map this to something)
+	if (CheckHitKey(CONTROL_NONE) == 1) {
 	    mainZ = 100;
 	}
 //if (CheckHitKey(KEY_INPUT_Q)==1){mkeytm=0;}
 	joypad_buttons_t down = joypad_get_buttons_held(gMainController);
-	if ((down.raw & BUTTON_SUICIDE) == BUTTON_SUICIDE) {
+	// TODO: add are_all_buttons_down() (?) to sa_input.cpp
+	if ((down.raw & CONTROL_SUICIDE) == CONTROL_SUICIDE) {
 	    if (mhp >= 1)
 		mhp = 0;
 	    if (stc >= 5) {
@@ -1216,7 +1218,7 @@ void game_update()
 	}
 
 	if (mkeytm <= 0) {
-	    if (CheckHitKey(BUTTON_JUMP) == 1) {
+	    if (CheckHitKey(CONTROL_JUMP) == 1) {
 		if (actaon[1] == 10) {
 		    actaon[1] = 1;
 		    xx[0] = 1;
@@ -1225,7 +1227,7 @@ void game_update()
 	    }
 	}
 
-	if (CheckHitKey(BUTTON_JUMP) == 1) {
+	if (CheckHitKey(CONTROL_JUMP) == 1) {
 	    if (mjumptm == 8 && md >= -900) {
 		md = -1300;
 //ダッシュ中
@@ -4292,7 +4294,7 @@ if (atype[t]==133){msoubi=4;}
 
 	// TODO: figure what this is doing
 	//if (CheckHitKey(KEY_INPUT_SPACE) == 1) {
-	if (CheckHitKey(BUTTON_NONE) == 1) {
+	if (CheckHitKey(CONTROL_NONE) == 1) {
 	    for (t = 0; t <= xx[7]; t += 1) {
 		xx[12 + t] -= 300;
 	    }
