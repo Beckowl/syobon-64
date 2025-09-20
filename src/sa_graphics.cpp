@@ -86,6 +86,7 @@ void draw_rect_outline(int x, int y, int width, int height) {
 }
 
 void draw_line(int x1, int y1, int x2, int y2) {
+    return;
 
     float dx = x2 - x1;
     float dy = y2 - y1;
@@ -126,6 +127,8 @@ static void get_circle_points(int cx, int cy, int radius, float points[][2]) {
 }
 
 void draw_circle(int x, int y, int radius) {
+    return;
+
     rdpq_set_mode_standard();
     rdpq_set_mode_fill(sDrawColor);
 
@@ -140,6 +143,8 @@ void draw_circle(int x, int y, int radius) {
 }
 
 void draw_circle_outline(int cx, int cy, int radius) {
+    return;
+    
     rdpq_set_mode_standard();
     rdpq_set_mode_fill(sDrawColor);
 
