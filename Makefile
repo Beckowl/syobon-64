@@ -5,9 +5,9 @@ ROM_TITLE := "Syobon Action 64"
 
 include $(N64_INST)/include/n64.mk
 
-ifeq ($(D),1)
-CFLAGS   += -g3
-CXXFLAGS += -g3
+ifeq ($(DEBUG),1)
+CFLAGS   += -g3 -DDEBUG
+CXXFLAGS += -g3 -DDEBUG
 ASFLAGS  += -g
 RSPASFLAGS += -g
 LDFLAGS  += -g
