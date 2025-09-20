@@ -4577,16 +4577,20 @@ int rand(int Rand)
 //終了
 void game_deinit()
 {
-    setc0();
-    FillScreen();
-    DrawString(200, 200, "EXITING...", GetColor(255, 255, 255));
-
 //SURFACES
-    for (t = 0; t < 51; t++)
-		sprite_free(mgrap[t]); // TODO: rename SpriteInfo functions, this is messy
-    for (int i = 0; i < 161; i++)
-	for (int j = 0; j < 8; j++)
-	    free_sprite(grap[i][j]); // lmao
+    for (t = 0; t < 51; t++) {
+		sprite_t* sprite = mgrap[t];
+		if (sprite != NULL) {
+			sprite_free(mgrap[t]); 	// TODO: rename SpriteInfo functions, this is messy
+		}
+	}
+
+    for (int i = 0; i < 161; i++) {
+		for (int j = 0; j < 8; j++) {
+	    	free_sprite(grap[i][j]); // lmao
+		}
+	}
+	
 //--
 
 //SOUNDS

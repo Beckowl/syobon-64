@@ -22,7 +22,9 @@ wav64_t* load_sound(const char* path) {
 }
 
 void free_sound(wav64_t* sound) {
-    wav64_close(sound);
+    if (sound != NULL) { 
+        wav64_close(sound);
+    }
 }
 
 void set_background_music(wav64_t* music) {

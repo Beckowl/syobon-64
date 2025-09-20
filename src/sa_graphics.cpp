@@ -86,6 +86,7 @@ void draw_rect_outline(int x, int y, int width, int height) {
 }
 
 void draw_line(int x1, int y1, int x2, int y2) {
+
     float dx = x2 - x1;
     float dy = y2 - y1;
     float len = sqrtf(dx * dx + dy * dy);

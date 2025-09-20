@@ -7,6 +7,7 @@
 
 void init(void) {
     dfs_init(DFS_DEFAULT_LOCATION);
+
     sa_graphics_init();
     sa_audio_init();
     sa_input_init();
@@ -14,32 +15,39 @@ void init(void) {
     game_init();
 }
 
-void update_game(void) { 
+void update(void) { 
     game_update();
 }
 
-void draw_game(void) {
+void draw(void) {
     game_draw();
- }
+}
 
+void deinit(void) {
+    game_deinit();
+    sa_input_deinit();
+    sa_graphics_deinit();
+}
+ 
 int main(void) {
     init();
 
     while (!exception_reset_time()) {
         joypad_poll();
         process_audio();
-        update_game();
+
+        update();
 
         surface_t *disp = display_get();
         rdpq_attach(disp, NULL);
 
-        draw_game();
+        draw();
 
         rdpq_detach_show();
     }
 
-    game_deinit();
-    
+    deinit();
+
     while (true) {
         __asm__ volatile("nop");
     }
