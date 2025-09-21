@@ -1175,9 +1175,7 @@ void game_update()
 	    title_screen_enter();
 	}
 //if (CheckHitKey(KEY_INPUT_Q)==1){mkeytm=0;}
-	joypad_buttons_t down = joypad_get_buttons_held(gMainController);
-	// TODO: add are_all_buttons_down() (?) to sa_input.cpp
-	if ((down.raw & CONTROL_SUICIDE) == CONTROL_SUICIDE) {
+	if (is_button_combo_pressed(CONTROL_SUICIDE)) {
 	    if (mhp >= 1)
 		mhp = 0;
 	    if (stc >= 5) {

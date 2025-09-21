@@ -32,4 +32,6 @@ bool is_button_down(CONT_BUTTON button);
 bool is_button_pressed(CONT_BUTTON button);
 bool is_button_released(CONT_BUTTON button);
 
+bool is_button_combo_pressed(int buttons);
+
 #endif

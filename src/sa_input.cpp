@@ -31,7 +31,7 @@ void sa_input_deinit(void) {
 bool is_button_pressed(CONT_BUTTON button) {
     if (!gControllerFound) return false;
 
-    joypad_buttons_t pressed= joypad_get_buttons_pressed(gMainController);
+    joypad_buttons_t pressed = joypad_get_buttons_pressed(gMainController);
     return pressed.raw & button;
 }
 
@@ -49,3 +49,13 @@ bool is_button_released(CONT_BUTTON button) {
     return released.raw & button;
 }
 
+bool is_button_combo_pressed(int buttons) {
+    joypad_buttons_t pressed = joypad_get_buttons_pressed(gMainController);
+    joypad_buttons_t held = joypad_get_buttons_held(gMainController);
+
+    if (pressed.raw & buttons) {
+        return ((held.raw & buttons) | (pressed.raw & buttons)) == buttons;
+    }
+
+    return false;
+}
