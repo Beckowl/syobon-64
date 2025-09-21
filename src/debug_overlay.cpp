@@ -58,6 +58,19 @@ static int draw_fps(int x, int y) {
     return y + LINE_SPACING;
 }
 
+static int draw_heap_stats(int x, int y) {
+    heap_stats_t stats;
+    sys_get_heap_stats(&stats);
+
+    float percent = (float)stats.used / (float)stats.total * 100.0f;
+
+    char buf[256];
+    snprintf(buf, sizeof(buf), "HEAP: total: %i | used: %i (%.2f%%)", stats.total, stats.used, percent);
+    draw_text(buf, x, y);
+
+    return y + LINE_SPACING;
+}
+
 void debug_overlay_draw(void) {
     if (!sDrawOverlay) {
         return;
@@ -65,6 +78,7 @@ void debug_overlay_draw(void) {
 
     int y = OVERLAY_Y_START;
 
+    y = draw_heap_stats(OVERLAY_X, y);
     y = draw_profilers(OVERLAY_X, y);
     y = draw_fps(OVERLAY_X, y);
 }
