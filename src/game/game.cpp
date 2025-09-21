@@ -13,6 +13,7 @@
 
 void game_init() {
 	loadg();
+	title_screen_enter();
 	maint = 0;
 }
 
@@ -1070,8 +1071,9 @@ void game_update()
 
     stime = long (GetNowCount());
 
-    if (ending == 1)
-	mainZ = 2;
+    if (ending == 1) {
+		credits_enter();
+	}
 
 //キー
 
@@ -1170,7 +1172,7 @@ void game_update()
 //if (CheckHitKey(KEY_INPUT_F1)==1){end();}
 	// TODO: Add code to go back to title screen (map this to something)
 	if (CheckHitKey(CONTROL_NONE) == 1) {
-	    mainZ = 100;
+	    title_screen_enter();
 	}
 //if (CheckHitKey(KEY_INPUT_Q)==1){mkeytm=0;}
 	joypad_buttons_t down = joypad_get_buttons_held(gMainController);
