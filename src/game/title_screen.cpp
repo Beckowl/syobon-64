@@ -85,7 +85,7 @@ void title_screen_draw(void) {
 
     // syobon action logo
     rdpq_set_mode_standard();
-    rdpq_sprite_blit(mgrap[30], 91, 60, NULL);
+    rdpq_sprite_blit(mgrap[30], RECENTER_X(50), 60, NULL);
 
     // decor
     draw_sprite(grap[0][4], 360, 278);
@@ -99,20 +99,20 @@ void title_screen_draw(void) {
     }
 
     if (!gControllerFound) {
-        draw_text("No controller!", 192, 250);
+        draw_text("No controller!", RECENTER_X(160), 250);
         return;
     }
 
-    draw_text("Enterキーを押せ!!", 192, 250);
+    draw_text("Enterキーを押せ!!", RECENTER_X(160), 250);
 
     static char buf[32];
 
     if (sShowStageNum) {
         if (sStageNum != STAGE_MYSTERY_DUNGEON) {
             sprintf(buf, "Stage number: %d", sStageNum);
-            draw_text(buf, 192, 270);
+            draw_text(buf, RECENTER_X(160), 270);
         } else {
-            draw_text("Mystery Dungeon", 192, 270);
+            draw_text("Mystery Dungeon", RECENTER_X(160), 270);
         }
     }
 }

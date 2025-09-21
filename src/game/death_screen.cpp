@@ -36,10 +36,10 @@ void death_screen_update(void) {
 void death_screen_draw(void) {
     rdpq_clear(RGBA32(0, 0, 0, 0));
 
-	draw_sprite(grap[0][0], 230, 192);
+	draw_sprite(grap[0][0], RECENTER_X(190), 190);
 
     char buf[16];
     snprintf(buf, sizeof(buf), " × %d", nokori);
 
-	draw_text(buf, 270, 220);
+	draw_text(buf, RECENTER_X(230), 218);
 }

@@ -17,6 +17,8 @@ typedef struct {
 
 #define PI 3.1415926
 
+#define RECENTER_X(x) ((x) + (((SCREEN_WIDTH) - (480)) / 2))
+
 void sa_graphics_init(void);
 void sa_graphics_deinit(void);
 
