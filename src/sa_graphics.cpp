@@ -93,75 +93,77 @@ void draw_rect_outline(int x, int y, int width, int height) {
 }
 
 void draw_line(int x1, int y1, int x2, int y2) {
-    return;
-
-    float dx = x2 - x1;
-    float dy = y2 - y1;
-    float len = sqrtf(dx * dx + dy * dy);
-
     rdpq_set_mode_standard();
-    rdpq_set_mode_fill(sDrawColor);
+    rdpq_mode_combiner(RDPQ_COMBINER_FLAT);
+    rdpq_set_prim_color(sDrawColor);
 
-    if (len == 0) {
+    int dx = abs(x2 - x1);
+    int dy = abs(y2 - y1);
+
+    int sx = (x1 < x2) ? 1 : -1;
+    int sy = (y1 < y2) ? 1 : -1;
+
+    int err = dx - dy;
+
+    while (true) {
         rdpq_draw_pixel(x1, y1);
-        return;
+
+        if (x1 == x2 && y1 == y2) break;
+
+        int e2 = 2 * err;
+
+        if (e2 > -dy) {
+            err -= dy;
+            x1 += sx;
+        }
+
+        if (e2 < dx) {
+            err += dx;
+            y1 += sy;
+        }
     }
-    
-    float perpX = -dy / len;
-    float perpY = dx / len;
-
-    float xOffset = perpX * 0.5f;
-    float yOffset = perpY * 0.5f;
-
-    float v1[2] = { x1 - xOffset, y1 - yOffset };
-    float v2[2] = { x1 + xOffset, y1 + yOffset };
-    float v3[2] = { x2 - xOffset, y2 - yOffset };
-    float v4[2] = { x2 + xOffset, y2 + yOffset };
-
-    rdpq_triangle(&TRIFMT_FILL, v1, v2, v3);
-    rdpq_triangle(&TRIFMT_FILL, v2, v3, v4);
 }
 
-#define NUM_CIRCLE_SEGMENTS 8
+#define NUM_CIRCLE_POINTS 8
 
 static void get_circle_points(int cx, int cy, int radius, float points[][2]) {
-    for (int i = 0; i <= NUM_CIRCLE_SEGMENTS; i++) {
-        float theta = 2.0f * PI * i / NUM_CIRCLE_SEGMENTS;
+    for (int i = 0; i < NUM_CIRCLE_POINTS; i++) {
+        float theta = (2 * PI / NUM_CIRCLE_POINTS) * i;
 
-        points[i][0] = cx + radius * cosf(theta);
-        points[i][1] = cy + radius * sinf(theta);
+        float dx = radius * cos(theta);
+        float dy = radius * sin(theta);
+
+        points[i][0] = cx + dx;
+        points[i][1] = cy + dy;
     }
 }
 
 void draw_circle(int x, int y, int radius) {
-    return;
-
     rdpq_set_mode_standard();
-    rdpq_set_mode_fill(sDrawColor);
-
-    float points[NUM_CIRCLE_SEGMENTS + 1][2];
-    get_circle_points(x, y, radius, points);
+    rdpq_mode_combiner(RDPQ_COMBINER_FLAT);
+    rdpq_set_prim_color(sDrawColor);
 
     float center[2] = { (float)x, (float)y };
+    float points[NUM_CIRCLE_POINTS][2];
+    
+    get_circle_points(x, y, radius, points);
 
-    for (int i = 0; i < NUM_CIRCLE_SEGMENTS; i++) {
-        rdpq_triangle(&TRIFMT_FILL, center, points[i], points[i+1]);
+    for (int i = 0; i < NUM_CIRCLE_POINTS; i++) {
+        int next = (i + 1) % NUM_CIRCLE_POINTS;
+        rdpq_triangle(&TRIFMT_FILL, center, points[i], points[next]);
     }
 }
 
 void draw_circle_outline(int cx, int cy, int radius) {
-    return;
+    float points[NUM_CIRCLE_POINTS][2];
     
-    rdpq_set_mode_standard();
-    rdpq_set_mode_fill(sDrawColor);
-
-    float points[NUM_CIRCLE_SEGMENTS + 1][2];
     get_circle_points(cx, cy, radius, points);
 
-    for (int i = 0; i < NUM_CIRCLE_SEGMENTS; i++) {
-        float* p1 = points[i];
-        float* p2 = points[i + 1];
+    for (int i = 0; i < NUM_CIRCLE_POINTS; i++) {
+        int next = (i + 1) % NUM_CIRCLE_POINTS;
 
+        float* p1  = points[i];
+        float* p2 = points[next];
         draw_line(p1[0], p1[1], p2[0], p2[1]);
     }
 }
