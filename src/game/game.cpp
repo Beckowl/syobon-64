@@ -5,6 +5,7 @@
 #include "controls.hpp"
 
 #include "title_screen.hpp"
+#include "credits.hpp"
 
 #include "sa_input.hpp"
 #include "sa_audio.hpp"
@@ -1047,34 +1048,9 @@ void game_draw()
     }
 
     if (mainZ == 2) {
-
-	setcolor(255, 255, 255);
-	str("制作・プレイに関わった方々",
-	    240 - 13 * 20 / 2, xx[12] / 100);
-	str("ステージ１　プレイ", 240 - 9 * 20 / 2, xx[13] / 100);
-	//Theres an encoding error here, this is only temporary
-	//str("æy@]`y",240-6*20/2,xx[14]/100);
-	str("TODO: Fix this encoding error...",240-6*20/2,xx[14]/100);
-	str("ステージ２　プレイ", 240 - 9 * 20 / 2, xx[15] / 100);
-	str("友人　willowlet ", 240 - 8 * 20 / 2, xx[16] / 100);
-	str("ステージ３　プレイ", 240 - 9 * 20 / 2, xx[17] / 100);
-	str("友人　willowlet ", 240 - 8 * 20 / 2, xx[18] / 100);
-	str("ステージ４　プレイ", 240 - 9 * 20 / 2, xx[19] / 100);
-	str("友人２　ann ", 240 - 6 * 20 / 2, xx[20] / 100);
-	str("ご協力", 240 - 3 * 20 / 2, xx[21] / 100);
-	str("Ｔ先輩", 240 - 3 * 20 / 2, xx[22] / 100);
-	str("Ｓ先輩", 240 - 3 * 20 / 2, xx[23] / 100);
-	str("動画技術提供", 240 - 6 * 20 / 2, xx[24] / 100);
-	str("Ｋ先輩", 240 - 3 * 20 / 2, xx[25] / 100);
-	str("動画キャプチャ・編集・エンコード",
-	    240 - 16 * 20 / 2, xx[26] / 100);
-	str("willowlet ", 240 - 5 * 20 / 2, xx[27] / 100);
-	str("プログラム・描画・ネタ・動画編集",
-	    240 - 16 * 20 / 2, xx[28] / 100);
-	str("ちく", 240 - 2 * 20 / 2, xx[29] / 100);
-
-	str("プレイしていただき　ありがとうございました〜", 240 - 22 * 20 / 2, xx[30] / 100);
+		credits_draw();
     }
+
 //Showing lives
     if (mainZ == 10) {
 
@@ -4288,70 +4264,8 @@ if (atype[t]==133){msoubi=4;}
 
 //スタッフロール
     if (mainZ == 2) {
-	maintm++;
-
-	xx[7] = 46;
-
-	// TODO: figure what this is doing
-	//if (CheckHitKey(KEY_INPUT_SPACE) == 1) {
-	if (CheckHitKey(CONTROL_NONE) == 1) {
-	    for (t = 0; t <= xx[7]; t += 1) {
-		xx[12 + t] -= 300;
-	    }
+		credits_update();
 	}
-
-	if (maintm <= 1) {
-	    maintm = 2;
-	    bgmchange(otom[5]);
-	    xx[10] = 0;
-	    for (t = 0; t <= xx[7]; t += 1) {
-		xx[12 + t] = 980000;
-	    }
-//for (t=0;t<=xx[7];t+=2){xx[12+t]=46000;}
-	    xx[12] = 460;
-	    xx[13] = 540;
-	    xx[14] = 590;
-	    xx[15] = 650;
-	    xx[16] = 700;
-	    xx[17] = 760;
-	    xx[18] = 810;
-	    xx[19] = 870;
-	    xx[20] = 920;
-
-	    xx[21] = 1000;
-	    xx[22] = 1050;
-	    xx[23] = 1100;
-	    xx[24] = 1180;
-	    xx[25] = 1230;
-
-	    xx[26] = 1360;
-	    xx[27] = 1410;
-	    xx[28] = 1540;
-	    xx[29] = 1590;
-
-	    xx[30] = 1800;
-
-	    for (t = 0; t <= xx[7]; t += 1) {
-		xx[12 + t] *= 100;
-	    }
-	}
-
-	xx[10] += 1;
-	for (t = 0; t <= xx[7]; t += 1) {
-	    xx[12 + t] -= 100;
-	}			//t
-
-	if (xx[30] == -200) {
-	    bgmchange(otom[5]);
-	}
-	if (xx[30] <= -400) {
-	    mainZ = 100;
-	    nokori = 2;
-	    maintm = 0;
-	    ending = 0;
-	}
-
-    }				//mainZ==2
 
     if (mainZ == 10) {
 	maintm++;
