@@ -6,6 +6,7 @@
 
 #include "title_screen.hpp"
 #include "credits.hpp"
+#include "death_screen.hpp"
 
 #include "sa_input.hpp"
 #include "sa_audio.hpp"
@@ -1053,17 +1054,7 @@ void game_draw()
 
 //Showing lives
     if (mainZ == 10) {
-
-	setc0();
-	FillScreen();
-
-	SetFontSize(16);
-	SetFontThickness(4);
-
-	drawimage(grap[0][0], 190, 190);
-	DrawFormatString(230, 200, GetColor(255, 255, 255), " × %d",
-			 nokori);
-
+		death_screen_draw();
     }
 //タイトル
     if (mainZ == 100) {
@@ -1368,11 +1359,11 @@ if (mc>=800 || mc<=-800){md=-1800;}
 		mc = 0;
 	    }
 	    if (mtm >= 100 || fast == 1) {
-		zxon = 0;
-		mainZ = 10;
+		
 		mtm = 0;
 		mkeytm = 0;
 		nokori--;
+		death_screen_enter();
 		if (fast == 1)
 		    mtype = 0;
 	    }			//mtm>=100
@@ -1532,12 +1523,13 @@ if (mc>=800 || mc<=-800){md=-1800;}
 		    mc = 0;
 		}
 		if (mtm == 250) {
+			// this is a stage transition
 		    stb++;
 		    stc = 0;
-		    zxon = 0;
-		    tyuukan = 0;
-		    mainZ = 10;
+			tyuukan = 0;
 		    maintm = 0;
+
+			death_screen_enter();
 		}
 	    }			//mtype==300
 
@@ -1603,10 +1595,10 @@ if (mc>=800 || mc<=-800){md=-1800;}
 			sta++;
 			stb = 1;
 			stc = 0;
-			zxon = 0;
 			tyuukan = 0;
-			mainZ = 10;
 			maintm = 0;
+
+			death_screen_enter();
 		    }
 		}
 
@@ -4268,15 +4260,7 @@ if (atype[t]==133){msoubi=4;}
 	}
 
     if (mainZ == 10) {
-	maintm++;
-
-	if (fast == 1)
-	    maintm += 2;
-	if (maintm >= 30) {
-	    maintm = 0;
-	    mainZ = 1;
-	    zxon = 0;
-	}
+		death_screen_update();
     }				//if (mainZ==10){
 
 //タイトル
