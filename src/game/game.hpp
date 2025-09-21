@@ -149,7 +149,7 @@ inline int actaon[7];
 //メッセージ
 inline int mmsgtm, mmsgtype;
 
-inline int mascrollmax = 21000;	//9000
+inline int mascrollmax = (SCREEN_WIDTH / 2 - 30) * 100;
 
 
 
