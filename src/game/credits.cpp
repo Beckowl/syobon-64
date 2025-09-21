@@ -12,6 +12,7 @@ static bool sInitialized = false;
 static int sTextOffset = 0;
 
 #define TEXT_SCROLL_LIMIT -1804
+#define CREDITS_LINE_COUNT 19
 
 struct CreditsLine {
     const char* text;
@@ -25,7 +26,7 @@ struct CreditsLine {
 static CreditsLine sCredits[] = {
     CREDITS_LINE("制作・プレイに関わった方々", 13, 460),
     CREDITS_LINE("ステージ１　プレイ", 9, 540),
-    CREDITS_LINE("TODO: Fix this encoding error...", 6, 590),
+    CREDITS_LINE("先輩 Ｘ〜Z", 6, 590),
     CREDITS_LINE("ステージ２　プレイ", 9, 650),
     CREDITS_LINE("友人　willowlet ", 8, 700),
     CREDITS_LINE("ステージ３　プレイ", 9, 760),
@@ -42,7 +43,6 @@ static CreditsLine sCredits[] = {
     CREDITS_LINE("プログラム・描画・ネタ・動画編集", 16, 1540),
     CREDITS_LINE("ちく", 2, 1590),
     CREDITS_LINE("プレイしていただき　ありがとうございました〜", 22, 1800),
-    CREDITS_LINE(NULL, 0, 0),
 };
 
 static void credits_init(void)
@@ -80,7 +80,7 @@ void credits_update(void) {
 void credits_draw(void) {
     rdpq_clear(RGBA32(0, 0, 0, 0));
 
-    for (int i = 0; sCredits[i].text != NULL; i++) {
+    for (int i = 0; i < CREDITS_LINE_COUNT; i++) {
         draw_text(sCredits[i].text, sCredits[i].xPos, sTextOffset + sCredits[i].yOffset);
     }
 }
