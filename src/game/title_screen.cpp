@@ -65,8 +65,6 @@ void title_screen_exit(void) {
 }
 
 void title_screen_update(void) {
-	xx[0] = 0;
-
     handle_scrolling();
 
 	if (CheckHitKey(CONTROL_START_PAUSE) == 1) {
