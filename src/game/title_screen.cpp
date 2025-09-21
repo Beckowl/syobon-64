@@ -35,6 +35,10 @@ static void handle_scrolling(void) {
 }
 
 static void select_stage(byte num) {
+    if (num >= STAGE_MYSTERY_DUNGEON) {
+        num = STAGE_MIN;
+    }
+
     sta = (num - 1) / 4 + 1; // current world?
     stb = (num - 1) % 4 + 1; // current level??
     stc = 0;
@@ -51,7 +55,7 @@ void title_screen_enter(void) {
 
 void title_screen_exit(void) {
     select_stage(sStageNum);
-	
+
     mainZ = 10;
 	zxon = 0;
 	maintm = 0;

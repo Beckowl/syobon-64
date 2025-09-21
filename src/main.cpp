@@ -13,6 +13,8 @@ static Profiler sUpdateProfiler;
 static Profiler* sProfilers[] = { &sRenderProfiler, &sUpdateProfiler };
 
 void init(void) {
+    srand(getentropy32());
+    
     dfs_init(DFS_DEFAULT_LOCATION);
 
     sa_graphics_init();
