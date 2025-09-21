@@ -2,6 +2,8 @@
 
 #include "title_screen.hpp"
 #include "game.hpp"
+
+#include "sa_audio.hpp"
 #include "sa_graphics.hpp"
 #include "sa_input.hpp"
 #include "controls.hpp"
@@ -18,6 +20,8 @@ static void title_screen_init(void) {
     sStageNum = STAGE_MIN;
     sShowStageNum = false;
     sInitialized = true;
+
+    stop_background_music();
 }
 
 static void handle_scrolling(void) {
