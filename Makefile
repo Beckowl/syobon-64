@@ -41,7 +41,7 @@ AUDIOCONV_FLAGS ?= --wav-resample 16000 --wav-mono
 
 all: $(ROM).z64
 
-filesystem/res/sazanami-gothic.font64: MKFONT_FLAGS += --compress 1 --range 20-7F --range 3000-9FFF --size 20 --outline 1 --monochrome
+filesystem/res/sazanami-gothic.font64: MKFONT_FLAGS += --compress 1 --range 20-7F --range 3000-9FFF --range FF00-FFEF --size 20 --outline 1 --monochrome
 
 $(AUDIO_BGM): AUDIOCONV_FLAGS += --wav-loop true
 
