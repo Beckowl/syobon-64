@@ -1,7 +1,7 @@
 #include <libdragon.h>
 
 #include "title_screen.hpp"
-#include "game.hpp"
+#include "global.hpp"
 
 #include "sa_audio.hpp"
 #include "sa_graphics.hpp"
@@ -14,15 +14,6 @@
 
 static byte sStageNum = 1;
 static bool sShowStageNum = false;
-static bool sInitialized = false;
-
-static void title_screen_init(void) {
-    sStageNum = STAGE_MIN;
-    sShowStageNum = false;
-    sInitialized = true;
-
-    stop_background_music();
-}
 
 static void handle_scrolling(void) {
     bool lPressed = is_button_pressed(CONTROL_PAGE_DOWN);
@@ -54,9 +45,6 @@ static void select_stage(byte num) {
 }
 
 static void enter_stage() {
-    xx[0] = 1;
-
-    mainZ = 10;
 	zxon = 0;
 	maintm = 0;
 	nokori = 2;
@@ -66,21 +54,23 @@ static void enter_stage() {
 	tyuukan = 0;
 
     over = sStageNum == STAGE_MYSTERY_DUNGEON;
+
+    play_transition(30, true);
+}
+
+void title_screen_enter(void) {
+    sStageNum = STAGE_MIN;
+    sShowStageNum = false;
+
+    stop_background_music();
 }
 
 void title_screen_update(void) {
-	xx[0] = 0;
-
-    if (!sInitialized) {
-        title_screen_init();
-    }
-
     handle_scrolling();
 
 	if (CheckHitKey(CONTROL_START_PAUSE) == 1) {
         select_stage(sStageNum);
 	    enter_stage();
-        sInitialized = false;
 	}
 }
 
@@ -120,3 +110,9 @@ void title_screen_draw(void) {
         }
     }
 }
+
+GameState STATE_TITLE_SCREEN = {
+    .enter = title_screen_enter,
+    .update = title_screen_update,
+    .draw = title_screen_draw,
+};

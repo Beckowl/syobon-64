@@ -2,13 +2,11 @@
 
 #include "game.hpp"
 #include "credits.hpp"
-#include "controls.hpp"
 
 #include "sa_audio.hpp"
 #include "sa_input.hpp"
 #include "sa_graphics.hpp"
 
-static bool sInitialized = false;
 static int sTextOffset = 0;
 
 #define TEXT_SCROLL_LIMIT -1804
@@ -45,27 +43,13 @@ static CreditsLine sCredits[] = {
     CREDITS_LINE("プレイしていただき　ありがとうございました〜", 22, 1800),
 };
 
-static void credits_init(void)
+static void credits_enter(void)
 {
     set_background_music(otom[5]);
     sTextOffset = 0;
-    sInitialized = true;
-}
-
-static void credits_end(void) {
-    mainZ = 100;
-	nokori = 2;
-	maintm = 0;
-	ending = 0;
-
-    sInitialized = false;
 }
 
 void credits_update(void) {
-    if (!sInitialized) {
-        credits_init();
-    }
-
     if (is_button_down(BUTTON_B)) {
         sTextOffset -= 3;
     }
@@ -73,7 +57,7 @@ void credits_update(void) {
     sTextOffset--;
 
 	if (sTextOffset <= TEXT_SCROLL_LIMIT) {
-	   credits_end();
+	   game_set_state(STATE_TITLE_SCREEN);
 	}
 }
 
@@ -84,3 +68,14 @@ void credits_draw(void) {
         draw_text(sCredits[i].text, sCredits[i].xPos, sTextOffset + sCredits[i].yOffset);
     }
 }
+
+static void credits_exit(void) {
+	stop_background_music();
+}
+
+GameState STATE_CREDITS = {
+    .enter = credits_enter,
+    .update = credits_update,
+    .draw = credits_draw,
+    .exit = credits_exit,
+};

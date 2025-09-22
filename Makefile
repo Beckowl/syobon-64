@@ -13,7 +13,7 @@ RSPASFLAGS += -g
 LDFLAGS  += -g
 endif
 
-CXXFLAGS += -Isrc -Wno-error=parentheses -Wno-error=narrowing -fcommon # NOT MY FAULT!!!!
+CXXFLAGS += -Isrc -Isrc/game -Wno-error=parentheses -Wno-error=narrowing -fcommon # NOT MY FAULT!!!!
 
 EXCLUDE_SRCS :=
 

@@ -1,14 +1,7 @@
 #include "DxLib.hpp"
+#include "global.hpp"
 
-extern int ma, t, tt;
-extern SDL_Surface *grap[161][8];
-extern sprite_t *mgrap[51];
 int x1;
-extern Mix_Music *otom[6];
-extern Mix_Chunk *oto[19];
-
-extern int anx[160], any[160];
-extern int ne[40], nf[40];
 
 void loadg(void)
 {
@@ -254,4 +247,4 @@ anx[3]=30;any[3]=44;
 
 }
 
-extern bool sound;
+inline bool sound;
