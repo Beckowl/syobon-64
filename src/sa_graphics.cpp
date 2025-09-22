@@ -13,7 +13,7 @@ void sa_graphics_init(void) {
         .interlaced = INTERLACE_MODE,
     };
 
-    display_init(resolution, DEPTH_16_BPP, 3, GAMMA_NONE, FILTERS_RESAMPLE);
+    display_init(resolution, DEPTH_16_BPP, is_memory_expanded() ? 3 : 2, GAMMA_NONE, FILTERS_RESAMPLE);
     rdpq_init();
 
     sFont = rdpq_font_load("rom:/res/sazanami-gothic.font64");
