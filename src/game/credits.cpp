@@ -8,10 +8,20 @@
 #include "sa_input.hpp"
 #include "sa_graphics.hpp"
 
+static bool sInitialized = false;
+static int sTextOffset = 0;
+
 #define TEXT_SCROLL_LIMIT -1804
 #define CREDITS_LINE_COUNT 19
 
-static int sTextOffset = 0;
+struct CreditsLine {
+    const char* text;
+    int xPos;
+    int yOffset;
+};
+
+#define CENTER_LINE(length) ((SCREEN_WIDTH / 2) - length * 20 / 2)
+#define CREDITS_LINE(text, length, yOffset) { text, CENTER_LINE(length), yOffset}
 
 static CreditsLine sCredits[] = {
     CREDITS_LINE("制作・プレイに関わった方々", 13, 460),
@@ -35,21 +45,27 @@ static CreditsLine sCredits[] = {
     CREDITS_LINE("プレイしていただき　ありがとうございました〜", 22, 1800),
 };
 
-void credits_enter(void)
+static void credits_init(void)
 {
     set_background_music(otom[5]);
     sTextOffset = 0;
-    mainZ = 2;
+    sInitialized = true;
 }
 
-void credits_exit(void) {
+static void credits_end(void) {
     mainZ = 100;
 	nokori = 2;
 	maintm = 0;
 	ending = 0;
+
+    sInitialized = false;
 }
 
 void credits_update(void) {
+    if (!sInitialized) {
+        credits_init();
+    }
+
     if (is_button_down(BUTTON_B)) {
         sTextOffset -= 3;
     }
@@ -57,7 +73,7 @@ void credits_update(void) {
     sTextOffset--;
 
 	if (sTextOffset <= TEXT_SCROLL_LIMIT) {
-	   credits_exit();
+	   credits_end();
 	}
 }
 

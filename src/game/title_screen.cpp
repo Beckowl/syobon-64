@@ -14,6 +14,15 @@
 
 static byte sStageNum = 1;
 static bool sShowStageNum = false;
+static bool sInitialized = false;
+
+static void title_screen_init(void) {
+    sStageNum = STAGE_MIN;
+    sShowStageNum = false;
+    sInitialized = true;
+
+    stop_background_music();
+}
 
 static void handle_scrolling(void) {
     bool lPressed = is_button_pressed(CONTROL_PAGE_DOWN);
@@ -44,17 +53,8 @@ static void select_stage(byte num) {
     stc = 0;
 }
 
-void title_screen_enter(void) {
-    sStageNum = STAGE_MIN;
-    sShowStageNum = false;
-
-    mainZ = 100;
-
-    stop_background_music();
-}
-
-void title_screen_exit(void) {
-    select_stage(sStageNum);
+static void enter_stage() {
+    xx[0] = 1;
 
     mainZ = 10;
 	zxon = 0;
@@ -69,10 +69,18 @@ void title_screen_exit(void) {
 }
 
 void title_screen_update(void) {
+	xx[0] = 0;
+
+    if (!sInitialized) {
+        title_screen_init();
+    }
+
     handle_scrolling();
 
 	if (CheckHitKey(CONTROL_START_PAUSE) == 1) {
-        title_screen_exit();
+        select_stage(sStageNum);
+	    enter_stage();
+        sInitialized = false;
 	}
 }
 
