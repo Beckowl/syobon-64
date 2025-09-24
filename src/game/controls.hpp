@@ -4,7 +4,7 @@
 #include "sa_input.hpp"
 
 #define CONTROL_NONE 		(CONT_BUTTON)0							// placeholder button
-#define CONTROL_JUMP 		(CONT_BUTTON)(BUTTON_A | BUTTON_D_UP)
+#define CONTROL_JUMP 		BUTTON_A
 #define CONTROL_LEFT 		BUTTON_D_LEFT
 #define CONTROL_RIGHT 		BUTTON_D_RIGHT
 #define CONTROL_DOWN 		BUTTON_D_DOWN
