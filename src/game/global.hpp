@@ -2,8 +2,11 @@
 #define GLOBAL_H
 
 #include <libdragon.h>
+#include <string>
 
-#include "DxLib.hpp"
+#include "sa_graphics.hpp"
+
+
 using namespace std;
 
 #define SHORT
@@ -82,20 +85,20 @@ void fillrect(int a, int b, int c, int d);
 void drawarc(int a, int b, int c, int d);
 void fillarc(int a, int b, int c, int d);
 void FillScreen();
-INLINE SDL_Surface *grap[161][8];
+INLINE SpriteRegion *grap[161][8];
 INLINE sprite_t *mgrap[51];
 sprite_t *loadimage(string b);
-SDL_Surface *loadimage(int a, int x, int y, int r, int z);
+SpriteRegion *loadimage(int a, int x, int y, int r, int z);
 INLINE int mirror;
-void drawimage(SDL_Surface * mx, int a, int b);
-void drawimage(SDL_Surface * mx, int a, int b, int c, int d, int e, int f);
+void drawimage(SpriteRegion * mx, int a, int b);
+void drawimage(SpriteRegion * mx, int a, int b, int c, int d, int e, int f);
 void setre();
 void setre2();
 void setno();
-INLINE Mix_Music *otom[6];
-INLINE Mix_Chunk *oto[19];
-void ot(Mix_Chunk * x);
-void bgmchange(Mix_Music * x);
+INLINE wav64_t *otom[6];
+INLINE wav64_t *oto[19];
+void ot(wav64_t * x);
+void bgmchange(wav64_t * x);
 
 //文字
 void str(string c, int a, int b);
@@ -238,7 +241,7 @@ INLINE int fxmax = SCREEN_WIDTH * 100, fymax = SCREEN_HEIGHT * 100;
 
 
 //ステージ
-INLINE byte stagedate[17][2001];
+INLINE unsigned char stagedate[17][2001];
 
 //画面黒
 INLINE int blacktm = 1, blackx = 0;

@@ -30,7 +30,7 @@ void transition_draw(void) {
     rdpq_clear(RGBA32(0, 0, 0, 0));
 	
 	if (sDeathTransition) {
-		draw_sprite(grap[0][0], RECENTER_X(190), 190);
+		draw_sprite_region(grap[0][0], RECENTER_X(190), 190);
 
 		char buf[16];
 		snprintf(buf, sizeof(buf), " × %d", nokori);

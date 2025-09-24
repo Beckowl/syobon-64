@@ -41,8 +41,8 @@ void set_draw_color(color_t color) {
     sDrawColor = color;
 }
 
-SpriteInfo* make_sprite(sprite_t* source, int sourceX, int sourceY, int width, int height) {
-    SpriteInfo* sprite = (SpriteInfo*)malloc(sizeof(SpriteInfo));
+SpriteRegion* get_sprite_region(sprite_t* source, int sourceX, int sourceY, int width, int height) {
+    SpriteRegion* sprite = (SpriteRegion*)malloc(sizeof(SpriteRegion));
 
     if (!sprite) { return NULL; }
 
@@ -55,11 +55,9 @@ SpriteInfo* make_sprite(sprite_t* source, int sourceX, int sourceY, int width, i
     return sprite;
 }
 
-void free_sprite(SpriteInfo* sprite) {
-    free(sprite);
-}
+void draw_sprite_region(SpriteRegion* sprite, int x, int y, bool flipX, bool flipY) {
+    if (!sprite) { return; }
 
-void draw_sprite(SpriteInfo* sprite, int x, int y, bool flipX, bool flipY) {
     rdpq_set_mode_standard();
     rdpq_mode_alphacompare(1);
 
@@ -75,14 +73,14 @@ void draw_sprite(SpriteInfo* sprite, int x, int y, bool flipX, bool flipY) {
     rdpq_sprite_blit(sprite->source, x, y, &parms);
 }
 
-void draw_rect(int x, int y, int width, int height) {
+void draw_rectangle_filled(int x, int y, int width, int height) {
     rdpq_set_mode_standard();
     rdpq_set_mode_fill(sDrawColor);
 
     rdpq_fill_rectangle(x, y, x + width, y + height);
 }
 
-void draw_rect_outline(int x, int y, int width, int height) {
+void draw_rectangle_outline(int x, int y, int width, int height) {
     rdpq_set_mode_standard();
     rdpq_set_mode_fill(sDrawColor);
 
@@ -138,7 +136,7 @@ static void get_circle_points(int cx, int cy, int radius, float points[][2]) {
     }
 }
 
-void draw_circle(int x, int y, int radius) {
+void draw_circle_filled(int x, int y, int radius) {
     rdpq_set_mode_standard();
     rdpq_mode_combiner(RDPQ_COMBINER_FLAT);
     rdpq_set_prim_color(sDrawColor);
@@ -171,4 +169,15 @@ void draw_circle_outline(int cx, int cy, int radius) {
 void draw_text(const char* text, int x, int y) {
     rdpq_set_mode_standard();
     rdpq_text_print(NULL, FONT_SAZANAMI, x, y, text);
+}
+
+void draw_text_fmt(int x, int y, const char* format, ...) {
+    rdpq_set_mode_standard();
+
+    va_list args;
+    va_start(args, format);
+
+    rdpq_text_vprintf(NULL, FONT_SAZANAMI, x, y, format, args);
+
+    va_end(args);
 }

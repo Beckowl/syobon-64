@@ -22,7 +22,7 @@ void game_deinit(void) {
 
     for (int i = 0; i < 161; i++) {
 		for (int j = 0; j < 8; j++) {
-	    	free_sprite(grap[i][j]); // lmao
+	    	free(grap[i][j]); // lmao
 		}
 	}
 	

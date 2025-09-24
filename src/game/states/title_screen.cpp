@@ -12,7 +12,7 @@
 #define STAGE_MIN 1
 #define STAGE_MYSTERY_DUNGEON 10
 
-static byte sStageNum = 1;
+static uint8_t sStageNum = 1;
 static bool sShowStageNum = false;
 
 static void handle_scrolling(void) {
@@ -34,7 +34,7 @@ static void handle_scrolling(void) {
     }
 }
 
-static void select_stage(byte num) {
+static void select_stage(uint8_t num) {
     if (num >= STAGE_MYSTERY_DUNGEON) {
         num = STAGE_MIN;
     }
@@ -68,7 +68,7 @@ void title_screen_enter(void) {
 void title_screen_update(void) {
     handle_scrolling();
 
-	if (CheckHitKey(CONTROL_START_PAUSE) == 1) {
+	if (is_button_down(CONTROL_START_PAUSE)) {
         select_stage(sStageNum);
 	    enter_stage();
 	}
@@ -82,14 +82,14 @@ void title_screen_draw(void) {
     rdpq_sprite_blit(mgrap[30], RECENTER_X(50), 60, NULL);
 
     // decor
-    draw_sprite(grap[0][4], 360, 278);
-    draw_sprite(grap[1][4], 180, 336);
-    draw_sprite(grap[0][0], 60, 330); // this is syobon!!
+    draw_sprite_region(grap[0][4], 360, 278);
+    draw_sprite_region(grap[1][4], 180, 336);
+    draw_sprite_region(grap[0][0], 60, 330); // this is syobon!!
 
     // floor
     for (t = 0; t <= 19; t++) {
-        draw_sprite(grap[5][1], 29 * t, 365);
-        draw_sprite(grap[6][1], 29 * t, 394);
+        draw_sprite_region(grap[5][1], 29 * t, 365);
+        draw_sprite_region(grap[6][1], 29 * t, 394);
     }
 
     if (!gControllerFound) {
@@ -99,12 +99,9 @@ void title_screen_draw(void) {
 
     draw_text("Enterキーを押せ!!", RECENTER_X(160), 250);
 
-    static char buf[32];
-
     if (sShowStageNum) {
         if (sStageNum != STAGE_MYSTERY_DUNGEON) {
-            sprintf(buf, "Stage number: %d", sStageNum);
-            draw_text(buf, RECENTER_X(160), 270);
+            draw_text_fmt(RECENTER_X(160), 270, "Stage number: %d", sStageNum);
         } else {
             draw_text("Mystery Dungeon", RECENTER_X(160), 270);
         }

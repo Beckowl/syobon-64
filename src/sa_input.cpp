@@ -49,7 +49,7 @@ bool is_button_released(CONT_BUTTON button) {
     return released.raw & button;
 }
 
-bool is_button_combo_pressed(int buttons) {
+bool is_button_combo_pressed(CONT_BUTTON buttons) {
     joypad_buttons_t pressed = joypad_get_buttons_pressed(gMainController);
     joypad_buttons_t held = joypad_get_buttons_held(gMainController);
 

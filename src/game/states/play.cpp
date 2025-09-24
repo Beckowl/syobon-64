@@ -127,24 +127,13 @@ void play_draw()
 
 //51
 		if (ntype[t] == 100) {
-		    DrawFormatString(xx[0] / 100 + fma,
-				     xx[1] / 100 + fmb,
-				     GetColor(255, 255, 255), "51");
+            draw_text("51", xx[0] / 100 + fma, xx[1] / 100 + fmb);
 		}
 
 		if (ntype[t] == 101)
-		    DrawFormatString(xx[0] / 100 + fma,
-				     xx[1] / 100 + fmb,
-				     GetColor(255, 255,
-					      255),
-				     "ゲームクリアー");
+            draw_text("ゲームクリアー", xx[0] / 100 + fma, xx[1] / 100 + fmb);
 		if (ntype[t] == 102)
-		    DrawFormatString(xx[0] / 100 + fma,
-				     xx[1] / 100 + fmb,
-				     GetColor(255, 255,
-					      255),
-				     "プレイしてくれてありがとー");
-
+		    draw_text("プレイしてくれてありがとー", xx[0] / 100 + fma, xx[1] / 100 + fmb);
 	    }
 	}			//t
 
@@ -314,13 +303,11 @@ void play_draw()
 		    mirror = 1;
 		}
 		if (atype[t] == 3 && axtype[t] == 1) {
-		    DrawVertTurnGraph(xx[0] / 100,
-				      xx[1] / 100, grap[atype[t]][3]);
+            draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, false, true);
 		    xx[16] = 1;
 		}
 		if (atype[t] == 9 && ad[t] >= 1) {
-		    DrawVertTurnGraph(xx[0] / 100,
-				      xx[1] / 100, grap[atype[t]][3]);
+            draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, false, true);
 		    xx[16] = 1;
 		}
 		if (atype[t] >= 100 && amuki[t] == 1)
@@ -1034,11 +1021,8 @@ void play_draw()
 		    xx[6] = (ab[t] - fy - 800) / 100;
 		}
 
-		ChangeFontType(DX_FONTTYPE_EDGE);
 		setc1();
 		str(xs[0], xx[5], xx[6]);
-		ChangeFontType(DX_FONTTYPE_NORMAL);
-
 	    }			//amsgtm
 	}			//amax
 
@@ -1063,8 +1047,19 @@ void play_draw()
 	    else if (tmsgtype == 3) {
 		xx[0] = 1200;
 		tmsgy += xx[0];
-		if (tmsgtm == 15)
-		    WaitKey();
+		if (tmsgtm == 15) {
+            while (true) {
+                joypad_poll();
+                process_audio();
+
+                joypad_buttons_t pressed = joypad_get_buttons_pressed(gMainController);
+
+                if (pressed.raw) {
+                    break;
+                }
+            }
+        }
+		    
 		if (tmsgtm == 1) {
 		    tmsgtm = 0;
 		    tmsgtype = 0;
@@ -1079,33 +1074,21 @@ void play_draw()
 	if (mainmsgtype >= 1) {
 	    setfont(20, 4);
 	    if (mainmsgtype == 1) {
-		DrawFormatString(126, 100,
-				 GetColor(255, 255, 255),
-				 "WELCOME TO OWATA ZONE");
+            draw_text("WELCOME TO OWATA ZONE", 126, 100);
 	    }
 	    if (mainmsgtype == 1) {
 		for (t2 = 0; t2 <= 2; t2++)
-		    DrawFormatString(88 + t2 * 143, 210,
-				     GetColor(255, 255, 255), "1");
+            draw_text("1", 88 + t2 * 143, 210);
 	    }
 	    setfont(20, 5);
 	}			//mainmsgtype>=1
-
-
-    ScreenFlip();
-
 }				//rpaint()
 
 //メインプログラム
 void play_update()
 {
 
-    stime = long (GetNowCount());
-
-    if (ending == 1) {
-		game_set_state(STATE_CREDITS);
-	}
-
+    stime = long (get_ticks_us());
 
 //キー
 
@@ -1116,25 +1099,25 @@ void play_update()
 	actaon[2] = 0;
 	actaon[3] = 0;
 	if (mkeytm <= 0) {
-	    if (CheckHitKey(CONTROL_LEFT)
+	    if (is_button_down(CONTROL_LEFT)
 		&& keytm <= 0) {
 		actaon[0] = -1;
 		mmuki = 0;
 		actaon[4] = -1;
 	    }
-	    if (CheckHitKey(CONTROL_RIGHT)
+	    if (is_button_down(CONTROL_RIGHT)
 		&& keytm <= 0) {
 		actaon[0] = 1;
 		mmuki = 1;
 		actaon[4] = 1;
 	    }
-	    if (CheckHitKey(CONTROL_DOWN)
+	    if (is_button_down(CONTROL_DOWN)
 		) {
 		actaon[3] = 1;
 	    }
 	}
 
-//if (CheckHitKey(KEY_INPUT_Q)==1){mkeytm=0;}
+//if (is_button_down(KEY_INPUT_Q)==1){mkeytm=0;}
 	if (is_button_combo_pressed(CONTROL_SUICIDE)) {
 	    if (mhp >= 1)
 		mhp = 0;
@@ -1145,7 +1128,7 @@ void play_update()
 	}
 
 	if (mkeytm <= 0) {
-	    if (CheckHitKey(CONTROL_JUMP) == 1) {
+	    if (is_button_down(CONTROL_JUMP)) {
 		if (actaon[1] == 10) {
 		    actaon[1] = 1;
 		    xx[0] = 1;
@@ -1154,7 +1137,7 @@ void play_update()
 	    }
 	}
 
-	if (CheckHitKey(CONTROL_JUMP) == 1) {
+	if (is_button_down(CONTROL_JUMP)) {
 	    if (mjumptm == 8 && md >= -900) {
 		md = -1300;
 //ダッシュ中
@@ -1552,7 +1535,7 @@ if (mc>=800 || mc<=-800){md=-1800;}
 
 		if (mtm == 440) {
 		    if (mtype == 301) {
-			ending = 1;
+                game_set_state(STATE_CREDITS);
 		    } else {
 			sta++;
 			stb = 1;
@@ -3208,7 +3191,6 @@ if (actaon[2]==1){mb-=400;md=-1400;mjumptm=10;}
 				  10 * 3000 - 1200, 4, 20);
 			    if (mtype == 300) {
 				mtype = 0;
-				StopSoundMem(oto[11]);
 				bgmchange(otom[1]);
 			    }
 			    for (t1 = 0; t1 < smax; t1++) {
@@ -4430,7 +4412,7 @@ void play_exit() { }
 //色かえ(指定)
 void setcolor(int red, int green, int blue)
 {
-    color = GetColor(red, green, blue);
+    color = RGBA32(red, green, blue, 255);
     gfxcolor = color;
 }
 
@@ -4463,7 +4445,7 @@ void drawline(int a, int b, int c, int d)
 void drawrect(int a, int b, int c, int d)
 {
 	set_draw_color(gfxcolor);
-	draw_rect_outline(a, b, c, d); // TODO: check if w/h to screen coords math is the same
+	draw_rectangle_outline(a, b, c, d); // TODO: check if w/h to screen coords math is the same
     // rectangleColor(screen, a, b, a + c - 1, b + d - 1, gfxcolor);
 }
 
@@ -4471,7 +4453,7 @@ void drawrect(int a, int b, int c, int d)
 void fillrect(int a, int b, int c, int d)
 {
 	set_draw_color(gfxcolor);
-	draw_rect(a, b, c, d); // TODO: check if w/h to screen coords math is the same
+	draw_rectangle_filled(a, b, c, d); // TODO: check if w/h to screen coords math is the same
     // boxColor(screen, a, b, a + c - 1, b + d - 1, gfxcolor);
 }
 
@@ -4487,7 +4469,7 @@ void drawarc(int a, int b, int c, int d)
 void fillarc(int a, int b, int c, int d)
 {
 	set_draw_color(gfxcolor);
-	draw_circle(a, b, c);  // TODO: draw an actual ellipse?? the comment above says circle though
+	draw_circle_filled(a, b, c);  // TODO: draw an actual ellipse?? the comment above says circle though
     // filledEllipseColor(screen, a, b, c, d, gfxcolor);
 }
 
@@ -4499,40 +4481,33 @@ void FillScreen()
 //画像の読み込み
 sprite_t *loadimage(string x)
 {
-//mgrap[a]=LoadGraph(b);
-    return LoadGraph(x.c_str());
+//mgrap[a]=sprite_load(b);
+    return sprite_load(x.c_str());
 }
 
-SDL_Surface *loadimage(sprite_t * a, int x, int y, int r, int z)
+SpriteRegion *loadimage(sprite_t * a, int x, int y, int r, int z)
 {
-    return DerivationGraph(x, y, r, z, a);
+    return get_sprite_region(a, x, y, r, z);
 }
 
 //画像表示
-void drawimage(SDL_Surface * mx, int a, int b)
+void drawimage(SpriteRegion * mx, int a, int b)
 {
-    if (mirror == 0)
-	DrawGraph(a, b, mx, TRUE);
-    if (mirror == 1)
-	DrawTurnGraph(a, b, mx, TRUE);
+    draw_sprite_region(mx, a, b, mirror);
 }
 
 void drawimage(sprite_t * mx, int a, int b, int c, int d, int e, int f)
 {
-    SDL_Surface *m;
-    m = DerivationGraph(c, d, e, f, mx);
-    if (mirror == 0)
-	DrawGraph(a, b, m, TRUE);
-    if (mirror == 1)
-	DrawTurnGraph(a, b, m, TRUE);
-    free_sprite(m);
+    SpriteRegion *m = get_sprite_region(mx, c, d, e, f);    
+    draw_sprite_region(m, a, b, mirror);
+    free(m);
 }
 
 /*
 //文字
 void str(char d[],int a,int b){
 //char d[]=c;
-DrawString(a,b,d,color);
+draw_text(d, a, b);
 }
 */
 
@@ -4540,8 +4515,8 @@ DrawString(a,b,d,color);
 void str(string x, int a, int b)
 {
 //char d[]="あ";
-    DrawString(a, b, x.c_str(), color);
-//DrawString(10,10,xs[3].c_str(),color);
+    draw_text(x.c_str(), a, b);
+//draw_text(xs[3].c_str(), 10, 10, color);
 
     xx[2] = 4;
 
@@ -4563,7 +4538,7 @@ int d=6;
 x=r*d;
 a=120-x/2;
 
-g.drawString(c,a,b);
+g.draw_text(c,a,b);
 }
 */
 
@@ -4587,9 +4562,9 @@ if (a==3)g.setFont(Font.getFont(Font.SIZE_LARGE));
 }
 
 //音楽再生
-void ot(Mix_Chunk * x)
+void ot(wav64_t * x)
 {
-    PlaySoundMem(x, DX_PLAYTYPE_BACK);
+    play_sound_effect(x);
 }
 
 void stagecls()
@@ -4689,8 +4664,8 @@ void stage()
 //fzx=6000*100;
     scrollx = 3600 * 100;
 
-//byte stagedate[16][801];
-//byte stagedate2[16][801];
+//unsigned char stagedate[16][801];
+//unsigned char stagedate2[16][801];
 
 //1-レンガ,2-コイン,3-空,4-土台//5-6地面//7-隠し//
 
@@ -4831,18 +4806,18 @@ void stagep()
 //fzx=6000*100;
     scrollx = 3600 * 100;
 
-//byte stagedate[16][801];
-//byte stagedate2[16][801];
+//unsigned char stagedate[16][801];
+//unsigned char stagedate2[16][801];
 
 //1-レンガ,2-コイン,3-空,4-土台//5-6地面//7-隠し//
 
 //1-1
     if (sta == 1 && stb == 1 && stc == 0) {
 
-//new byte stagedate[16][801]={
+//new unsigned char stagedate[16][801]={
 
 //                                                                                                                                                                                     中間
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	     0, 0, 0,
 	     0, 0,
@@ -5235,7 +5210,7 @@ void stagep()
 	scrollx = 0 * 100;
 //ma=3000;mb=3000;
 
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,}
 	    ,
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,}
@@ -5376,7 +5351,7 @@ void stagep()
 	mb = 3000;
 	stagecolor = 2;
 
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	     0, 0, 0,
 	     0, 0,
@@ -5976,7 +5951,7 @@ void stagep()
 	ma = 7500;
 	mb = 3000 * 9;
 
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	     0, 0, 0,
 	     0, 0,
@@ -6159,7 +6134,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	scrollx = 3900 * 100;
 //ma=3000;mb=3000;
 
-	byte stagedatex[17][1001] = {	//                                                                                                                                                                                     中間
+	unsigned char stagedatex[17][1001] = {	//                                                                                                                                                                                     中間
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	     0, 0, 0,
 	     0, 0,
@@ -6695,7 +6670,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	mb = 6000;
 	stagecolor = 2;
 
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,}
 	    ,
 	    {1, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,}
@@ -6782,7 +6757,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 
 	stagepoint = 1;
 
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,}
 	    ,
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,}
@@ -6884,7 +6859,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	mb = 6000;
 	stagecolor = 4;
 
-	byte stagedatex[17][1001] = {	//                                                                                                                                                                                     中間
+	unsigned char stagedatex[17][1001] = {	//                                                                                                                                                                                     中間
 	    {5, 5, 5, 0, 0, 0, 0, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0,
 	     0, 5, 0,
 	     0, 0,
@@ -7514,7 +7489,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	stagecolor = 1;
 	scrollx = 2900 * (113 - 19);
 	//
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 4, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	     0, 0, 0,
 	     0, 0,
@@ -7871,7 +7846,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	stagecolor = 1;
 	scrollx = 2900 * (19 - 19);
 	//
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
 	    ,
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
@@ -7952,7 +7927,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	mb = 9000;
 	scrollx = 2900 * (137 - 19);
 //
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4, 4,
 	     4, 4, 4,
 	     4, 4,
@@ -8440,7 +8415,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	ma = 7500;
 	mb = 3000 * 9;
 //
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	     0, 0, 0,
 	     0, 0,
@@ -8610,7 +8585,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	stagecolor = 1;
 	scrollx = 2900 * (126 - 19);
 	//
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	     0, 0, 0,
 	     0, 0,
@@ -8992,7 +8967,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	stagecolor = 4;
 	scrollx = 2900 * (40 - 19);
 	//
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {5, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
 	     5, 5, 5,
 	     5, 5,
@@ -9148,7 +9123,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	stagecolor = 4;
 	scrollx = 2900 * (21 - 19);
 	//
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5,
 	     98}
 	    ,
@@ -9250,7 +9225,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	stagecolor = 4;
 	scrollx = 2900 * (128 - 19);
 	//
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {5, 5, 5, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0,
 	     0, 0, 0,
 	     0, 0,
@@ -9752,7 +9727,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	bgmchange(otom[1]);
 	stagecolor = 5;
 	scrollx = 2900 * (112 - 19);
-	byte stagedatex[17][1001] = {
+	unsigned char stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
 	     0, 0, 0,
 	     0, 0,
@@ -10101,7 +10076,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 }				//stagep
 
 //BGM変更
-void bgmchange(Mix_Music * x)
+void bgmchange(wav64_t * x)
 {
     stop_background_music();
 //otom[0]=0;
@@ -10262,11 +10237,7 @@ void txmsg(string x, int a)
 }				//txmsg
 
 //フォント変更
-void setfont(int x, int y)
-{
-    SetFontSize(x);
-    SetFontThickness(y);
-}
+void setfont(int x, int y) { }
 
 //グラ作成
 void
@@ -10330,11 +10301,11 @@ void ayobi(int xa, int xb, int xc, int xd, int xnotm, int xtype,
 	    anobib[aco] = any[atype[aco]];
 
 //大砲音
-	    if (xtype == 7 && CheckSoundMem(oto[10]) == 0) {
+	    if (xtype == 7 && !oto[10]) {
 		ot(oto[10]);
 	    }
 //ファイア音
-	    if (xtype == 10 && CheckSoundMem(oto[18]) == 0) {
+	    if (xtype == 10 && !oto[18]) {
 		ot(oto[18]);
 	    }
 
