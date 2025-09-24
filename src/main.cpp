@@ -54,7 +54,7 @@ void deinit(void) {
 int main(void) {
     init();
 
-    while (!exception_reset_time()) {
+    while (true) {
         joypad_poll();
         process_audio();
 
@@ -71,10 +71,6 @@ int main(void) {
     }
 
     deinit();
-
-    while (true) {
-        __asm__ volatile("nop");
-    }
 
     return 0;
 }
