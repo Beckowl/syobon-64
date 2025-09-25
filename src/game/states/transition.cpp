@@ -1,13 +1,15 @@
 #include <libdragon.h>
 
-#include "global.hpp"
+#include "game.hpp"
 #include "transition.hpp"
+#include "play.hpp"
 
 #include "sa_graphics.hpp"
 
+
 static int sTransitionTimer = 0;
 static int sTransitionDuration = 30;
-static bool sDeathTransition = false;
+static bool sShowLives = false;
 
 void transition_enter(void) {
     sTransitionTimer = 0;
@@ -29,7 +31,7 @@ void transition_update(void) {
 void transition_draw(void) {
     rdpq_clear(RGBA32(0, 0, 0, 0));
 	
-	if (sDeathTransition) {
+	if (sShowLives) {
 		draw_sprite_region(grap[0][0], RECENTER_X(190), 190);
 
 		char buf[16];
@@ -39,16 +41,15 @@ void transition_draw(void) {
 	}
 }
 
+void play_transition(int duration, bool showLives) {
+	sTransitionDuration = duration;
+	sShowLives = showLives;
+	
+    game_set_state(STATE_TRANSITION);
+}
+
 GameState STATE_TRANSITION = {
     .enter = transition_enter,
     .update = transition_update,
     .draw = transition_draw,
 };
-
-void play_transition(int duration, bool deathTransition) {
-	sTransitionDuration = duration;
-	sDeathTransition = deathTransition;
-	
-    game_set_state(STATE_TRANSITION);
-}
-

@@ -1,7 +1,11 @@
 #include <libdragon.h>
 
 #include "game.hpp"
+#include "play.hpp"
 #include "controls.hpp"
+
+#include "states/credits.hpp"
+#include "states/transition.hpp"
 
 #include "sa_input.hpp"
 #include "sa_audio.hpp"

@@ -11,8 +11,6 @@ typedef struct {
     void (*exit)(void);
 } GameState;
 
-#include "states/game_states.hpp"
-
 void game_init(void);
 void game_deinit(void);
 

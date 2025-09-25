@@ -1,7 +1,8 @@
 #include <libdragon.h>
 
-#include "title_screen.hpp"
 #include "global.hpp"
+#include "title_screen.hpp"
+#include "transition.hpp"
 
 #include "sa_audio.hpp"
 #include "sa_graphics.hpp"

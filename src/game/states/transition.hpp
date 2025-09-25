@@ -5,6 +5,6 @@
 
 extern GameState STATE_TRANSITION;
 
-void play_transition(int duration, bool deathTransition);
+void play_transition(int duration, bool showLives);
 
 #endif

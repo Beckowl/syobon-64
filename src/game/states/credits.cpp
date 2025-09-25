@@ -2,6 +2,7 @@
 
 #include "game.hpp"
 #include "credits.hpp"
+#include "title_screen.hpp"
 
 #include "sa_audio.hpp"
 #include "sa_input.hpp"
