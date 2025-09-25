@@ -3,14 +3,17 @@
 #include "sa_graphics.hpp"
 #include "sa_audio.hpp"
 #include "sa_input.hpp"
-#include "profiler.hpp"
-#include "debug_overlay.hpp"
+
+#include "debug/profiler.hpp"
+#include "debug/debug_overlay.hpp"
 
 #include "game/game.hpp"
 
+#if DEBUG
 Profiler sRenderProfiler;
 static Profiler sUpdateProfiler;
 static Profiler* sProfilers[] = { &sRenderProfiler, &sUpdateProfiler };
+#endif
 
 void init(void) {
     srand(getentropy32());
