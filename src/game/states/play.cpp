@@ -27,7 +27,7 @@ void play_enter() {
 	stageonoff = 0;
 
 	// チーターマン　入れ
-	bgmchange(otom[1]);
+	set_background_music(otom[1]);
 
 	stagecls();
 
@@ -71,7 +71,6 @@ void play_enter() {
 		if (rand(4) == 0)
 			stagecolor = rand(5);
 	}
-	maint = 0;
 }
 
 //メイン描画
@@ -79,25 +78,25 @@ void play_draw()
 {
 
 //ダブルバッファリング
-    setcolor(0, 0, 0);
-//if (stagecolor==1)setcolor(170,170,255);
+    set_draw_color(0, 0, 0);
+//if (stagecolor==1)set_draw_color(170,170,255);
     if (stagecolor == 1)
-	setcolor(160, 180, 250);
+	set_draw_color(160, 180, 250);
     if (stagecolor == 2)
-	setcolor(10, 10, 10);
+	set_draw_color(10, 10, 10);
     if (stagecolor == 3)
-	setcolor(160, 180, 250);
+	set_draw_color(160, 180, 250);
     if (stagecolor == 4)
-	setcolor(10, 10, 10);
+	set_draw_color(10, 10, 10);
     if (stagecolor == 5) {
-	setcolor(160, 180, 250);
+	set_draw_color(160, 180, 250);
 	mrzimen = 1;
     } else {
 	mrzimen = 0;
     }
 
 //: Clear screen
-    FillScreen();
+    sa_graphics_clear();
 
 //背景
 	for (t = 0; t < nmax; t++) {
@@ -114,16 +113,13 @@ void play_draw()
 		if (ntype[t] != 3) {
 		    if ((ntype[t] == 1 || ntype[t] == 2)
 			&& stagecolor == 5) {
-			drawimage(grap[ntype[t] + 30]
-				  [4], xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[ntype[t] + 30][4], xx[0] / 100, xx[1] / 100, mirror);
 		    } else {
-			drawimage(grap[ntype[t]][4],
-				  xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[ntype[t]][4], xx[0] / 100, xx[1] / 100, mirror);
 		    }
 		}
 		if (ntype[t] == 3)
-		    drawimage(grap[ntype[t]][4],
-			      xx[0] / 100 - 5, xx[1] / 100);
+		    draw_sprite_region(grap[ntype[t]][4], xx[0] / 100 - 5, xx[1] / 100, mirror);
 
 //51
 		if (ntype[t] == 100) {
@@ -148,39 +144,39 @@ void play_draw()
 
 //コイン
 		if (egtype[t] == 0)
-		    drawimage(grap[0][2], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[0][2], xx[0] / 100, xx[1] / 100, mirror);
 
 //ブロックの破片
 		if (egtype[t] == 1) {
 		    if (stagecolor == 1 || stagecolor == 3
 			|| stagecolor == 5)
-			setcolor(9 * 16, 6 * 16, 3 * 16);
+			set_draw_color(9 * 16, 6 * 16, 3 * 16);
 		    if (stagecolor == 2)
-			setcolor(0, 120, 160);
+			set_draw_color(0, 120, 160);
 		    if (stagecolor == 4)
-			setcolor(192, 192, 192);
+			set_draw_color(192, 192, 192);
 
-		    fillarc(xx[0] / 100, xx[1] / 100, 7, 7);
-		    setcolor(0, 0, 0);
-		    drawarc(xx[0] / 100, xx[1] / 100, 7, 7);
+		    draw_circle_filled(xx[0] / 100, xx[1] / 100, 7);
+		    set_draw_color(0, 0, 0);
+		    draw_circle_outline(xx[0] / 100, xx[1] / 100, 7);
 		}
 //リフトの破片
 		if (egtype[t] == 2 || egtype[t] == 3) {
 		    if (egtype[t] == 3)
 			mirror = 1;
-		    drawimage(grap[0][5], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[0][5], xx[0] / 100, xx[1] / 100, mirror);
 		    mirror = 0;
 		}
 //ポール
 		if (egtype[t] == 4) {
-		    setc1();
-		    fillrect((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
-		    setc0();
-		    drawrect((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
-		    setcolor(250, 250, 0);
-		    fillarc((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10, 10);
-		    setc0();
-		    drawarc((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10, 10);
+		    set_draw_color(255, 255, 255);;
+		    draw_rectangle_filled((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
+		    set_draw_color(0, 0, 0);;
+		    draw_rectangle_outline((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
+		    set_draw_color(250, 250, 0);
+		    draw_circle_filled((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
+		    set_draw_color(0, 0, 0);;
+		    draw_circle_outline((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
 		}		//4
 
 	    }
@@ -198,41 +194,41 @@ void play_draw()
 		}
 
 		if (srsp[t] <= 9 || srsp[t] >= 20) {
-		    setcolor(220, 220, 0);
+		    set_draw_color(220, 220, 0);
 		    if (srsp[t] == 2 || srsp[t] == 3) {
-			setcolor(0, 220, 0);
+			set_draw_color(0, 220, 0);
 		    }
 		    if (srsp[t] == 21) {
-			setcolor(180, 180, 180);
+			set_draw_color(180, 180, 180);
 		    }
-		    fillrect((sra[t] - fx) / 100,
+		    draw_rectangle_filled((sra[t] - fx) / 100,
 			     (srb[t] - fy) / 100, src[t] / 100, xx[2]);
 
-		    setcolor(180, 180, 0);
+		    set_draw_color(180, 180, 0);
 		    if (srsp[t] == 2 || srsp[t] == 3) {
-			setcolor(0, 180, 0);
+			set_draw_color(0, 180, 0);
 		    }
 		    if (srsp[t] == 21) {
-			setcolor(150, 150, 150);
+			set_draw_color(150, 150, 150);
 		    }
-		    drawrect((sra[t] - fx) / 100,
+		    draw_rectangle_outline((sra[t] - fx) / 100,
 			     (srb[t] - fy) / 100, src[t] / 100, xx[2]);
 		} else if (srsp[t] <= 14) {
 		    if (src[t] >= 5000) {
-			setcolor(0, 200, 0);
-			fillrect((sra[t] - fx) / 100,
+			set_draw_color(0, 200, 0);
+			draw_rectangle_filled((sra[t] - fx) / 100,
 				 (srb[t] - fy) / 100, src[t] / 100, 30);
-			setcolor(0, 160, 0);
-			drawrect((sra[t] - fx) / 100,
+			set_draw_color(0, 160, 0);
+			draw_rectangle_outline((sra[t] - fx) / 100,
 				 (srb[t] - fy) / 100, src[t] / 100, 30);
 
-			setcolor(180, 120, 60);
-			fillrect((sra[t] - fx) / 100 +
+			set_draw_color(180, 120, 60);
+			draw_rectangle_filled((sra[t] - fx) / 100 +
 				 20,
 				 (srb[t] - fy) / 100 +
 				 30, src[t] / 100 - 40, 480);
-			setcolor(100, 80, 20);
-			drawrect((sra[t] - fx) / 100 +
+			set_draw_color(100, 80, 20);
+			draw_rectangle_outline((sra[t] - fx) / 100 +
 				 20,
 				 (srb[t] - fy) / 100 +
 				 30, src[t] / 100 - 40, 480);
@@ -242,16 +238,14 @@ void play_draw()
 		if (srsp[t] == 15) {
 		    for (t2 = 0; t2 <= 2; t2++) {
 			xx[6] = 1 + 0;
-			drawimage(grap[xx[6]][1],
-				  (sra[t] - fx) / 100 +
-				  t2 * 29, (srb[t] - fy) / 100);
+			draw_sprite_region(grap[xx[6]][1], (sra[t] - fx) / 100 + t2 * 29, (srb[t] - fy) / 100, mirror);
 		    }
 		}		//15
 	    }
 	}			//t
 
 //プレイヤー描画
-	setcolor(0, 0, 255);
+	set_draw_color(0, 0, 255);
 
 	if (mactp >= 2000) {
 	    mactp -= 2000;
@@ -268,21 +262,21 @@ void play_draw()
 	    if (mzimen == 1) {
 // 読みこんだグラフィックを拡大描画
 		if (mact == 0)
-		    drawimage(grap[0][0], ma / 100, mb / 100);
+		    draw_sprite_region(grap[0][0], ma / 100, mb / 100, mirror);
 		if (mact == 1)
-		    drawimage(grap[1][0], ma / 100, mb / 100);
+		    draw_sprite_region(grap[1][0], ma / 100, mb / 100, mirror);
 	    }
 	    if (mzimen == 0) {
-		drawimage(grap[2][0], ma / 100, mb / 100);
+		draw_sprite_region(grap[2][0], ma / 100, mb / 100, mirror);
 	    }
 	}
 //巨大化
 	else if (mtype == 1) {
-	    drawimage(grap[41][0], ma / 100, mb / 100);
+	    draw_sprite_region(grap[41][0], ma / 100, mb / 100, mirror);
 	}
 
 	else if (mtype == 200) {
-	    drawimage(grap[3][0], ma / 100, mb / 100);
+	    draw_sprite_region(grap[3][0], ma / 100, mb / 100, mirror);
 	}
 
 	mirror = 0;
@@ -319,8 +313,7 @@ void play_draw()
 		    && atype[t] != 86 && atype[t] != 30) {
 		    if (!((atype[t] == 80 || atype[t] == 81)
 			  && axtype[t] == 1)) {
-			drawimage(grap[atype[t]][3],
-				  xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, mirror);
 		    }
 		}
 //デフラグさん
@@ -328,28 +321,28 @@ void play_draw()
 		    if (atm[t] >= 10 && atm[t] <= 19
 			|| atm[t] >= 100 && atm[t] <= 119
 			|| atm[t] >= 200) {
-			drawimage(grap[150][3], xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[150][3], xx[0] / 100, xx[1] / 100, mirror);
 		    } else {
-			drawimage(grap[6][3], xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[6][3], xx[0] / 100, xx[1] / 100, mirror);
 		    }
 		}
 //モララー
 		if (atype[t] == 30) {
 		    if (axtype[t] == 0)
-			drawimage(grap[30][3], xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[30][3], xx[0] / 100, xx[1] / 100, mirror);
 		    if (axtype[t] == 1)
-			drawimage(grap[155][3], xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[155][3], xx[0] / 100, xx[1] / 100, mirror);
 		}
 //ステルス雲
 		if ((atype[t] == 81) && axtype[t] == 1) {
-		    drawimage(grap[130][3], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[130][3], xx[0] / 100, xx[1] / 100, mirror);
 		}
 
 		if (atype[t] == 79) {
-		    setcolor(250, 250, 0);
-		    fillrect(xx[0] / 100, xx[1] / 100, xx[2], xx[3]);
-		    setc0();
-		    drawrect(xx[0] / 100, xx[1] / 100, xx[2], xx[3]);
+		    set_draw_color(250, 250, 0);
+		    draw_rectangle_filled(xx[0] / 100, xx[1] / 100, xx[2], xx[3]);
+		    set_draw_color(0, 0, 0);;
+		    draw_rectangle_outline(xx[0] / 100, xx[1] / 100, xx[2], xx[3]);
 		}
 
 		if (atype[t] == 82) {
@@ -366,8 +359,7 @@ void play_draw()
 			    xx[9] = 90;
 			}
 			xx[6] = 5 + xx[9];
-			drawimage(grap[xx[6]][1],
-				  xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
 		    }
 
 		    if (axtype[t] == 1) {
@@ -382,12 +374,11 @@ void play_draw()
 			    xx[9] = 90;
 			}
 			xx[6] = 4 + xx[9];
-			drawimage(grap[xx[6]][1],
-				  xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
 		    }
 
 		    if (axtype[t] == 2) {
-			drawimage(grap[1][5], xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[1][5], xx[0] / 100, xx[1] / 100, mirror);
 		    }
 
 		}
@@ -405,8 +396,7 @@ void play_draw()
 			    xx[9] = 90;
 			}
 			xx[6] = 5 + xx[9];
-			drawimage(grap[xx[6]][1],
-				  xx[0] / 100 + 10, xx[1] / 100 + 9);
+			draw_sprite_region(grap[xx[6]][1], xx[0] / 100 + 10, xx[1] / 100 + 9, mirror);
 		    }
 
 		    if (axtype[t] == 1) {
@@ -421,21 +411,20 @@ void play_draw()
 			    xx[9] = 90;
 			}
 			xx[6] = 4 + xx[9];
-			drawimage(grap[xx[6]][1],
-				  xx[0] / 100 + 10, xx[1] / 100 + 9);
+			draw_sprite_region(grap[xx[6]][1], xx[0] / 100 + 10, xx[1] / 100 + 9, mirror);
 		    }
 
 		}
 //偽ポール
 		if (atype[t] == 85) {
-		    setc1();
-		    fillrect((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
-		    setc0();
-		    drawrect((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
-		    setcolor(0, 250, 200);
-		    fillarc((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10, 10);
-		    setc0();
-		    drawarc((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10, 10);
+		    set_draw_color(255, 255, 255);;
+		    draw_rectangle_filled((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
+		    set_draw_color(0, 0, 0);;
+		    draw_rectangle_outline((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
+		    set_draw_color(0, 250, 200);
+		    draw_circle_filled((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
+		    set_draw_color(0, 0, 0);;
+		    draw_circle_outline((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
 
 		}		//85
 
@@ -443,14 +432,14 @@ void play_draw()
 		if (atype[t] == 86) {
 		    if (ma >= aa[t] - fx - mnobia - 4000
 			&& ma <= aa[t] - fx + anobia[t] + 4000) {
-			drawimage(grap[152][3], xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[152][3], xx[0] / 100, xx[1] / 100, mirror);
 		    } else {
-			drawimage(grap[86][3], xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[86][3], xx[0] / 100, xx[1] / 100, mirror);
 		    }
 		}
 
 		if (atype[t] == 200)
-		    drawimage(grap[0][3], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[0][3], xx[0] / 100, xx[1] / 100, mirror);
 
 		mirror = 0;
 
@@ -478,7 +467,7 @@ void play_draw()
 
 		if (ttype[t] < 100) {
 		    xx[6] = ttype[t] + xx[9];
-		    drawimage(grap[xx[6]][1], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
 		}
 
 		if (txtype[t] != 10) {
@@ -490,69 +479,64 @@ void play_draw()
 			|| ttype[t] == 114 && txtype[t] == 1
 			|| ttype[t] == 116) {
 			xx[6] = 2 + xx[9];
-			drawimage(grap[xx[6]][1],
-				  xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
 		    }
 
 		    if (ttype[t] == 112 || ttype[t] == 104
 			&& txtype[t] == 0 || ttype[t] == 115
 			&& txtype[t] == 1) {
 			xx[6] = 1 + xx[9];
-			drawimage(grap[xx[6]][1],
-				  xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
 		    }
 
 		    if (ttype[t] == 111 || ttype[t] == 113
 			|| ttype[t] == 115 && txtype[t] == 0
 			|| ttype[t] == 124) {
 			xx[6] = 3 + xx[9];
-			drawimage(grap[xx[6]][1],
-				  xx[0] / 100, xx[1] / 100);
+			draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
 		    }
 
 		}
 
 		if (ttype[t] == 117 && txtype[t] == 1) {
-		    drawimage(grap[4][5], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[4][5], xx[0] / 100, xx[1] / 100, mirror);
 		}
 
 		if (ttype[t] == 117 && txtype[t] >= 3) {
-		    drawimage(grap[3][5], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[3][5], xx[0] / 100, xx[1] / 100, mirror);
 		}
 
 		if (ttype[t] == 115 && txtype[t] == 3) {
 		    xx[6] = 1 + xx[9];
-		    drawimage(grap[xx[6]][1], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
 		}
 //ジャンプ台
 		if (ttype[t] == 120 && txtype[t] != 1) {
-		    drawimage(grap[16][1], xx[0] / 100 + 3,
-			      xx[1] / 100 + 2);
+		    draw_sprite_region(grap[16][1], xx[0] / 100 + 3, xx[1] / 100 + 2, mirror);
 		}
 //ON-OFF
 		if (ttype[t] == 130)
-		    drawimage(grap[10][5], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[10][5], xx[0] / 100, xx[1] / 100, mirror);
 		if (ttype[t] == 131)
-		    drawimage(grap[11][5], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[11][5], xx[0] / 100, xx[1] / 100, mirror);
 
 		if (ttype[t] == 140)
-		    drawimage(grap[12][5], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[12][5], xx[0] / 100, xx[1] / 100, mirror);
 		if (ttype[t] == 141)
-		    drawimage(grap[13][5], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[13][5], xx[0] / 100, xx[1] / 100, mirror);
 		if (ttype[t] == 142)
-		    drawimage(grap[14][5], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[14][5], xx[0] / 100, xx[1] / 100, mirror);
 
 		if (ttype[t] == 300 || ttype[t] == 301)
-		    drawimage(grap[1][5], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[1][5], xx[0] / 100, xx[1] / 100, mirror);
 
 //Pスイッチ
 		if (ttype[t] == 400) {
-		    drawimage(grap[2][5], xx[0] / 100, xx[1] / 100);
+		    draw_sprite_region(grap[2][5], xx[0] / 100, xx[1] / 100, mirror);
 		}
 //コイン
 		if (ttype[t] == 800) {
-		    drawimage(grap[0][2], xx[0] / 100 + 2,
-			      xx[1] / 100 + 1);
+		    draw_sprite_region(grap[0][2], xx[0] / 100 + 2, xx[1] / 100 + 1, mirror);
 		}
 	    }
 	}
@@ -562,37 +546,37 @@ void play_draw()
 	    if (sa[t] - fx + sc[t] >= -10 && sa[t] - fx <= fxmax + 1100) {
 
 		if (stype[t] == 0) {
-		    setcolor(40, 200, 40);
-		    fillrect((sa[t] - fx) / 100 + fma,
+		    set_draw_color(40, 200, 40);
+		    draw_rectangle_filled((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb,
 			     sc[t] / 100, sd[t] / 100);
-		    drawrect((sa[t] - fx) / 100 + fma,
+		    draw_rectangle_outline((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb,
 			     sc[t] / 100, sd[t] / 100);
 		}
 //土管
 		if (stype[t] == 1) {
-		    setcolor(0, 230, 0);
-		    fillrect((sa[t] - fx) / 100 + fma,
+		    set_draw_color(0, 230, 0);
+		    draw_rectangle_filled((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb,
 			     sc[t] / 100, sd[t] / 100);
-		    setc0();
-		    drawrect((sa[t] - fx) / 100 + fma,
+		    set_draw_color(0, 0, 0);;
+		    draw_rectangle_outline((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb,
 			     sc[t] / 100, sd[t] / 100);
 		}
 //土管(下)
 		if (stype[t] == 2) {
-		    setcolor(0, 230, 0);
-		    fillrect((sa[t] - fx) / 100 + fma,
+		    set_draw_color(0, 230, 0);
+		    draw_rectangle_filled((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb + 1,
 			     sc[t] / 100, sd[t] / 100);
-		    setc0();
-		    drawline((sa[t] - fx) / 100 + fma,
+		    set_draw_color(0, 0, 0);;
+		    draw_line((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb,
 			     (sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb + sd[t] / 100);
-		    drawline((sa[t] - fx) / 100 + fma +
+		    draw_line((sa[t] - fx) / 100 + fma +
 			     sc[t] / 100,
 			     (sb[t] - fy) / 100 + fmb,
 			     (sa[t] - fx) / 100 + fma +
@@ -601,16 +585,16 @@ void play_draw()
 		}
 //土管(横)
 		if (stype[t] == 5) {
-		    setcolor(0, 230, 0);
-		    fillrect((sa[t] - fx) / 100 + fma,
+		    set_draw_color(0, 230, 0);
+		    draw_rectangle_filled((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb + 1,
 			     sc[t] / 100, sd[t] / 100);
-		    setc0();
-		    drawline((sa[t] - fx) / 100 + fma,
+		    set_draw_color(0, 0, 0);;
+		    draw_line((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb,
 			     (sa[t] - fx) / 100 + fma +
 			     sc[t] / 100, (sb[t] - fy) / 100 + fmb);
-		    drawline((sa[t] - fx) / 100 + fma,
+		    draw_line((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb +
 			     sd[t] / 100,
 			     (sa[t] - fx) / 100 + fma +
@@ -621,44 +605,25 @@ void play_draw()
 		if (stype[t] == 51) {
 		    if (sxtype[t] == 0) {
 			for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
-			    drawimage(grap[1][1],
-				      (sa[t] -
-				       fx) / 100 +
-				      fma + 29 * t3,
-				      (sb[t] - fy) / 100 + fmb);
+			    draw_sprite_region(grap[1][1], (sa[t] - fx) / 100 + fma + 29 * t3, (sb[t] - fy) / 100 + fmb, mirror);
 			}
 		    }
 		    if (sxtype[t] == 1 || sxtype[t] == 2) {
 			for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
-			    drawimage(grap[31][1],
-				      (sa[t] -
-				       fx) / 100 +
-				      fma + 29 * t3,
-				      (sb[t] - fy) / 100 + fmb);
+			    draw_sprite_region(grap[31][1], (sa[t] - fx) / 100 + fma + 29 * t3, (sb[t] - fy) / 100 + fmb, mirror);
 			}
 		    }
 		    if (sxtype[t] == 3 || sxtype[t] == 4) {
 			for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
 			    for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
-				drawimage(grap[65]
-					  [1], (sa[t]
-						-
-						fx) /
-					  100 + fma + 29 * t3, (sb[t]
-								-
-								fy) /
-					  100 + 29 * t2 + fmb);
+				    draw_sprite_region(grap[65][1], (sa[t] - fx) / 100 + fma + 29 * t3, (sb[t] - fy) / 100 + 29 * t2 + fmb, mirror);
 			    }
 			}
 		    }
 
 		    if (sxtype[t] == 10) {
 			for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
-			    drawimage(grap[65][1],
-				      (sa[t] -
-				       fx) / 100 +
-				      fma + 29 * t3,
-				      (sb[t] - fy) / 100 + fmb);
+			    draw_sprite_region(grap[65][1], (sa[t] - fx) / 100 + fma + 29 * t3, (sb[t] - fy) / 100 + fmb, mirror);
 			}
 		    }
 
@@ -679,56 +644,22 @@ void play_draw()
 
 		    for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
 			if (sxtype[t] == 0) {
-			    drawimage(grap
-				      [5 +
-				       xx[29]][1],
-				      (sa[t] -
-				       fx) / 100 +
-				      fma + 29 * t3,
-				      (sb[t] - fy) / 100 + fmb);
+			    draw_sprite_region(grap[5 + xx[29]][1], (sa[t] - fx) / 100 + fma + 29 * t3, (sb[t] - fy) / 100 + fmb, mirror);
 			    if (stagecolor != 4) {
-				drawimage(grap[6 + xx[29]]
-					  [1], (sa[t]
-						-
-						fx) /
-					  100 + fma + 29 * t3, (sb[t]
-								-
-								fy) /
-					  100 + fmb + 29);
+				    draw_sprite_region(grap[6 + xx[29]][1], (sa[t] - fx) / 100 + fma + 29 * t3, (sb[t] - fy) / 100 + fmb + 29, mirror);
 			    } else {
-				drawimage(grap[5 + xx[29]]
-					  [1], (sa[t]
-						-
-						fx) /
-					  100 + fma + 29 * t3, (sb[t]
-								-
-								fy) /
-					  100 + fmb + 29);
+				    draw_sprite_region(grap[5 + xx[29]][1], (sa[t] - fx) / 100 + fma + 29 * t3, (sb[t] - fy) / 100 + fmb + 29, mirror);
 			    }
 			}
 			if (sxtype[t] == 1) {
 			    for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
-				drawimage(grap[1 + xx[29]]
-					  [1], (sa[t]
-						-
-						fx) /
-					  100 + fma + 29 * t3, (sb[t]
-								-
-								fy) /
-					  100 + fmb + 29 * t2);
+				    draw_sprite_region(grap[1 + xx[29]][1], (sa[t] - fx) / 100 + fma + 29 * t3, (sb[t] - fy) / 100 + fmb + 29 * t2, mirror);
 			    }
 			}
 
 			if (sxtype[t] == 2) {
 			    for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
-				drawimage(grap[5 + xx[29]]
-					  [1], (sa[t]
-						-
-						fx) /
-					  100 + fma + 29 * t3, (sb[t]
-								-
-								fy) /
-					  100 + fmb + 29 * t2);
+				    draw_sprite_region(grap[5 + xx[29]][1], (sa[t] - fx) / 100 + fma + 29 * t3, (sb[t] - fy) / 100 + fmb + 29 * t2, mirror);
 			    }
 			}
 
@@ -739,10 +670,10 @@ void play_draw()
 		    if (stype[t] >= 100 && stype[t] <= 299) {
 			if (stagecolor == 1
 			    || stagecolor == 3 || stagecolor == 5)
-			    setc0();
+			    set_draw_color(0, 0, 0);;
 			if (stagecolor == 2 || stagecolor == 4)
-			    setc1();
-			drawrect((sa[t] - fx) / 100 +
+			    set_draw_color(255, 255, 255);;
+			draw_rectangle_outline((sa[t] - fx) / 100 +
 				 fma,
 				 (sb[t] - fy) / 100 +
 				 fmb, sc[t] / 100, sd[t] / 100);
@@ -750,23 +681,22 @@ void play_draw()
 		}
 //ゴール
 		if (stype[t] == 300) {
-		    setc1();
-		    fillrect((sa[t] - fx) / 100 + 10,
+		    set_draw_color(255, 255, 255);;
+		    draw_rectangle_filled((sa[t] - fx) / 100 + 10,
 			     (sb[t] - fy) / 100, 10, sd[t] / 100 - 8);
-		    setc0();
-		    drawrect((sa[t] - fx) / 100 + 10,
+		    set_draw_color(0, 0, 0);;
+		    draw_rectangle_outline((sa[t] - fx) / 100 + 10,
 			     (sb[t] - fy) / 100, 10, sd[t] / 100 - 8);
-		    setcolor(250, 250, 0);
-		    fillarc((sa[t] - fx) / 100 + 15 - 1,
-			    (sb[t] - fy) / 100, 10, 10);
-		    setc0();
-		    drawarc((sa[t] - fx) / 100 + 15 - 1,
-			    (sb[t] - fy) / 100, 10, 10);
+		    set_draw_color(250, 250, 0);
+		    draw_circle_filled((sa[t] - fx) / 100 + 15 - 1,
+			    (sb[t] - fy) / 100, 10);
+		    set_draw_color(0, 0, 0);;
+		    draw_circle_outline((sa[t] - fx) / 100 + 15 - 1,
+			    (sb[t] - fy) / 100, 10);
 		}
 //中間
 		if (stype[t] == 500) {
-		    drawimage(grap[20][4],
-			      (sa[t] - fx) / 100, (sb[t] - fy) / 100);
+		    draw_sprite_region(grap[20][4], (sa[t] - fx) / 100, (sb[t] - fy) / 100, mirror);
 		}
 	    }
 	}			//t
@@ -777,48 +707,44 @@ void play_draw()
 
 //入る土管(右)
 		if (stype[t] == 40) {
-		    setcolor(0, 230, 0);
-		    fillrect((sa[t] - fx) / 100 + fma,
+		    set_draw_color(0, 230, 0);
+		    draw_rectangle_filled((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb + 1,
 			     sc[t] / 100, sd[t] / 100);
-		    setc0();
-		    drawrect((sa[t] - fx) / 100 + fma,
+		    set_draw_color(0, 0, 0);;
+		    draw_rectangle_outline((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb + 1,
 			     sc[t] / 100, sd[t] / 100);
 		}
 //とぶ土管
 		if (stype[t] == 50) {
-		    setcolor(0, 230, 0);
-		    fillrect((sa[t] - fx) / 100 + fma + 5,
+		    set_draw_color(0, 230, 0);
+		    draw_rectangle_filled((sa[t] - fx) / 100 + fma + 5,
 			     (sb[t] - fy) / 100 + fmb + 30,
 			     50, sd[t] / 100 - 30);
-		    setc0();
-		    drawline((sa[t] - fx) / 100 + 5 + fma,
+		    set_draw_color(0, 0, 0);;
+		    draw_line((sa[t] - fx) / 100 + 5 + fma,
 			     (sb[t] - fy) / 100 + fmb + 30,
 			     (sa[t] - fx) / 100 + fma + 5,
 			     (sb[t] - fy) / 100 + fmb + sd[t] / 100);
-		    drawline((sa[t] - fx) / 100 + 5 + fma +
+		    draw_line((sa[t] - fx) / 100 + 5 + fma +
 			     50,
 			     (sb[t] - fy) / 100 + fmb + 30,
 			     (sa[t] - fx) / 100 + fma + 50 +
 			     5, (sb[t] - fy) / 100 + fmb + sd[t] / 100);
 
-		    setcolor(0, 230, 0);
-		    fillrect((sa[t] - fx) / 100 + fma,
+		    set_draw_color(0, 230, 0);
+		    draw_rectangle_filled((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb + 1, 60, 30);
-		    setc0();
-		    drawrect((sa[t] - fx) / 100 + fma,
+		    set_draw_color(0, 0, 0);;
+		    draw_rectangle_outline((sa[t] - fx) / 100 + fma,
 			     (sb[t] - fy) / 100 + fmb + 1, 60, 30);
 		}
 //地面(ブロック)
 		if (stype[t] == 200) {
 		    for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
 			for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
-			    drawimage(grap[65][1],
-				      (sa[t] -
-				       fx) / 100 +
-				      fma + 29 * t3,
-				      (sb[t] - fy) / 100 + 29 * t2 + fmb);
+			    draw_sprite_region(grap[65][1], (sa[t] - fx) / 100 + fma + 29 * t3, (sb[t] - fy) / 100 + 29 * t2 + fmb, mirror);
 			}
 		    }
 		}
@@ -844,24 +770,24 @@ void play_draw()
 			xd[5] = tt * xx[26] * sin(atm[t] * pai / 180 / 2);
 			xx[24] = (int) xd[4];
 			xx[25] = (int) xd[5];
-			setcolor(230, 120, 0);
+			set_draw_color(230, 120, 0);
 			xx[23] = 8;
 			if (atype[t] == 87) {
-			    fillarc(xx[0] / 100 +
+			    draw_circle_filled(xx[0] / 100 +
 				    xx[24],
-				    xx[1] / 100 + xx[25], xx[23], xx[23]);
-			    setcolor(0, 0, 0);
-			    drawarc(xx[0] / 100 +
+				    xx[1] / 100 + xx[25], xx[23]);
+			    set_draw_color(0, 0, 0);
+			    draw_circle_outline(xx[0] / 100 +
 				    xx[24],
-				    xx[1] / 100 + xx[25], xx[23], xx[23]);
+				    xx[1] / 100 + xx[25], xx[23]);
 			} else {
-			    fillarc(xx[0] / 100 -
+			    draw_circle_filled(xx[0] / 100 -
 				    xx[24],
-				    xx[1] / 100 + xx[25], xx[23], xx[23]);
-			    setcolor(0, 0, 0);
-			    drawarc(xx[0] / 100 -
+				    xx[1] / 100 + xx[25], xx[23]);
+			    set_draw_color(0, 0, 0);
+			    draw_circle_outline(xx[0] / 100 -
 				    xx[24],
-				    xx[1] / 100 + xx[25], xx[23], xx[23]);
+				    xx[1] / 100 + xx[25], xx[23]);
 			}
 		    }
 
@@ -870,7 +796,7 @@ void play_draw()
 	}
 
 //プレイヤーのメッセージ
-	setc0();
+	set_draw_color(0, 0, 0);;
 	if (mmsgtm >= 1) {
 	    mmsgtm--;
 	    xs[0] = "";
@@ -898,16 +824,16 @@ void play_draw()
 	    if (mmsgtype == 55)
 		xs[0] = "溶岩と合体したい……";
 
-	    setc0();
-	    str(xs[0], (ma + mnobia + 300) / 100 - 1, mb / 100 - 1);
-	    str(xs[0], (ma + mnobia + 300) / 100 + 1, mb / 100 + 1);
-	    setc1();
-	    str(xs[0], (ma + mnobia + 300) / 100, mb / 100);
+	    set_draw_color(0, 0, 0);;
+	    draw_text(xs[0], (ma + mnobia + 300) / 100 - 1, mb / 100 - 1);
+	    draw_text(xs[0], (ma + mnobia + 300) / 100 + 1, mb / 100 + 1);
+	    set_draw_color(255, 255, 255);;
+	    draw_text(xs[0], (ma + mnobia + 300) / 100, mb / 100);
 
 	}			//mmsgtm
 
 //敵キャラのメッセージ
-	setc0();
+	set_draw_color(0, 0, 0);;
 	for (t = 0; t < amax; t++) {
 	    if (amsgtm[t] >= 1) {
 		amsgtm[t]--;	//end();
@@ -1021,8 +947,8 @@ void play_draw()
 		    xx[6] = (ab[t] - fy - 800) / 100;
 		}
 
-		setc1();
-		str(xs[0], xx[5], xx[6]);
+		set_draw_color(255, 255, 255);;
+		draw_text(xs[0], xx[5], xx[6]);
 	    }			//amsgtm
 	}			//amax
 
@@ -1072,7 +998,6 @@ void play_draw()
 
 //メッセージ
 	if (mainmsgtype >= 1) {
-	    setfont(20, 4);
 	    if (mainmsgtype == 1) {
             draw_text("WELCOME TO OWATA ZONE", 126, 100);
 	    }
@@ -1080,7 +1005,6 @@ void play_draw()
 		for (t2 = 0; t2 <= 2; t2++)
             draw_text("1", 88 + t2 * 143, 210);
 	    }
-	    setfont(20, 5);
 	}			//mainmsgtype>=1
 }				//rpaint()
 
@@ -1253,7 +1177,7 @@ void play_update()
 //PlaySoundMem( oto[1], DX_PLAYTYPE_NORMAL ) ;
 
 //PlaySoundMem( oto[1], DX_PLAYTYPE_BACK) ;
-	    ot(oto[1]);
+	    play_sound_effect(oto[1]);
 
 /*
 md=-1040;
@@ -1287,7 +1211,7 @@ if (mc>=800 || mc<=-800){md=-1800;}
 
 	    stop_sound_effects();
 	    stop_background_music();
-	    ot(oto[12]);
+	    play_sound_effect(oto[12]);
 	}			//mhp
 //if (mhp<=-10){
 	if (mtype == 200) {
@@ -1400,7 +1324,7 @@ if (mc>=800 || mc<=-800){md=-1800;}
 		    if (mtm == 16)
 			mb -= 1100;
 		    if (mtm == 20)
-			ot(oto[10]);
+			play_sound_effect(oto[10]);
 
 		    if (mtm >= 24) {
 			ma -= 2000;
@@ -1502,7 +1426,7 @@ if (mc>=800 || mc<=-800){md=-1800;}
 		}
 
 		if (mtm == 200) {
-		    ot(oto[17]);
+		    play_sound_effect(oto[17]);
 		    if (mtype == 301) {
 			na[nco] = 117 * 29 * 100 - 1100;
 			nb[nco] = 4 * 29 * 100;
@@ -1696,7 +1620,7 @@ if (mtm==250)end();
 					xx[16] = 1;
 				    } else if (ttype[t]
 					       == 115) {
-					ot(oto[3]);
+					play_sound_effect(oto[3]);
 					eyobi(ta[t]
 					      + 1200, tb[t]
 					      +
@@ -1732,7 +1656,7 @@ if (mtm==250)end();
 					     == 400) {
 					md = 0;
 					ta[t] = -8000000;
-					ot(oto[13]);
+					play_sound_effect(oto[13]);
 					for (tt = 0; tt < tmax; tt++) {
 					    if (ttype[tt] != 7) {
 						ttype[tt]
@@ -1744,7 +1668,7 @@ if (mtm==250)end();
 //音符+
 				    else if (ttype[t]
 					     == 117) {
-					ot(oto[14]);
+					play_sound_effect(oto[14]);
 					md = -1500;
 					mtype = 2;
 					mtm = 0;
@@ -1803,7 +1727,7 @@ if (mtm==250)end();
 					}	//}
 //壊れる
 					if (ttype[t] == 1 && mzimen == 0) {
-					    ot(oto[3]);
+					    play_sound_effect(oto[3]);
 					    eyobi(ta[t]
 						  + 1200, tb[t]
 						  +
@@ -1840,7 +1764,7 @@ if (mtm==250)end();
 					}
 //コイン
 					if (ttype[t] == 2 && mzimen == 0) {
-					    ot(oto[4]);
+					    play_sound_effect(oto[4]);
 					    eyobi(ta[t]
 						  +
 						  10,
@@ -1855,7 +1779,7 @@ if (mtm==250)end();
 					}
 //隠し
 					if (ttype[t] == 7) {
-					    ot(oto[4]);
+					    play_sound_effect(oto[4]);
 					    eyobi(ta[t]
 						  +
 						  10,
@@ -1939,7 +1863,7 @@ if (mtm==250)end();
 			    && ma + mnobia > xx[8] - 400
 			    && ma < xx[8] + xx[1]) {
 			    ta[t] = -800000;
-			    ot(oto[4]);
+			    play_sound_effect(oto[4]);
 			}
 		    }
 //剣とってクリア
@@ -1957,7 +1881,7 @@ if (mtm==250)end();
 			    stop_background_music();
 			    mtype = 301;
 			    mtm = 0;
-			    ot(oto[16]);
+			    play_sound_effect(oto[16]);
 
 			}
 		    }
@@ -1992,7 +1916,7 @@ if (mtm==250)end();
 			}
 
 			if (xx[17] == 1 && txtype[t] == 0) {
-			    ot(oto[4]);
+			    play_sound_effect(oto[4]);
 			    eyobi(ta[t] + 10, tb[t],
 				  0, -800, 0, 40, 3000, 3000, 0, 16);
 			    ttype[t] = 3;
@@ -2002,7 +1926,7 @@ if (mtm==250)end();
 //敵出現
 		    if (ttype[t] == 101) {	//xx[9]+xx[1]+3000<mb && // && mb>xx[9]-xx[0]*2
 			if (xx[17] == 1) {
-			    ot(oto[8]);
+			    play_sound_effect(oto[8]);
 			    ttype[t] = 3;
 			    abrocktm[aco] = 16;
 			    if (txtype[t] == 0)
@@ -2024,7 +1948,7 @@ if (mtm==250)end();
 //おいしいきのこ出現
 		    if (ttype[t] == 102) {
 			if (xx[17] == 1) {
-			    ot(oto[8]);
+			    play_sound_effect(oto[8]);
 			    ttype[t] = 3;
 			    abrocktm[aco] = 16;
 			    if (txtype[t] == 0)
@@ -2039,7 +1963,7 @@ if (mtm==250)end();
 //まずいきのこ出現
 		    if (ttype[t] == 103) {
 			if (xx[17] == 1) {
-			    ot(oto[8]);
+			    play_sound_effect(oto[8]);
 			    ttype[t] = 3;
 			    abrocktm[aco] = 16;
 			    ayobi(ta[t], tb[t], 0, 0, 0, 100, 1);
@@ -2049,7 +1973,7 @@ if (mtm==250)end();
 //悪スター出し
 		    if (ttype[t] == 104) {
 			if (xx[17] == 1) {
-			    ot(oto[8]);
+			    play_sound_effect(oto[8]);
 			    ttype[t] = 3;
 			    abrocktm[aco] = 16;
 			    ayobi(ta[t], tb[t], 0, 0, 0, 110, 0);
@@ -2067,7 +1991,7 @@ if (mtm==250)end();
 			thp[t]++;
 			if (thp[t] >= 16) {
 			    thp[t] = 0;
-			    ot(oto[8]);
+			    play_sound_effect(oto[8]);
 			    abrocktm[aco] = 16;
 			    ayobi(ta[t], tb[t], 0, 0, 0, 102, 1);
 			}
@@ -2086,7 +2010,7 @@ if (mtm==250)end();
 			if (thp[t] >= 3) {
 			    thp[t] = 0;
 			    titem[t]++;
-			    ot(oto[4]);
+			    play_sound_effect(oto[4]);
 			    eyobi(ta[t] + 10, tb[t],
 				  0, -800, 0, 40, 3000, 3000, 0, 16);
 //ttype[t]=3;
@@ -2096,13 +2020,13 @@ if (mtm==250)end();
 		    if (ttype[t] == 114) {
 			if (xx[17] == 1) {
 			    if (txtype[t] == 0) {
-				ot(oto[8]);
+				play_sound_effect(oto[8]);
 				ttype[t] = 3;
 				abrocktm[aco] = 16;
 				ayobi(ta[t], tb[t], 0, 0, 0, 102, 1);
 			    }
 			    if (txtype[t] == 2) {
-				ot(oto[4]);
+				play_sound_effect(oto[4]);
 				eyobi(ta[t] +
 				      10, tb[t],
 				      0, -800, 0, 40, 3000, 3000, 0, 16);
@@ -2114,7 +2038,7 @@ if (mtm==250)end();
 				    ttype[t]
 					= 130;
 				    stageonoff = 0;
-				    ot(oto[13]);
+				    play_sound_effect(oto[13]);
 				    txtype[t]
 					= 2;
 				    for (t = 0; t < amax; t++) {
@@ -2127,7 +2051,7 @@ if (mtm==250)end();
 					}
 				    }
 				} else {
-				    ot(oto[4]);
+				    play_sound_effect(oto[4]);
 				    eyobi(ta[t]
 					  +
 					  10,
@@ -2151,8 +2075,8 @@ if (mtm==250)end();
 //Pスイッチ
 		    if (ttype[t] == 116) {
 			if (xx[17] == 1) {
-			    ot(oto[8]);
-//ot(oto[13]);
+			    play_sound_effect(oto[8]);
+//play_sound_effect(oto[13]);
 			    ttype[t] = 3;	//abrocktm[aco]=18;ayobi(ta[t],tb[t],0,0,0,104,1);
 			    tyobi(ta[t] / 100, (tb[t] / 100) - 29, 400);
 			}
@@ -2161,7 +2085,7 @@ if (mtm==250)end();
 //ファイアバー強化
 		    if (ttype[t] == 124) {
 			if (xx[17] == 1) {
-			    ot(oto[13]);
+			    play_sound_effect(oto[13]);
 			    for (t = 0; t < amax; t++) {
 				if (atype[t] == 87 || atype[t]
 				    == 88) {
@@ -2179,13 +2103,13 @@ if (mtm==250)end();
 			if (xx[17] == 1) {
 			    if (txtype[t] != 1) {
 				stageonoff = 0;
-				ot(oto[13]);
+				play_sound_effect(oto[13]);
 			    }
 			}
 		    } else if (ttype[t] == 131) {
 			if (xx[17] == 1 && txtype[t] != 2) {
 			    stageonoff = 1;
-			    ot(oto[13]);
+			    play_sound_effect(oto[13]);
 			    if (txtype[t] == 1) {
 				for (t = 0; t < amax; t++) {
 				    if (atype[t] == 87 || atype[t] == 88) {
@@ -2202,7 +2126,7 @@ if (mtm==250)end();
 //ヒント
 		    if (ttype[t] == 300) {
 			if (xx[17] == 1) {
-			    ot(oto[15]);
+			    play_sound_effect(oto[15]);
 			    if (txtype[t] <= 100) {
 				tmsgtype = 1;
 				tmsgtm = 15;
@@ -2221,7 +2145,7 @@ if (mtm==250)end();
 
 		    if (ttype[t] == 301) {
 			if (xx[17] == 1) {
-			    ot(oto[3]);
+			    play_sound_effect(oto[3]);
 			    eyobi(ta[t] + 1200,
 				  tb[t] + 1200, 300,
 				  -1000, 0, 160, 1000, 1000, 1, 120);
@@ -2244,7 +2168,7 @@ if (mtm==250)end();
 			&& mb + mnobib > xx[9]
 			&& mb < xx[9] + xx[1]) {
 
-			ot(oto[3]);
+			play_sound_effect(oto[3]);
 			eyobi(ta[t] + 1200,
 			      tb[t] + 1200, 300, -1000,
 			      0, 160, 1000, 1000, 1, 120);
@@ -2434,34 +2358,34 @@ if (mtm==250)end();
 			    if (sxtype[t] == 0) {
 				mtype = 100;
 				mtm = 0;
-				ot(oto[7]);
+				play_sound_effect(oto[7]);
 				mxtype = 0;
 			    }
 //普通
 			    if (sxtype[t] == 1) {
 				mtype = 100;
 				mtm = 0;
-				ot(oto[7]);
+				play_sound_effect(oto[7]);
 				mxtype = 1;
 			    }
 //普通
 			    if (sxtype[t] == 2) {
 				mtype = 100;
 				mtm = 0;
-				ot(oto[7]);
+				play_sound_effect(oto[7]);
 				mxtype = 2;
 			    }
 			    if (sxtype[t] == 5) {
 				mtype = 100;
 				mtm = 0;
-				ot(oto[7]);
+				play_sound_effect(oto[7]);
 				mxtype = 5;
 			    }
 // ループ
 			    if (sxtype[t] == 6) {
 				mtype = 100;
 				mtm = 0;
-				ot(oto[7]);
+				play_sound_effect(oto[7]);
 				mxtype = 6;
 			    }
 			}
@@ -2474,7 +2398,7 @@ if (mtm==250)end();
 			    if (sxtype[t] == 0) {
 				mtype = 500;
 				mtm = 0;
-				ot(oto[7]);	//mxtype=1;
+				play_sound_effect(oto[7]);	//mxtype=1;
 				mtype = 100;
 				mxtype = 10;
 			    }
@@ -2482,14 +2406,14 @@ if (mtm==250)end();
 			    if (sxtype[t] == 2) {
 				mxtype = 3;
 				mtm = 0;
-				ot(oto[7]);	//mxtype=1;
+				play_sound_effect(oto[7]);	//mxtype=1;
 				mtype = 100;
 			    }
 // ループ
 			    if (sxtype[t] == 6) {
 				mtype = 3;
 				mtm = 0;
-				ot(oto[7]);
+				play_sound_effect(oto[7]);
 				mxtype = 6;
 			    }
 			}
@@ -2506,13 +2430,13 @@ if (mtm==250)end();
 				|| sxtype[t] == 1 && ttype[1] != 3) {
 				ayobi(sa[t] + 1000, 32000, 0, 0, 0, 3, 0);
 				sa[t] = -800000000;
-				ot(oto[10]);
+				play_sound_effect(oto[10]);
 			    }
 			}
 			if (stype[t] == 101) {
 			    ayobi(sa[t] + 6000, -4000, 0, 0, 0, 3, 1);
 			    sa[t] = -800000000;
-			    ot(oto[10]);
+			    play_sound_effect(oto[10]);
 			}
 			if (stype[t] == 102) {
 			    if (sxtype[t] == 0) {
@@ -2528,7 +2452,7 @@ if (mtm==250)end();
 			    } else if (sxtype[t] == 2) {
 				ayobi(sa[t] +
 				      4500, 30000, 0, -1600, 0, 5, 0);
-				ot(oto[10]);
+				play_sound_effect(oto[10]);
 				sxtype[t] = 3;
 				sa[t] -= 12000;
 			    } else if (sxtype[t] == 3) {
@@ -2537,7 +2461,7 @@ if (mtm==250)end();
 			    } else if (sxtype[t] == 4) {
 				ayobi(sa[t] +
 				      4500, 30000, 0, -1600, 0, 5, 0);
-				ot(oto[10]);
+				play_sound_effect(oto[10]);
 				sxtype[t] = 5;
 				sxtype[t] = 0;
 			    }
@@ -2548,7 +2472,7 @@ if (mtm==250)end();
 				ayobi(sa[t] -
 				      5000 -
 				      3000 * 1, 26000, 0, -1600, 0, 5, 0);
-				ot(oto[10]);
+				play_sound_effect(oto[10]);
 			    } else if (sxtype[t] == 9) {
 				for (t3 = 0; t3 <= 2; t3++) {
 				    ayobi(sa[t]
@@ -2587,7 +2511,7 @@ if (mtm==250)end();
 				stop_background_music();
 				mtype = 302;
 				mtm = 0;
-				ot(oto[16]);
+				play_sound_effect(oto[16]);
 			    }
 
 			    if (sxtype[t] != 3
@@ -2652,7 +2576,7 @@ if (mtm==250)end();
 			    mtype = 300;
 			    mtm = 0;
 			    ma = sa[t] - fx - 2000;
-			    ot(oto[11]);
+			    play_sound_effect(oto[11]);
 			}
 //中間ゲート
 			if (stype[t] == 500 && mtype == 0 && mhp >= 1) {
@@ -2826,7 +2750,7 @@ if (srmuki[t]==1)ma+=srsok[t];
 			}
 //特殊
 			if (srsp[t] == 1) {
-			    ot(oto[3]);
+			    play_sound_effect(oto[3]);
 			    eyobi(sra[t] + 200,
 				  srb[t] - 1000,
 				  -240, -1400, 0, 160, 4500, 4500, 2, 120);
@@ -3080,7 +3004,7 @@ if (actaon[2]==1){mb-=400;md=-1400;mjumptm=10;}
 				    fy <
 				    xx[9] + xx[1] * 3 + xx[12] + 1500) {
 				    aa[tt] = -800000;
-				    ot(oto[6]);
+				    play_sound_effect(oto[6]);
 				}
 			    }
 			}
@@ -3191,7 +3115,7 @@ if (actaon[2]==1){mb-=400;md=-1400;mjumptm=10;}
 				  10 * 3000 - 1200, 4, 20);
 			    if (mtype == 300) {
 				mtype = 0;
-				bgmchange(otom[1]);
+				set_background_music(otom[1]);
 			    }
 			    for (t1 = 0; t1 < smax; t1++) {
 				if (stype[t1] == 104)
@@ -3552,7 +3476,7 @@ if (actaon[2]==1){mb-=400;md=-1400;mjumptm=10;}
 				    anobib[t] -
 				    fy < xx[9] + xx[1] * 3 + xx[12]) {
 				    if (atype[tt] == 0 || atype[tt] == 4) {
-					atype[tt] = 90;	//ot(oto[6]);
+					atype[tt] = 90;	//play_sound_effect(oto[6]);
 					anobia[tt]
 					    = 6400;
 					anobib[tt]
@@ -3561,7 +3485,7 @@ if (actaon[2]==1){mb-=400;md=-1400;mjumptm=10;}
 					    = 0;
 					aa[tt] -= 1050;
 					ab[tt] -= 1050;
-					ot(oto[9]);
+					play_sound_effect(oto[9]);
 					aa[t] = -80000000;
 				    }
 				}
@@ -3809,7 +3733,7 @@ break;
 			    if (axtype[t] == 0)
 				aa[t] = -900000;
 			    if (axtype[t] == 1) {
-				ot(oto[5]);
+				play_sound_effect(oto[5]);
 				mb = xx[9] - 900 - anobib[t];
 				md = -2100;
 				xx[25] = 1;
@@ -3869,14 +3793,14 @@ break;
 
 			if (atype[t] != 85) {
 			    if (xx[25] == 0) {
-				ot(oto[5]);
+				play_sound_effect(oto[5]);
 				mb = xx[9] - 1000 - anobib[t];
 				md = -1000;
 			    }
 			}
 			if (atype[t] == 85) {
 			    if (xx[25] == 0) {
-				ot(oto[5]);
+				play_sound_effect(oto[5]);
 				mb = xx[9] - 4000;
 				md = -1000;
 				axtype[t] = 5;
@@ -4074,17 +3998,17 @@ break;
 			if (atype[t] == 100 && axtype[t] == 0) {
 			    mmsgtm = 30;
 			    mmsgtype = 1;
-			    ot(oto[9]);
+			    play_sound_effect(oto[9]);
 			}
 			if (atype[t] == 100 && axtype[t] == 1) {
 			    mmsgtm = 30;
 			    mmsgtype = 2;
-			    ot(oto[9]);
+			    play_sound_effect(oto[9]);
 			}
 			if (atype[t] == 100 && axtype[t] == 2) {
 			    mnobia = 5200;
 			    mnobib = 7300;
-			    ot(oto[9]);
+			    play_sound_effect(oto[9]);
 			    ma -= 1100;
 			    mb -= 4000;
 			    mtype = 1;
@@ -4104,12 +4028,12 @@ break;
 //?ボール
 			if (atype[t] == 105) {
 			    if (axtype[t] == 0) {
-				ot(oto[4]);
+				play_sound_effect(oto[4]);
 				sgtype[26] = 6;
 			    }
 			    if (axtype[t] == 1) {
 				txtype[7] = 80;
-				ot(oto[4]);
+				play_sound_effect(oto[4]);
 
 //ayobi(aa[t]-6*3000+1000,-3*3000,0,0,0,110,0);
 				ayobi(aa[t] -
@@ -4331,13 +4255,13 @@ void tekizimen()
 		    if (xx[27] == 1 && (ttype[tt] == 7 || ttype[tt] == 1)
 			&& atype[t] == 2) {
 			if (ttype[tt] == 7) {
-			    ot(oto[4]);
+			    play_sound_effect(oto[4]);
 			    ttype[tt] = 3;
 			    eyobi(ta[tt] + 10,
 				  tb[tt], 0, -800,
 				  0, 40, 3000, 3000, 0, 16);
 			} else if (ttype[tt] == 1) {
-			    ot(oto[3]);
+			    play_sound_effect(oto[3]);
 			    eyobi(ta[tt] + 1200,
 				  tb[tt] + 1200,
 				  300, -1000, 0, 160, 1000, 1000, 1, 120);
@@ -4361,7 +4285,7 @@ void tekizimen()
 		    && aa[t] - fx < xx[8] + xx[1]
 		    && ab[t] + anobib[t] - fy > xx[9]
 		    && ab[t] - fy < xx[9] + xx[1]) {
-		    ot(oto[3]);
+		    play_sound_effect(oto[3]);
 		    eyobi(ta[tt] + 1200, tb[tt] + 1200, 300,
 			  -1000, 0, 160, 1000, 1000, 1, 120);
 		    eyobi(ta[tt] + 1200, tb[tt] + 1200,
@@ -4382,7 +4306,7 @@ void tekizimen()
 		&& ab[t] - fy < xx[9] + xx[1] - xx[0] * 2 + 2000
 		&& aa[t] + anobia[t] - fx > xx[8] - 400
 		&& aa[t] - fx < xx[8] + xx[1]) {
-		ta[tt] = -800000;	//ot(oto[4]);
+		ta[tt] = -800000;	//play_sound_effect(oto[4]);
 		sracttype[20] = 1;
 		sron[20] = 1;
 	    }
@@ -4390,182 +4314,6 @@ void tekizimen()
     }				//tt
 
 }				//tekizimen
-
-//タイマー測定
-void wait2(long stime, long etime, int FLAME_TIME)
-{
-    if (etime - stime < FLAME_TIME)
-	wait(FLAME_TIME - (etime - stime));
-}
-
-//乱数作成
-int rand(int Rand)
-{
-    return rand() % Rand;
-}
-
-//終了
-void play_exit() { }
-
-//画像関係
-//{
-//色かえ(指定)
-void setcolor(int red, int green, int blue)
-{
-    color = RGBA32(red, green, blue, 255);
-    gfxcolor = color;
-}
-
-//色かえ(黒)(白)
-void setc0()
-{
-    setcolor(0, 0, 0);
-}
-
-void setc1()
-{
-    setcolor(255, 255, 255);
-}
-
-//点
-void drawpixel(int a, int b)
-{
-	rdpq_set_fill_color(gfxcolor);
-	rdpq_draw_pixel(a, b);
-}
-
-//線
-void drawline(int a, int b, int c, int d)
-{
-	set_draw_color(gfxcolor);
-	draw_line(a, b, c, d);
-}
-
-//四角形(塗り無し)
-void drawrect(int a, int b, int c, int d)
-{
-	set_draw_color(gfxcolor);
-	draw_rectangle_outline(a, b, c, d); // TODO: check if w/h to screen coords math is the same
-    // rectangleColor(screen, a, b, a + c - 1, b + d - 1, gfxcolor);
-}
-
-//四角形(塗り有り)
-void fillrect(int a, int b, int c, int d)
-{
-	set_draw_color(gfxcolor);
-	draw_rectangle_filled(a, b, c, d); // TODO: check if w/h to screen coords math is the same
-    // boxColor(screen, a, b, a + c - 1, b + d - 1, gfxcolor);
-}
-
-//円(塗り無し)
-void drawarc(int a, int b, int c, int d)
-{
-	set_draw_color(gfxcolor);
-	draw_circle_outline(a, b, c); // TODO: draw an actual ellipse?? the comment above says circle though
-    // ellipseColor(screen, a, b, c, d, gfxcolor);
-}
-
-//円(塗り有り)
-void fillarc(int a, int b, int c, int d)
-{
-	set_draw_color(gfxcolor);
-	draw_circle_filled(a, b, c);  // TODO: draw an actual ellipse?? the comment above says circle though
-    // filledEllipseColor(screen, a, b, c, d, gfxcolor);
-}
-
-void FillScreen()
-{
-	rdpq_clear(color);
-}
-
-//画像の読み込み
-sprite_t *loadimage(string x)
-{
-//mgrap[a]=sprite_load(b);
-    return sprite_load(x.c_str());
-}
-
-SpriteRegion *loadimage(sprite_t * a, int x, int y, int r, int z)
-{
-    return get_sprite_region(a, x, y, r, z);
-}
-
-//画像表示
-void drawimage(SpriteRegion * mx, int a, int b)
-{
-    draw_sprite_region(mx, a, b, mirror);
-}
-
-void drawimage(sprite_t * mx, int a, int b, int c, int d, int e, int f)
-{
-    SpriteRegion *m = get_sprite_region(mx, c, d, e, f);    
-    draw_sprite_region(m, a, b, mirror);
-    free(m);
-}
-
-/*
-//文字
-void str(char d[],int a,int b){
-//char d[]=c;
-draw_text(d, a, b);
-}
-*/
-
-//文字
-void str(string x, int a, int b)
-{
-//char d[]="あ";
-    draw_text(x.c_str(), a, b);
-//draw_text(xs[3].c_str(), 10, 10, color);
-
-    xx[2] = 4;
-
-}
-
-/*
-//数値を文字に変換
-void strchange(string x,int a){
-}
-*/
-
-/*
-//中央にあわせる//(font)
-void str1(String c,int r,int b){
-int a=0,x=0;
-int d=6;
-
-//x=c.length()*d;//tiny.6
-x=r*d;
-a=120-x/2;
-
-g.draw_text(c,a,b);
-}
-*/
-
-//string→int
-/*
-char str[] = "12345";
-int num;
-
-num = atoi(str);
-*/
-
-//文字ラベル変更
-void setfont(int a)
-{
-/*
-if (a==0)g.setFont(Font.getFont(Font.SIZE_TINY));
-if (a==1)g.setFont(Font.getFont(Font.SIZE_SMALL));
-if (a==2)g.setFont(Font.getFont(Font.SIZE_MEDIUM));
-if (a==3)g.setFont(Font.getFont(Font.SIZE_LARGE));
-*/
-}
-
-//音楽再生
-void ot(wav64_t * x)
-{
-    play_sound_effect(x);
-}
 
 void stagecls()
 {
@@ -5204,7 +4952,7 @@ void stagep()
 
 //マリ　地上　入れ
 //Mix_HaltMusic();
-	bgmchange(otom[1]);
+	set_background_music(otom[1]);
 //PlaySoundMem(oto[0],DX_PLAYTYPE_LOOP) ;
 
 	scrollx = 0 * 100;
@@ -5344,7 +5092,7 @@ void stagep()
     if (sta == 1 && stb == 2 && stc == 1) {
 
 //マリ　地下　入れ
-	bgmchange(otom[2]);
+	set_background_music(otom[2]);
 
 	scrollx = 4080 * 100;
 	ma = 6000;
@@ -5944,7 +5692,7 @@ void stagep()
 
 //マリ　地上　入れ
 //Mix_HaltMusic();
-	bgmchange(otom[1]);
+	set_background_music(otom[1]);
 //PlaySoundMem(oto[0],DX_PLAYTYPE_LOOP) ;
 
 	scrollx = 900 * 100;
@@ -6128,7 +5876,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
     if (sta == 1 && stb == 3 && stc == 0) {
 
 //Mix_HaltMusic();
-	bgmchange(otom[1]);
+	set_background_music(otom[1]);
 //PlaySoundMem(oto[0],DX_PLAYTYPE_LOOP) ;
 
 	scrollx = 3900 * 100;
@@ -6662,7 +6410,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 
 //マリ　地上　入れ
 //Mix_HaltMusic();
-	bgmchange(otom[2]);
+	set_background_music(otom[2]);
 //PlaySoundMem(oto[0],DX_PLAYTYPE_LOOP) ;
 
 	scrollx = 0 * 100;
@@ -6749,7 +6497,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
     if (sta == 1 && stb == 3 && stc == 5) {
 
 	stagecolor = 3;
-	bgmchange(otom[3]);
+	set_background_music(otom[3]);
 
 	scrollx = 0 * 100;
 	ma = 3000;
@@ -6851,7 +6599,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 
 //マリ　地上　入れ
 //Mix_HaltMusic();
-	bgmchange(otom[4]);
+	set_background_music(otom[4]);
 //PlaySoundMem(oto[0],DX_PLAYTYPE_LOOP) ;
 
 	scrollx = 4400 * 100;
@@ -7485,7 +7233,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
     if (sta == 2 && stb == 1 && stc == 0) {	// 2-1
 	ma = 5600;
 	mb = 32000;
-	bgmchange(otom[1]);
+	set_background_music(otom[1]);
 	stagecolor = 1;
 	scrollx = 2900 * (113 - 19);
 	//
@@ -7842,7 +7590,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
     }
 
     if (sta == 2 && stb == 2 && stc == 0) {	//2-2(地上)
-	bgmchange(otom[1]);
+	set_background_music(otom[1]);
 	stagecolor = 1;
 	scrollx = 2900 * (19 - 19);
 	//
@@ -7921,7 +7669,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
     }
 
     if (sta == 2 && stb == 2 && stc == 1) {	//2-2(地下)
-	bgmchange(otom[2]);
+	set_background_music(otom[2]);
 	stagecolor = 2;
 	ma = 7500;
 	mb = 9000;
@@ -8409,7 +8157,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 
     if (sta == 2 && stb == 2 && stc == 2) {	// 2-2 地上
 //
-	bgmchange(otom[1]);
+	set_background_music(otom[1]);
 	stagecolor = 1;
 	scrollx = 2900 * (36 - 19);
 	ma = 7500;
@@ -8581,7 +8329,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
     if (sta == 2 && stb == 3 && stc == 0) {	// 2-3
 	ma = 7500;
 	mb = 3000 * 8;
-	bgmchange(otom[1]);
+	set_background_music(otom[1]);
 	stagecolor = 1;
 	scrollx = 2900 * (126 - 19);
 	//
@@ -8963,7 +8711,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 	    mb = 3000 * 11;
 	    stc = 0;
 	}
-	bgmchange(otom[4]);
+	set_background_music(otom[4]);
 	stagecolor = 4;
 	scrollx = 2900 * (40 - 19);
 	//
@@ -9119,7 +8867,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
     if (sta == 2 && stb == 4 && stc == 1) {	// 2-4(2番)
 	ma = 4500;
 	mb = 3000 * 11;
-	bgmchange(otom[4]);
+	set_background_music(otom[4]);
 	stagecolor = 4;
 	scrollx = 2900 * (21 - 19);
 	//
@@ -9221,7 +8969,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
     if (sta == 2 && stb == 4 && stc == 2) {	// 2-4(3番)
 	ma = 4500;
 	mb = 3000 * 11;
-	bgmchange(otom[5]);	//6
+	set_background_music(otom[5]);	//6
 	stagecolor = 4;
 	scrollx = 2900 * (128 - 19);
 	//
@@ -9724,7 +9472,7 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
     if (sta == 3 && stb == 1 && stc == 0) {	// 3-1
 	ma = 5600;
 	mb = 32000;
-	bgmchange(otom[1]);
+	set_background_music(otom[1]);
 	stagecolor = 5;
 	scrollx = 2900 * (112 - 19);
 	unsigned char stagedatex[17][1001] = {
@@ -10075,15 +9823,6 @@ t=sco;sa[t]=14*29*100+1000;sb[t]=-6000;sc[t]=5000;sd[t]=70000;stype[t]=100;sxtyp
 
 }				//stagep
 
-//BGM変更
-void bgmchange(wav64_t * x)
-{
-    stop_background_music();
-//otom[0]=0;
-    otom[0] = x;
-	set_background_music(x);
-}				//bgmchange()
-
 //ブロック出現
 
 void tyobi(int x, int y, int type)
@@ -10119,28 +9858,25 @@ void ttmsg()
     xx[1] = 6000 / 100;
     xx[2] = 4000 / 100;
     if (tmsgtype == 1 || tmsgtype == 2) {
-	setc0();
-	fillrect(xx[1], xx[2], 360, tmsgy / 100);
-	setc1();
-	drawrect(xx[1], xx[2], 360, tmsgy / 100);
+	set_draw_color(0, 0, 0);;
+	draw_rectangle_filled(xx[1], xx[2], 360, tmsgy / 100);
+	set_draw_color(255, 255, 255);;
+	draw_rectangle_outline(xx[1], xx[2], 360, tmsgy / 100);
     }
     if (tmsgtype == 2) {
-//フォント
-	setfont(20, 5);
 
 	if (tmsg == 0) {
-	    setc1();
-//フォント
-	    setfont(20, 5);
+	    set_draw_color(255, 255, 255);;
+
 	    txmsg("テスト　hoge", 0);
 	}
 
 	if (tmsg == 1) {
-	    setc1();
+	    set_draw_color(255, 255, 255);;
 	    txmsg("", 0);
-	    txmsg("ステージ 1 より", 0);
-	    txmsg("特殊的なものが増えたので", 1);
-	    txmsg("気をつけてくれよ〜", 2);
+	    txmsg("ステージ 1 より", 1);
+	    txmsg("特殊的なものが増えたので", 2);
+	    txmsg("気をつけてくれよ〜", 3);
 	    txmsg
 		("後、アイテムの一部を利用するかも…", 4);
 	    txmsg("                       ちく より", 6);
@@ -10213,31 +9949,27 @@ void ttmsg()
 	    txmsg("                          (…チッ)", 6);
 	}
 
-	setfont(16, 4);
     }				//2
 
     if (tmsgtype == 3) {
 	xx[5] = (((15 - 1) * 1200 + 1500) / 100 - tmsgy / 100);
 	if (xx[5] > 0) {
-	    setc0();
-	    fillrect(xx[1], xx[2] + tmsgy / 100, 360, xx[5]);
-	    setc1();
-	    drawrect(xx[1], xx[2] + tmsgy / 100, 360, xx[5]);
+	    set_draw_color(0, 0, 0);;
+	    draw_rectangle_filled(xx[1], xx[2] + tmsgy / 100, 360, xx[5]);
+	    set_draw_color(255, 255, 255);;
+	    draw_rectangle_outline(xx[1], xx[2] + tmsgy / 100, 360, xx[5]);
 	}
     }
 
 }				//ttmsg
 
-void txmsg(string x, int a)
+void txmsg(const char* x, int a)
 {
     int xx = 6;
 
-    str(x, 60 + xx, 40 + xx + a * 24);
+    draw_text(x, 60 + xx, 40 + xx + a * 24);
 
 }				//txmsg
-
-//フォント変更
-void setfont(int x, int y) { }
 
 //グラ作成
 void
@@ -10302,11 +10034,11 @@ void ayobi(int xa, int xb, int xc, int xd, int xnotm, int xtype,
 
 //大砲音
 	    if (xtype == 7 && !oto[10]) {
-		ot(oto[10]);
+		play_sound_effect(oto[10]);
 	    }
 //ファイア音
 	    if (xtype == 10 && !oto[18]) {
-		ot(oto[18]);
+		play_sound_effect(oto[18]);
 	    }
 
 	    azimentype[aco] = 1;
@@ -10366,5 +10098,4 @@ GameState STATE_PLAY = {
     .enter = play_enter,
     .update = play_update,
     .draw = play_draw,
-	.exit = play_exit,
 };

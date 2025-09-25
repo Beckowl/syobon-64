@@ -37,8 +37,16 @@ void sa_graphics_deinit(void) {
     display_close();
 }
 
+void sa_graphics_clear(void) {
+    rdpq_clear(sDrawColor);
+}
+
 void set_draw_color(color_t color) {
     sDrawColor = color;
+}
+
+void set_draw_color(uint8_t r, uint8_t g, uint8_t b) {
+    sDrawColor = RGBA32(r, g, b, 255);
 }
 
 SpriteRegion* get_sprite_region(sprite_t* source, int sourceX, int sourceY, int width, int height) {

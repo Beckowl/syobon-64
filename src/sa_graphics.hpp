@@ -24,7 +24,10 @@ typedef struct {
 void sa_graphics_init(void);
 void sa_graphics_deinit(void);
 
+void sa_graphics_clear(void);
+
 void set_draw_color(color_t color);
+void set_draw_color(uint8_t r=255, uint8_t g=255, uint8_t b=255);
 
 SpriteRegion* get_sprite_region(sprite_t* source, int sourceX, int sourceY, int width, int height);
 

@@ -1,6 +1,7 @@
 #include <libdragon.h>
 
 #include "game.hpp"
+#include "loadg.hpp"
 #include "sa_audio.hpp"
 
 static GameState sCurrState = STATE_TITLE_SCREEN;
