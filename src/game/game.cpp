@@ -9,7 +9,6 @@ static GameState sCurrState = STATE_TITLE_SCREEN;
 
 void game_init(void) {
     loadg();
-    srand(getentropy32());
 }
 
 void game_deinit(void) {
