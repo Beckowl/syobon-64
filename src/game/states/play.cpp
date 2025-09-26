@@ -152,17 +152,20 @@ void play_draw()
 
 //ブロックの破片
 		if (egtype[t] == 1) {
+            rdpq_set_mode_standard();
+            rdpq_mode_combiner(RDPQ_COMBINER_TEX_FLAT);
+            rdpq_mode_alphacompare(1);
+
 		    if (stagecolor == 1 || stagecolor == 3
 			|| stagecolor == 5)
-			set_draw_color(9 * 16, 6 * 16, 3 * 16);
+                rdpq_set_prim_color(RGBA32(9 * 16, 6 * 16, 3 * 16, 255));
 		    if (stagecolor == 2)
-			set_draw_color(0, 120, 160);
+			    rdpq_set_prim_color(RGBA32(0, 120, 160, 255));
 		    if (stagecolor == 4)
-			set_draw_color(192, 192, 192);
+			    rdpq_set_prim_color(RGBA32(192, 192, 192, 255));
 
-		    draw_circle_filled(xx[0] / 100, xx[1] / 100, 7);
-		    set_draw_color(0, 0, 0);
-		    draw_circle_outline(xx[0] / 100, xx[1] / 100, 7);
+            rdpq_sprite_blit(mgrap[8], xx[0] / 100, xx[1] / 100, NULL);
+            rdpq_set_prim_color(RGBA32(255, 255, 255, 255));
 		}
 //リフトの破片
 		if (egtype[t] == 2 || egtype[t] == 3) {

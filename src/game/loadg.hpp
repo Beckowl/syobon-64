@@ -30,6 +30,7 @@ void loadg(void) {
     mgrap[6] = sprite_load("rom:/res/omake.sprite");
     // おまけ2
     mgrap[7] = sprite_load("rom:/res/omake2.sprite");
+    mgrap[8] = sprite_load("rom:/res/particle.sprite");
     // タイトル
     mgrap[30] = sprite_load("rom:/res/syobon3.sprite");
 
