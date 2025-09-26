@@ -10040,12 +10040,12 @@ void ayobi(int xa, int xb, int xc, int xd, int xnotm, int xtype,
 	    anobib[aco] = any[atype[aco]];
 
 //大砲音
-	    if (xtype == 7 && !oto[10]) {
-		play_sound_effect(oto[10]);
+	    if (xtype == 7) {
+		    play_sound_effect(oto[10]);
 	    }
 //ファイア音
-	    if (xtype == 10 && !oto[18]) {
-		play_sound_effect(oto[18]);
+	    if (xtype == 10) {
+		    play_sound_effect(oto[18]);
 	    }
 
 	    azimentype[aco] = 1;
