@@ -98,7 +98,8 @@ void title_screen_draw(void) {
         return;
     }
 
-    draw_text("Enterキーを押せ!!", RECENTER_X(160), 250);
+    // TODO: use paragraphs so text can be centered regardless of width
+    draw_text("STARTボタンを押せ!!", RECENTER_X(160), 250);
 
     if (sShowStageNum) {
         if (sStageNum != STAGE_MYSTERY_DUNGEON) {
