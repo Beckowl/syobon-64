@@ -26,7 +26,6 @@ typedef enum {
 } CONT_BUTTON;
 
 void sa_input_init(void);
-void sa_input_deinit(void);
 
 bool is_button_down(CONT_BUTTON button);
 bool is_button_pressed(CONT_BUTTON button);

@@ -4,7 +4,6 @@
 #define FONT_SAZANAMI 1
 
 static color_t sDrawColor = RGBA32(0xff, 0xff, 0xff, 0xff);
-static rdpq_font_t* sFont;
 
 void sa_graphics_init(void) {
     resolution_t resolution = {
@@ -16,25 +15,17 @@ void sa_graphics_init(void) {
     display_init(resolution, DEPTH_16_BPP, is_memory_expanded() ? 3 : 2, GAMMA_NONE, FILTERS_RESAMPLE);
     rdpq_init();
 
-    sFont = rdpq_font_load("rom:/res/sazanami-gothic.font64");
+    rdpq_font_t* font = rdpq_font_load("rom:/res/sazanami-gothic.font64");
 
     rdpq_fontstyle_t style = {
         .color = RGBA32(0xFF, 0xFF, 0xFF, 0xFF),
         .outline_color = RGBA32(0x00, 0x00, 0x00, 0xFF)
     };
 
-    rdpq_font_style(sFont, FONT_SAZANAMI, &style);
-    rdpq_text_register_font(FONT_SAZANAMI, sFont);
+    rdpq_font_style(font, FONT_SAZANAMI, &style);
+    rdpq_text_register_font(FONT_SAZANAMI, font);
 
     display_set_fps_limit(30);
-}
-
-void sa_graphics_deinit(void) {
-    rdpq_text_unregister_font(FONT_SAZANAMI);
-    rdpq_font_free(sFont);
-
-    rdpq_close();
-    display_close();
 }
 
 void sa_graphics_clear(void) {

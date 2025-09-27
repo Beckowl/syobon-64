@@ -17,16 +17,6 @@ void process_audio(void) {
 	}
 }
 
-wav64_t* load_sound(const char* path) {
-    return wav64_load(path, NULL);
-}
-
-void free_sound(wav64_t* sound) {
-    if (sound != NULL) { 
-        wav64_close(sound);
-    }
-}
-
 void set_background_music(wav64_t* music) {
     if (sCurrBgMusic) {
         stop_background_music();

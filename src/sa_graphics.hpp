@@ -22,7 +22,6 @@ typedef struct {
 
 
 void sa_graphics_init(void);
-void sa_graphics_deinit(void);
 
 void sa_graphics_clear(void);
 

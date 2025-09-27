@@ -24,10 +24,6 @@ void sa_input_init(void) {
     find_main_controller();
 }
 
-void sa_input_deinit(void) {
-    joypad_close();
-}
-
 bool is_button_pressed(CONT_BUTTON button) {
     if (!gControllerFound) return false;
 

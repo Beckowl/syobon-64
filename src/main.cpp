@@ -48,12 +48,6 @@ void draw(void) {
     profiler_end(&sRenderProfiler);
 }
 
-void deinit(void) {
-    game_deinit();
-    sa_input_deinit();
-    sa_graphics_deinit();
-}
- 
 int main(void) {
     init();
 
@@ -72,8 +66,6 @@ int main(void) {
 
         rdpq_detach_show();
     }
-
-    deinit();
-
+    
     return 0;
 }
