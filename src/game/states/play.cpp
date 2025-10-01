@@ -6349,7 +6349,7 @@ void ttmsg() {
 
 	if (tmsg == 2) {
 	    txmsg("            ？が必要です ", 3);
-	    txmsg("                         m9(^Д^)", 6);
+	    txmsg("                         m9(^^Д^^)", 6);
 	}
 
 	if (tmsg == 3) {
