@@ -126,13 +126,13 @@ void play_draw() {
 
             // 51
             if (ntype[t] == 100) {
-                draw_text("51", xx[0] / 100 + fma, xx[1] / 100 + fmb);
+                draw_text("51", xx[0] / 100 + fma, xx[1] / 100 + fmb + 16);
             }
 
             if (ntype[t] == 101)
-                draw_text("ゲームクリアー", xx[0] / 100 + fma, xx[1] / 100 + fmb);
+                draw_text("ゲームクリアー", xx[0] / 100 + fma, xx[1] / 100 + fmb + 16);
             if (ntype[t] == 102)
-                draw_text("プレイしてくれてありがとー", xx[0] / 100 + fma, xx[1] / 100 + fmb);
+                draw_text("プレイしてくれてありがとー", xx[0] / 100 + fma, xx[1] / 100 + fmb + 16);
         }
     } // t
 
@@ -753,11 +753,11 @@ void play_draw() {
 
         set_draw_color(0, 0, 0);
 
-        draw_text(xs[0], (ma + mnobia + 300) / 100 - 1, mb / 100 - 1);
-        draw_text(xs[0], (ma + mnobia + 300) / 100 + 1, mb / 100 + 1);
+        draw_text(xs[0], (ma + mnobia + 300) / 100 - 1, mb / 100 - 1 + 16);
+        draw_text(xs[0], (ma + mnobia + 300) / 100 + 1, mb / 100 + 1 + 16);
         set_draw_color(255, 255, 255);
 
-        draw_text(xs[0], (ma + mnobia + 300) / 100, mb / 100);
+        draw_text(xs[0], (ma + mnobia + 300) / 100, mb / 100 + 16);
 
     } // mmsgtm
 
@@ -880,7 +880,7 @@ void play_draw() {
 
             set_draw_color(255, 255, 255);
 
-            draw_text(xs[0], xx[5], xx[6]);
+            draw_text(xs[0], xx[5], xx[6] + 16);
         } // amsgtm
     } // amax
 
@@ -931,11 +931,11 @@ void play_draw() {
     // メッセージ
     if (mainmsgtype >= 1) {
         if (mainmsgtype == 1) {
-            draw_text("WELCOME TO OWATA ZONE", 126, 100);
+            draw_text("WELCOME TO OWATA ZONE", 126, 100 + 16);
         }
         if (mainmsgtype == 1) {
             for (t2 = 0; t2 <= 2; t2++)
-                draw_text("1", 88 + t2 * 143, 210);
+                draw_text("1", 88 + t2 * 143, 210 + 16);
         }
     } // mainmsgtype>=1
 } // rpaint()
@@ -6431,7 +6431,7 @@ void ttmsg() {
 void txmsg(const char* x, int a) {
     int xx = 6;
 
-    draw_text(x, 60 + xx, 40 + xx + a * 24);
+    draw_text(x, 60 + xx, 40 + xx + a * 24 + 16);
 
 }				//txmsg
 
