@@ -1,5 +1,6 @@
 BUILD_DIR := build
 SOURCE_DIR := src
+LANG ?= JP
 ROM := syobon64
 ROM_TITLE := "Syobon Action 64"
 
@@ -13,7 +14,8 @@ RSPASFLAGS += -g
 LDFLAGS  += -g
 endif
 
-CXXFLAGS += -Isrc -Isrc/game -Wno-error=parentheses -Wno-error=narrowing -fcommon # NOT MY FAULT!!!!
+CFLAGS   += -DLANG_$(LANG)
+CXXFLAGS += -DLANG_$(LANG)
 
 EXCLUDE_SRCS :=
 
@@ -35,13 +37,25 @@ AUDIO_BGM := $(patsubst BGM/%.wav,filesystem/BGM/%.wav64,$(BGM))
 
 ASSETS := $(FONTS) $(SPRITES) $(AUDIO_SFX) $(AUDIO_BGM)
 
+CXXFLAGS += -Isrc -Isrc/game -Itext -Wno-error=parentheses -Wno-error=narrowing -fcommon
 MKFONT_FLAGS ?=
 MKSPRITE_FLAGS ?=
 AUDIOCONV_FLAGS ?= --wav-resample 16000 --wav-mono
+MKFONT_FLAGS += \
+	--compress 1 \
+	--range 0020-007F \
+	--range 00D7-00D7 \
+	--range 0414-0414 \
+	--range 3040-309F \
+	--range 30A0-30FF \
+	--range 4E00-9FFF \
+	--range FF00-FFEF \
+	--size 20 \
+	--outline 1 \
+	--monochrome
 
 all: $(ROM).z64
 
-filesystem/res/sazanami-gothic.font64: MKFONT_FLAGS += --compress 1 --range 20-7F --range 3000-9FFF --range FF00-FFEF --range 00D7-00D7 --range 0414-0414 --size 20 --outline 1 --monochrome
 
 $(AUDIO_BGM): AUDIOCONV_FLAGS += --wav-loop true
 
