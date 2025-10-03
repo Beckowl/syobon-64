@@ -15,15 +15,15 @@ struct CreditsLine {
 CreditsLine gCreditsText[] = {
 #if defined(LANG_EN)
 
-#include "credits/en.hpp"
+#include "en/credits.hpp"
 
 #elif defined(LANG_PL)
 
-#include "credits/pl.hpp"
+#include "pl/credits.hpp"
 
 #else
 
-#include "credits/jp.hpp"
+#include "jp/credits.hpp"
 
 #endif
 };
