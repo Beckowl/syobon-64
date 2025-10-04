@@ -46,6 +46,8 @@ MKFONT_FLAGS += \
 	--range 0020-007F \
 	--range 00D7-00D7 \
 	--range 0414-0414 \
+	--range 3000-303F \
+	--range 2000-206F \
 	--range 3040-309F \
 	--range 30A0-30FF \
 	--range 4E00-9FFF \

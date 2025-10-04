@@ -87,9 +87,6 @@ inline int tco;
 inline int ta[tmax], tb[tmax], tc[tmax], td[tmax], thp[tmax], ttype[tmax];
 inline int titem[tmax], txtype[tmax];
 
-//メッセージブロック
-inline int tmsgtm, tmsgtype, tmsgx, tmsgy, tmsgnobix, tmsgnobiy, tmsg;
-
 //効果を持たないグラ
 #define emax 201
 inline int eco;
