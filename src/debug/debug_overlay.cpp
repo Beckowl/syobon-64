@@ -38,12 +38,12 @@ static int draw_profilers(int x, int y) {
     for (int i = 0; i < sNumProfilers; i++) {
         Profiler *p = sProfilers[i];
 
-        char buf[256];
-        snprintf(buf, sizeof(buf), "%s: %llu us | avg: %llu us", p->name,
-                 (unsigned long long)p->elapsedTime,
-                 (unsigned long long)p->avgTime);
+        draw_text_fmt(x, y, "%s: %llu us | avg: %llu us", 
+            p->name,
+            (unsigned long long)p->elapsedTime,
+            (unsigned long long)p->avgTime
+        );
 
-        draw_text(buf, x, y);
         y += LINE_SPACING;
     }
 
@@ -51,9 +51,7 @@ static int draw_profilers(int x, int y) {
 }
 
 static int draw_fps(int x, int y) {
-    char buf[32];
-    snprintf(buf, sizeof(buf), "FPS: %.2f", display_get_fps());
-    draw_text(buf, x, y);
+    draw_text_fmt(x, y, "FPS: %.2f", display_get_fps());
 
     return y + LINE_SPACING;
 }
@@ -64,9 +62,7 @@ static int draw_heap_stats(int x, int y) {
 
     float percent = (float)stats.used / (float)stats.total * 100.0f;
 
-    char buf[256];
-    snprintf(buf, sizeof(buf), "HEAP: total: %i | used: %i (%.2f%%)", stats.total, stats.used, percent);
-    draw_text(buf, x, y);
+    draw_text_fmt(x, y, "HEAP: total: %i | used: %i (%.2f%%)", stats.total, stats.used, percent);
 
     return y + LINE_SPACING;
 }
