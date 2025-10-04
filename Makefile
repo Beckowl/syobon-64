@@ -37,7 +37,9 @@ AUDIO_BGM := $(patsubst BGM/%.wav,filesystem/BGM/%.wav64,$(BGM))
 
 ASSETS := $(FONTS) $(SPRITES) $(AUDIO_SFX) $(AUDIO_BGM)
 
-CXXFLAGS += -Isrc -Isrc/game -Itext -Wno-error=parentheses -Wno-error=narrowing -fcommon
+CXXFLAGS += -Isrc -Isrc/game -Iinclude -Wno-error=parentheses -Wno-error=narrowing -fcommon
+CFLAGS += -Isrc -Isrc/game -Iinclude -Wno-error=parentheses -Wno-error=narrowing -fcommon
+
 MKFONT_FLAGS ?=
 MKSPRITE_FLAGS ?=
 AUDIOCONV_FLAGS ?= --wav-resample 16000 --wav-mono

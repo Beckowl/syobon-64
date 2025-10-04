@@ -1,6 +1,6 @@
 #include <libdragon.h>
 
-#include "credits_text.hpp"
+#include "text/credits_text.hpp"
 
 #include "game.hpp"
 #include "credits.hpp"

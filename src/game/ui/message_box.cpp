@@ -2,7 +2,7 @@
 
 #include "global.hpp"
 #include "message_box.hpp"
-#include "message_text.hpp"
+#include "text/message_text.hpp"
 
 #include "sa_graphics.hpp"
 #include "sa_input.hpp"
