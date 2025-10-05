@@ -3,6 +3,8 @@ SOURCE_DIR := src
 LANG ?= JP
 ROM := syobon64
 ROM_TITLE := "Syobon Action 64"
+BUILD_FLAGS := -Isrc -Isrc/game -Iinclude -Wno-error=parentheses -Wno-error=narrowing -fcommon -DLANG_$(LANG)
+EXCLUDE_SRCS :=
 
 include $(N64_INST)/include/n64.mk
 
@@ -13,11 +15,6 @@ ASFLAGS  += -g
 RSPASFLAGS += -g
 LDFLAGS  += -g
 endif
-
-CFLAGS   += -DLANG_$(LANG)
-CXXFLAGS += -DLANG_$(LANG)
-
-EXCLUDE_SRCS :=
 
 SRCS := $(shell find $(SOURCE_DIR) \( -name '*.c' -o -name '*.cpp' \))
 SRCS := $(filter-out $(EXCLUDE_SRCS), $(SRCS))
@@ -37,9 +34,8 @@ AUDIO_BGM := $(patsubst BGM/%.wav,filesystem/BGM/%.wav64,$(BGM))
 
 ASSETS := $(FONTS) $(SPRITES) $(AUDIO_SFX) $(AUDIO_BGM)
 
-CXXFLAGS += -Isrc -Isrc/game -Iinclude -Wno-error=parentheses -Wno-error=narrowing -fcommon
-CFLAGS += -Isrc -Isrc/game -Iinclude -Wno-error=parentheses -Wno-error=narrowing -fcommon
-
+CXXFLAGS += $(BUILD_FLAGS)
+CFLAGS	 += $(BUILD_FLAGS)
 MKFONT_FLAGS ?=
 MKSPRITE_FLAGS ?=
 AUDIOCONV_FLAGS ?= --wav-resample 16000 --wav-mono
@@ -59,7 +55,6 @@ MKFONT_FLAGS += \
 	--monochrome
 
 all: $(ROM).z64
-
 
 $(AUDIO_BGM): AUDIOCONV_FLAGS += --wav-loop true
 
@@ -84,14 +79,10 @@ filesystem/BGM/%.wav64: BGM/%.wav
 	$(N64_AUDIOCONV) $(AUDIOCONV_FLAGS) -o $(dir $@) "$<"
 
 $(BUILD_DIR)/$(ROM).dfs: $(ASSETS)
-	@mkdir -p $(BUILD_DIR)
-	@echo "    [DFS] $@"
-	$(N64_MKDFS) $@ filesystem
-
 $(BUILD_DIR)/$(ROM).elf: $(OBJS)
 
 $(ROM).z64: N64_ROM_TITLE := $(ROM_TITLE)
-$(ROM).z64: $(BUILD_DIR)/$(ROM).elf $(BUILD_DIR)/$(ROM).dfs
+$(ROM).z64: $(BUILD_DIR)/$(ROM).dfs
 
 clean:
 	rm -rf $(BUILD_DIR) filesystem $(ROM).z64
