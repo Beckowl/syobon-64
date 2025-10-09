@@ -4,6 +4,8 @@
 #include "play.hpp"
 #include "controls.hpp"
 
+#include "level/level_loader.hpp"
+
 #include "states/credits.hpp"
 #include "states/transition.hpp"
 
@@ -6390,6 +6392,23 @@ break;
     }				//rz
 
 }				//ayobi
+
+void spawn_decoration(int type, int x, int y) {
+    na[nco] = x * 100;
+	nb[nco] = y * 100;
+	ntype[nco] = type;
+
+    nco = (nco + 1) % nmax;
+}
+
+void set_enemy_spawn(int type, int subtype, int x, int y) {
+	ba[bco] = x * 100;
+	bb[bco] = x * 100;
+	btype[bco] = type;
+	bxtype[bco] = subtype;
+
+    bco = (bco + 1) % bmax;
+}   
 
 GameState STATE_PLAY = {
     .enter = play_enter,
