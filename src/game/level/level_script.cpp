@@ -143,7 +143,7 @@ static void level_cmd_jump(void) {
 
     if (sJumpStackTop >= 32) {
         debugf("Level jump stack overflow\n");
-        sCurrCmd = CMD_NEXT;
+        sCurrCmd = NULL;
         return;
     }
 
