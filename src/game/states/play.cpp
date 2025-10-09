@@ -3756,6 +3756,8 @@ void stage() {
         }
     }
 
+    // TODO: remove this when you convert all levels to level scripts
+    level_shuffle();
     player_init_checkpoint();
 }
 

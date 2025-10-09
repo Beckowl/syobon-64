@@ -107,8 +107,10 @@ void level_shuffle(void) {
 
             ttype[i] = rand(142); // 142?? most of these ids are just air!
 
-            // the txtype >= 9 <= 99 check was removed since
-            // none of these ids are blocks
+            // most of these ids aren't even blocks, wtf
+            if (ttype[t] >= 9 && ttype[t] <= 99) {
+                ttype[t] = rand(8);
+            }
 
             txtype[i] = rand(4);
         }
