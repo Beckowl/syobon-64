@@ -43,11 +43,11 @@ typedef enum {
     // Tiles 0–10 form the base set for a level type.
     // Adding multiples of 30 (up to +90) to these tile IDs switches to the
     // same block style in the next level type.
-    // Example: In an overworld level, TILE_BRICKS + 30 becomes the blue
+    // Example: In an overworld level, TILE_BRICK + 30 becomes the blue
     // underground version of the bricks.
 
     TILE_SOLID_COLOR = 0,
-    TILE_BRICKS = 1,
+    TILE_BRICK = 1,
     TILE_ITEM_BLOCK_COIN = 2,
     TILE_ITEM_BLOCK_OPEN = 3,
     TILE_HARD_BLOCK = 4,
@@ -75,7 +75,7 @@ typedef enum {
     TILE_ITEM_BLOCK_ENEMY = 101,
     TILE_ITEM_BLOCK_MUSHROOM = 102,   // "Delicious!"
     TILE_ITEM_BLOCK_MUSHROOM_2 = 103, // "Not poisonous, but..."
-    TILE_ITEM_BLOCK_STAR = 104,
+    TILE_BRICK_STAR = 104,
 
     // Invisible item block with infinite poisonous mushrooms
     TILE_ITEM_BLOCK_POISON = 110,
@@ -83,15 +83,15 @@ typedef enum {
     TILE_ITEM_BLOCK_POISON_OPEN = 111,
 
     // Has a ton of coins inside
-    TILE_COIN_BRICK = 112,
+    TILE_BRICK_COIN = 112,
     // Same as above but already open
-    TILE_COIN_BRICK_OPEN = 113,
+    TILE_BRICK_COIN_OPEN = 113,
 
     // Item block with a single poisonous mushroom inside
     TILE_ITEM_BLOCK_POISON_SINGLE = 114,
 
     // Crumbles when stood on
-    TILE_BRITTLE_BRICK = 115,
+    TILE_BRICK_BRITTLE = 115,
     TILE_ITEM_BLOCK_PSWITCH = 116,
 
     TILE_NOTE_BLOCK = 117,
@@ -100,16 +100,17 @@ typedef enum {
     TILE_PUSH_BLOCK = 118,
     TILE_TRAMPOLINE = 120,
 
-    // Plays a P-switch sound when hit???
-    TILE_SWITCH_BLOCK = 124,
+    // will grow firebars when hit
+    TILE_FIREBAR_GROW = 124,
 
     // Toggle blocks 
     // They're the same since game updates based on stageonoff
-    TILE_OFF_BLOCK = 130,
-    TILE_ON_BLOCK = 131,
+    TILE_ON_BLOCK = 130,
+    TILE_OFF_BLOCK = 131,
 
     // Alias for clarity
-    TILE_ON_OFF_BLOCK = TILE_OFF_BLOCK,  
+    TILE_ON_OFF_BLOCK = TILE_OFF_BLOCK,
+
     TILE_SWORD = 140,
     TILE_BRIDGE_ROPE = 141,
     TILE_ARTICHOKE = 142,
@@ -152,10 +153,17 @@ typedef enum {
     // ID exists in the code but doesn't do anything??
     ENEMY_50 = 50,
 
+    ENEMY_FALLING_BLOCK = 51,
+    ENEMY_FALLING_BLOCK_2 = 52,
+
     ENEMY_LASER = 79,
     
     ENEMY_EVIL_CLOUD = 80,
-    ENEMY_SPIKY_BRICK = 82,
+    ENEMY_EVIL_CLOUD_TOUCHED = 81,
+
+    ENEMY_SPIKY_BLOCK = 82,
+    ENEMY_SPIKY_BLOCK_TOUCHED = 83,
+
     ENEMY_FAKE_POLE = 85,
 
     // falls and breaks blocks below
@@ -166,6 +174,10 @@ typedef enum {
 
     // green "?" ball
     ENEMY_MYSTERY_BALL = 105,
+
+    // The same as ENEMY_BALL but goes
+    // right through the floor??
+    ENEMY_BALL_NO_COLLISION = 200,
 } EnemyType;
 
 
