@@ -1,7 +1,7 @@
 #ifndef MESSAGE_BOX_H
 #define MESSAGE_BOX_H
 
-#include "text/message_text.hpp"
+#include "message_text.hpp"
 
 extern bool gMessageBoxActive;
 
