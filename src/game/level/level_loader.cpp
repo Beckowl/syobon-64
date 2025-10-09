@@ -88,6 +88,12 @@ void level_unload_current(void) {
         ntype[t] = 0;
     }
 
+    scrollx = 3600 * 100;
+    stagecolor = 1;   
+    fx = 0;
+    fy = 0;
+    fzx = 0;
+    stageonoff = 0;
     sco = 0;
     tco = 0;
     aco = 0;

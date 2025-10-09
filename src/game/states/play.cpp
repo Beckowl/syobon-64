@@ -18,7 +18,6 @@
 void play_enter() {
     mainmsgtype = 0;
 
-    stagecolor = 1;
     ma = 5600;
     mb = 32000;
     mmuki = 1;
@@ -29,11 +28,6 @@ void play_enter() {
     mnobib = 3600;
 
     mtype = 0;
-
-    fx = 0;
-    fy = 0;
-    fzx = 0;
-    stageonoff = 0;
 
     // チーターマン　入れ
     set_background_music(otom[1]);
@@ -3633,8 +3627,6 @@ void player_init_checkpoint(void) {
 
 //ステージロード
 void stage() {
-    scrollx = 3600 * 100;
-
     // 1-レンガ,2-コイン,3-空,4-土台//5-6地面//7-隠し//
     stagep();
 
@@ -3765,7 +3757,6 @@ void stage() {
 }
 
 void stagep() {
-    scrollx = 3600 * 100;
 
     //1-レンガ,2-コイン,3-空,4-土台//5-6地面//7-隠し//
 
