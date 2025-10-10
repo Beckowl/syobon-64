@@ -6,7 +6,7 @@
 void level_2_4_2_load(void) {
     ma = 4500;
 	mb = 3000 * 11;
-	set_background_music(otom[5]);	//6
+	set_background_music(otom[4]);	//6
 	stagecolor = 4;
 	scrollx = 2900 * (128 - 19);
 	//
