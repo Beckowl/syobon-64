@@ -3750,7 +3750,7 @@ void stage() {
 
     // TODO: remove this when you convert all levels to level scripts
     if (over == 1) {
-        level_shuffle();
+        level_randomize();
     }
 
     player_init_checkpoint();
@@ -3958,6 +3958,17 @@ void spawn_decoration(int type, int x, int y) {
 	ntype[nco] = type;
 
     nco = (nco + 1) % nmax;
+}
+
+void spawn_platform(int type, int subtype, int fallSpeed, int x, int y, int width) {
+    sra[srco] = x * 100;
+    srb[srco] = y * 100;
+    src[srco] = width * 100;
+    sre[srco] = fallSpeed;
+    sracttype[sco] = subtype;
+    srsp[sco] = type;
+
+    sco = (sco + 1) % srmax;
 }
 
 void set_enemy_spawn(int type, int subtype, int x, int y) {

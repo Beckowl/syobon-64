@@ -23,6 +23,8 @@ static int8_t sJumpStackTop = 0;
 
 #define PARAM_F16(offset) read_f16(sCurrCmd + 2 + (offset))
 
+#define TILES_TO_PIXELS(x, y) (int)((x) * 29), (int)((y) * 29 - 12)
+
 #define CMD_NEXT (sCurrCmd + 2 + sCurrCmd[1])
 
 static bool level_header_valid(void) {
@@ -70,8 +72,8 @@ static void level_cmd_player_pos(void) {
     float_t x = PARAM_F16(0);
     float_t y = PARAM_F16(4);
 
-    ma = (int)(x * 29 * 100);
-    mb = (int)(y * 29 - 12) * 100;
+    ma = (int)(x * 29);
+    mb = (int)(y * 29 - 12);
 
     sCurrCmd = CMD_NEXT;
 }
@@ -83,7 +85,8 @@ static void level_cmd_tile(void) {
     float_t y = PARAM_F16(8);
 
     txtype[tco] = subtype;
-    tyobi((int)(x * 29), (int)(y * 29 - 12), type);
+
+    tyobi(TILES_TO_PIXELS(x, y), type);
     sCurrCmd = CMD_NEXT;
 }
 
@@ -95,13 +98,11 @@ static void level_cmd_tile_range(void) {
     uint16_t width = PARAM_U16(12);
     uint16_t height = PARAM_U16(14);
 
-    startX = startX * 29;
-    startY = startY * 29;
-
     for (uint16_t x = 0; x < width; x++) {
         for (uint16_t y = 0; y < height; y++) {
             txtype[tco] = subtype;
-            tyobi((int)(startX + x * 29), (int)(startY - 12 + y * 29), type);
+
+            tyobi(TILES_TO_PIXELS(startX + x, startY + y), type);
         }
     }
 
@@ -113,7 +114,7 @@ static void level_cmd_decoration(void) {
     float_t x = PARAM_F16(1);
     float_t y = PARAM_F16(5);
 
-    spawn_decoration(type, (int)(x * 29), (int)(y * 29 - 12));
+    spawn_decoration(type, TILES_TO_PIXELS(x, y));
     sCurrCmd = CMD_NEXT;
 }
 
@@ -123,7 +124,19 @@ static void level_cmd_enemy(void) {
     float_t x = PARAM_F16(2);
     float_t y = PARAM_F16(6);
 
-    set_enemy_spawn(type, subtype, (int)(x * 29), (int)(y * 29));
+    set_enemy_spawn(type, subtype, TILES_TO_PIXELS(x, y));
+    sCurrCmd = CMD_NEXT;
+}
+
+static void level_cmd_platform(void) {
+    uint8_t type = PARAM_U8(0);
+    uint8_t subtype = PARAM_U8(1);
+    float_t fallSpeed = PARAM_U16(2);
+    float_t x = PARAM_F16(4);
+    float_t y = PARAM_F16(8);
+    uint8_t width = PARAM_F16(12);
+
+    spawn_platform(type, subtype, fallSpeed, TILES_TO_PIXELS(x, y), width * 29);
     sCurrCmd = CMD_NEXT;
 }
 
@@ -172,6 +185,7 @@ void (*LevelCommandTable[LEVEL_OP_COUNT])(void) = {
     level_cmd_tile_range,
     level_cmd_decoration,
     level_cmd_enemy,
+    level_cmd_platform,
     level_cmd_call,
     level_cmd_jump,
     level_cmd_return,

@@ -34,5 +34,6 @@ const uint8_t testLevel[] = {
         LEVEL_JUMP(testLevelStuff),
 
         LEVEL_TILE(TILE_ITEM_BLOCK_ENEMY, 4, 5, 9),
+        LEVEL_PLATFORM(PLATFORM_GRAY, 0, 0, 10, 9, 3),
     LEVEL_END(),
 };

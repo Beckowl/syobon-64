@@ -3,6 +3,7 @@
 #include "level_loader.hpp"
 #include "level_script.hpp"
 #include "level_commands.hpp"
+#include "level_enums.hpp"
 
 #include "states/play.hpp"
 #include "global.hpp"
@@ -103,8 +104,7 @@ void level_unload_current(void) {
     srco = 0; // did they forget to reset this?
 }
 
-// randomizes a level (for mystery dungeon)
-void level_shuffle(void) {
+void level_randomize(void) {
     // randomize blocks
     for (int i = 0; i < tmax; i++) {
         if (rand(3) <= 1) {
@@ -135,15 +135,7 @@ void level_shuffle(void) {
     }
 
     // spawn a platform under the player
-    sra[0] = ma + fx;
-    srb[0] = (13 * 29 - 12) * 100;
-    src[0] = 30 * 100;
-    srtype[0] = 0;
-    sracttype[0] = 0;
-    sre[0] = 0;
-    srsp[0] = 0;
-
-    srco = 1;
+    spawn_platform(PLATFORM_YELLOW, 0, 0, (ma+fx)/100, (13 * 29 - 12), 30);
 
     // change level palette if lucky
     if (rand(4) == 0) {
@@ -183,7 +175,7 @@ void level_load(const uint8_t* levelScript) {
 
     // over means mystery dungeon (randomized levels) mode is enabled
     if (over) {
-        level_shuffle();
+        level_randomize();
     }
 
     debugf("Level loaded in %llu microseconds.\n", get_ticks_us() - time);

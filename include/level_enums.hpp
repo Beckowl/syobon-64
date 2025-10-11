@@ -201,4 +201,30 @@ typedef enum {
     DECORATION_TEXT_THANKS_FOR_PLAYING = 102,
 } DecorationType;
 
+
+
+
+// -------------------------
+// Platform types
+// -------------------------
+
+typedef enum {
+    PLATFORM_YELLOW = 0,
+    PLATFORM_BREAKING = 1,
+
+    // pushes you off when stood on
+    PLATFORM_PUSH_LEFT = 2,
+    PLATFORM_PUSH_RIFGHT = 3,
+
+    PLATFORM_PILLAR = 10,
+
+    // Will start falling as soon as you get close to it
+    PLATFORM_PILLAR_FALL = 11,
+    PLATFORM_PILLAR_BOUNCY = 12,
+    PLATFORM_PILLAR_BRICKS = 15,
+
+    PLATFORM_GRAY = 21,
+
+} PlatformType;
+
 #endif

@@ -15,6 +15,7 @@ void eyobi(int xa, int xb, int xc, int xd, int xe, int xf, int xnobia, int xnobi
 void ayobi(int xa, int xb, int xc, int xd, int xnotm, int xtype, int xxtype);
 void spawn_decoration(int type, int x, int y);
 void set_enemy_spawn(int type, int subtype, int x, int y);
+void spawn_platform(int type, int subtype, int fallSpeed, int x, int y, int width);
 
 extern GameState STATE_PLAY;
 
