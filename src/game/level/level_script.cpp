@@ -140,6 +140,18 @@ static void level_cmd_platform(void) {
     sCurrCmd = CMD_NEXT;
 }
 
+static void level_cmd_object(void) {
+    uint16_t type = PARAM_U16(0);
+    uint8_t subtype = PARAM_U8(2);
+    float_t x = PARAM_F16(3);
+    float_t y = PARAM_F16(7);
+    int16_t width = PARAM_S16(11);
+    int16_t height = PARAM_S16(13);
+
+    spawn_general_object(type, subtype, TILES_TO_PIXELS(x, y), width, height);
+    sCurrCmd = CMD_NEXT;
+}
+
 static void level_cmd_call(void) {
     uintptr_t funcPtr = (uintptr_t)PARAM_U32(0);
     void (*func)(void) = (void(*)(void))funcPtr;
@@ -186,6 +198,7 @@ void (*LevelCommandTable[LEVEL_OP_COUNT])(void) = {
     level_cmd_decoration,
     level_cmd_enemy,
     level_cmd_platform,
+    level_cmd_object,
     level_cmd_call,
     level_cmd_jump,
     level_cmd_return,

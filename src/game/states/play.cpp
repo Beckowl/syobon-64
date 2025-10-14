@@ -3978,7 +3978,18 @@ void set_enemy_spawn(int type, int subtype, int x, int y) {
 	bxtype[bco] = subtype;
 
     bco = (bco + 1) % bmax;
-}   
+}
+
+void spawn_general_object(int type, int subtype, int x, int y, int width, int height) {
+    stype[sco] = type;
+    sxtype[sco] = subtype;
+    sa[sco] = x * 100;
+    sb[sco] = y * 100;
+    sc[sco] = width * 100;
+    sd[sco] = height * 100;
+
+    sco = (sco + 1) % smax;
+}
 
 GameState STATE_PLAY = {
     .enter = play_enter,

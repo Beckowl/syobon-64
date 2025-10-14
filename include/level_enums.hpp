@@ -5,7 +5,7 @@
 // I want this to be understandable by anyone reading.
 
 // -------------------------
-// Level Types
+// Level Types (stagecolor)
 // -------------------------
 
 typedef enum {
@@ -24,6 +24,7 @@ typedef enum {
 // -------------------------
 
 typedef enum {
+    // Syobon 64 only!! do not use this in the og game! 
     MUSIC_NONE = 0,
     MUSIC_OVERWORLD = 1,
     MUSIC_UNDERGROUND = 2,
@@ -36,7 +37,7 @@ typedef enum {
 
 
 // -------------------------
-// Tile Types
+// Tile Types (ttypes)
 // -------------------------
 
 typedef enum {
@@ -126,7 +127,7 @@ typedef enum {
 
 
 // -------------------------
-// Enemy Types
+// Enemy Types (atypes)
 // -------------------------
 
 typedef enum {
@@ -163,6 +164,7 @@ typedef enum {
 
     ENEMY_SPIKY_BLOCK = 82,
     ENEMY_SPIKY_BLOCK_TOUCHED = 83,
+    ENEMY_LAVA_FROM_PIPE = 84,
 
     ENEMY_FAKE_POLE = 85,
 
@@ -184,7 +186,7 @@ typedef enum {
 
 
 // -------------------------
-// Decoration Types
+// Decoration Types (ntypes)
 // -------------------------
 
 typedef enum {
@@ -205,7 +207,7 @@ typedef enum {
 
 
 // -------------------------
-// Platform types
+// Platform types (srtypes)
 // -------------------------
 
 typedef enum {
@@ -214,7 +216,7 @@ typedef enum {
 
     // pushes you off when stood on
     PLATFORM_PUSH_LEFT = 2,
-    PLATFORM_PUSH_RIFGHT = 3,
+    PLATFORM_PUSH_RIGHT = 3,
 
     PLATFORM_PILLAR = 10,
 
@@ -226,5 +228,46 @@ typedef enum {
     PLATFORM_GRAY = 21,
 
 } PlatformType;
+
+
+
+
+// -------------------------
+// object types (stypes)
+// -------------------------
+
+typedef enum {
+    // not sure what this is
+    OBJECT_GREEN_BLOCK = 0,
+
+    OBJECT_VERTICAL_PIPE_HEAD = 1,
+    OBJECT_PIPE_BODY = 2,
+    OBJECT_HORIZONTAL_PIPE_HEAD = 5,
+
+    // It's the same as OBJECT_PIPE_BODY (???)
+    OBJECT_PIPE_BODY_2 = 40,
+    OBJECT_PIPE_TROLL = 50,
+
+    // Falling brick ceiling
+    OBJECT_FALLING_BRICKS = 51,
+    OBJECT_FALLING_FLOOR = 52,
+
+    OBJECT_TRIGGER_SEAL_UP = 100,
+    OBJECT_TRIGGER_SEAL_DOWN = 101,
+    OBJECT_TRIGGER_FOUR_ENEMIES = 102,
+    OBJECT_TRIGGER_LASER = 103,
+    OBJECT_TRIGGER_MULTI_LASER = 104,
+
+    // This is what makes the brick platform split in 1-4
+    OBJECT_TRIGGER_PLATFORM_SPLIT = 105,
+
+    OBJECT_CASTLE_BRICKS = 200,
+
+    OBJECT_GOAL_POLE = 300,
+
+    // Makes lava come out of the pipe in 1-2
+    OBJECT_LAVA_SPAWNER = 180,
+    OBJECT_CHECKPOINT = 500,
+} ObjectType;
 
 #endif

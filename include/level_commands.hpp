@@ -15,6 +15,7 @@ typedef enum {
     OP_LEVEL_DECORATION,
     OP_LEVEL_ENEMY,
     OP_LEVEL_PLATFORM,
+    OP_LEVEL_OBJECT,
     OP_LEVEL_CALL,
     OP_LEVEL_JUMP,
     OP_LEVEL_RETURN,
@@ -83,10 +84,19 @@ typedef enum {
     CMD(OP_LEVEL_ENEMY, U8(type), U8(subtype), F16(x), F16(y))
 
 
-// Adds a platform to the level (like the ones in 1-2 or 1-3)
+// Adds a platform to the level (like the elevators in 1-2 or the falling platforms in 1-3)
+// coordinates are in TILES
 #define LEVEL_PLATFORM(type, subtype, fallSpeed, x, y, width) \
     CMD(OP_LEVEL_PLATFORM, U8(type), U8(subtype), U16(fallSpeed), F16(x), F16(y), F16(width))
 
+// Spawns misc objects (e.g checkpoints, pipes, triggers, spawners)
+// coordinates are in TILES
+#define LEVEL_OBJECT(type, subtype, x, y, width, height) \
+    CMD(OP_LEVEL_OBJECT, U16(type), U8(subtype), F16(x), F16(y), U16(width), U16(height))
+
+
+#define LEVEL_CHECKPOINT(x, y) \
+    LEVEL_OBJECT(OBJECT_CHECKPOINT, 0, x, y, 30, 60)
 
 // Calls a C function. Can be used to load levels in the old way
 #define LEVEL_CALL(func) \
