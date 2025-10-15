@@ -3965,15 +3965,15 @@ void spawn_platform(int type, int subtype, int fallSpeed, int x, int y, int widt
     srb[srco] = y * 100;
     src[srco] = width * 100;
     sre[srco] = fallSpeed;
-    sracttype[sco] = subtype;
-    srsp[sco] = type;
+    sracttype[srco] = subtype;
+    srsp[srco] = type;
 
-    sco = (sco + 1) % srmax;
+    srco = (srco + 1) % srmax;
 }
 
 void set_enemy_spawn(int type, int subtype, int x, int y) {
 	ba[bco] = x * 100;
-	bb[bco] = x * 100;
+	bb[bco] = y * 100;
 	btype[bco] = type;
 	bxtype[bco] = subtype;
 

@@ -15,3 +15,4 @@
 #include "levels/level_2_4_1.hpp"
 #include "levels/level_2_4_2.hpp"
 #include "levels/level_3_1_0.hpp"
+#include "levels/test_level.hpp"

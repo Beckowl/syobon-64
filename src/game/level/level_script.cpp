@@ -72,8 +72,8 @@ static void level_cmd_player_pos(void) {
     float_t x = PARAM_F16(0);
     float_t y = PARAM_F16(4);
 
-    ma = (int)(x * 29);
-    mb = (int)(y * 29 - 12);
+    ma = (int)((x * 29) * 100);
+    mb = (int)((y * 29 - 12) * 100);
 
     sCurrCmd = CMD_NEXT;
 }
