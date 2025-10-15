@@ -26,10 +26,16 @@ void init(void) {
 
     game_init();
 
+    #if DEBUG
     profiler_init(&sRenderProfiler, "RENDER");
     profiler_init(&sUpdateProfiler, "UPDATE");
 
     debug_overlay_init(sProfilers, 2);
+
+    debug_init(DEBUG_FEATURE_ALL);
+    debug_init_isviewer();
+    rdpq_debug_start();
+    #endif
 }
 
 void update(void) { 
