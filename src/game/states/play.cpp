@@ -40,7 +40,7 @@ void play_draw() {
 
     // ダブルバッファリング
     set_draw_color(0, 0, 0);
-    // if (stagecolor==1)set_draw_color(170,170,255);
+
     if (stagecolor == 1)
         set_draw_color(160, 180, 250);
     if (stagecolor == 2)
@@ -57,7 +57,6 @@ void play_draw() {
         mrzimen = 0;
     }
 
-    //: Clear screen
     sa_graphics_clear();
 
     // 背景
@@ -92,7 +91,7 @@ void play_draw() {
             if (ntype[t] == 102)
                 draw_text("プレイしてくれてありがとー", xx[0] / 100, xx[1] / 100 + 16);
         }
-    } // t
+    }
 
     // グラ
     for (t = 0; t < emax; t++) {
@@ -142,7 +141,7 @@ void play_draw() {
                 set_draw_color(0, 0, 0);
 
                 draw_circle_outline((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
-            } // 4
+            }
         }
     }
 
@@ -193,9 +192,9 @@ void play_draw() {
                     xx[6] = 1 + 0;
                     draw_sprite_region(grap[xx[6]][1], (sra[t] - fx) / 100 + t2 * 29, (srb[t] - fy) / 100, mirror);
                 }
-            } // 15
+            }
         }
-    } // t
+    }
 
     // プレイヤー描画
     set_draw_color(0, 0, 255);
@@ -376,7 +375,7 @@ void play_draw() {
 
                 draw_circle_outline((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
 
-            } // 85
+            }
 
             // ニャッスン
             if (atype[t] == 86) {
@@ -540,7 +539,7 @@ void play_draw() {
                     }
                 }
 
-            } // 51
+            }
 
             // 落ちるやつ
             if (stype[t] == 52) {
@@ -607,7 +606,7 @@ void play_draw() {
                 draw_sprite_region(grap[20][4], (sa[t] - fx) / 100, (sb[t] - fy) / 100, mirror);
             }
         }
-    } // t
+    }
 
     // 描画上書き(土管)
     for (t = 0; t < smax; t++) {
@@ -644,7 +643,7 @@ void play_draw() {
                 }
             }
         }
-    } // t
+    }
 
     // ファイアバー
     for (t = 0; t < amax; t++) {
@@ -717,14 +716,14 @@ void play_draw() {
 
         draw_text(xs[0], (ma + mnobia + 300) / 100, mb / 100 + 16);
 
-    } // mmsgtm
+    }
 
     // 敵キャラのメッセージ
     set_draw_color(0, 0, 0);
 
     for (t = 0; t < amax; t++) {
         if (amsgtm[t] >= 1) {
-            amsgtm[t]--; // end();
+            amsgtm[t]--;
 
             xs[0] = "";
 
@@ -839,8 +838,8 @@ void play_draw() {
             set_draw_color(255, 255, 255);
 
             draw_text(xs[0], xx[5], xx[6] + 16);
-        } // amsgtm
-    } // amax
+        }
+    }
 
     message_box_draw();
 
@@ -853,8 +852,8 @@ void play_draw() {
             for (t2 = 0; t2 <= 2; t2++)
                 draw_text("1", 88 + t2 * 143, 210 + 16);
         }
-    } // mainmsgtype>=1
-} // rpaint()
+    }
+}
 
 // メインプログラム
 void play_update() {
@@ -885,7 +884,6 @@ void play_update() {
         }
     }
 
-    // if (is_button_down(KEY_INPUT_Q)==1){mkeytm=0;}
     if (is_button_combo_pressed(CONTROL_SUICIDE)) {
         if (mhp >= 1)
             mhp = 0;
@@ -918,17 +916,10 @@ void play_update() {
                 md = -1500;
             }
         }
-        // && xx[0]==0 && md<=-10
 
-        // if (mjumptm==7 && md>=-900){}
         if (xx[0] == 0)
             actaon[1] = 10;
     }
-    // if (( key & PAD_INPUT_UP) && keytm<=0){actaon[0]=-1;mmuki=0;}
-
-    // xx[0]=200;
-    // if (actaon[0]==-1){ma-=xx[0];}
-    // if (actaon[0]==1){ma+=xx[0];}
 
     // 加速による移動
     xx[0] = 40;
@@ -944,7 +935,7 @@ void play_update() {
         xx[12] = 9;
         xx[13] = 10;
     }
-    // if (mzimen==0){xx[0]-=15;}
+
     if (actaon[0] == -1) {
         if (!(mzimen == 0 && mc < -xx[8])) {
             if (mc >= -xx[9]) {
@@ -1014,33 +1005,12 @@ void play_update() {
         md = -1200;
         mjumptm = 10;
 
-        // PlaySound( "jump.mp3" , DX_PLAYTYPE_NORMAL ) ;
-
-        // PlayMusic( "SE/jump.mp3" , DX_PLAYTYPE_NORMAL ) ;
-
-        // PlaySoundMem( oto[1], DX_PLAYTYPE_NORMAL ) ;
-
-        // PlaySoundMem( oto[1], DX_PLAYTYPE_BACK) ;
         play_sound_effect(oto[1]);
-
-        /*
-        md=-1040;
-        xx[1]=600;if (mc>xx[1] || mc<=-xx[1]){md=-1400;}
-        xx[1]=7;xx[2]=400;
-        if (mkasok>xx[1] && (mc>xx[2] || mc<=-xx[2])){
-        md=-1600;
-        if (mc>=800 || mc<=-800){md=-1800;}
-        }
-        */
 
         mzimen = 0;
     }
     if (actaon[1] <= 9)
         actaon[1] = 0;
-
-    // if (actaon[1]==1){my+=xx[1];actaon[1]=0;}
-
-    //}//陸地
 
     if (mmutekitm >= -1)
         mmutekitm--;
@@ -1055,8 +1025,8 @@ void play_update() {
         stop_sound_effects();
         stop_background_music();
         play_sound_effect(oto[12]);
-    } // mhp
-    // if (mhp<=-10){
+    }
+
     if (mtype == 200) {
         if (mtm <= 11) {
             mc = 0;
@@ -1077,8 +1047,8 @@ void play_update() {
             play_transition(30, true);
             if (fast == 1)
                 mtype = 0;
-        } // mtm>=100
-    } // mtype==200
+        }
+    }
 
     // 音符によるワープ
     if (mtype == 2) {
@@ -1094,7 +1064,7 @@ void play_update() {
             mtype = 0;
             mkeytm = -1;
         }
-    } // 2
+    }
 
     // ジャンプ台アウト
     if (mtype == 3) {
@@ -1159,7 +1129,7 @@ void play_update() {
                 md = 0;
                 if (mtm <= 16) {
                     ma += 240;
-                } // mzz=100;}
+                }
                 if (mtm == 16)
                     mb -= 1100;
                 if (mtm == 20)
@@ -1179,7 +1149,7 @@ void play_update() {
                 md = 0;
                 if (mtm <= 16 && mxtype != 3) {
                     mb += 240;
-                } // mzz=100;}
+                }
                 if (mtm <= 16 && mxtype == 3) {
                     ma += 240;
                 }
@@ -1210,7 +1180,7 @@ void play_update() {
                     stop_background_music();
                 }
             }
-        } // 00
+        }
 
         if (mtype == 300) {
             mkeytm = 3;
@@ -1230,13 +1200,12 @@ void play_update() {
                 mc = 0;
             }
             if (mtm == 250) {
-                // this is a stage transition
                 stb++;
                 stc = 0;
                 tyuukan = 0;
                 play_transition(30, true);
             }
-        } // mtype==300
+        }
 
         if (mtype == 301 || mtype == 302) {
             mkeytm = 3;
@@ -1303,21 +1272,14 @@ void play_update() {
                 }
             }
 
-            /*
-            if (mtm<=1){mc=0;md=0;}
-            if (mtm>=2 && mtm<=42){md=600;mmuki=1;}
-            if (mtm>43 && mtm<=108){mc=300;}
-            if (mtm==110){mb=-80000000;mc=0;}
-            if (mtm==250)end();
-            */
-        } // mtype==301
+        }
 
-    } // mtype>=100
+    }
 
     // 移動
     if (mkeytm >= 1) {
         mkeytm--;
-    } // mc=0;}
+    }
     ma += mc;
     mb += md;
     if (mc < 0)
@@ -1396,7 +1358,7 @@ void play_update() {
             mc = 0;
         }
     }
-    // if (mb>=42000){mb=42000;mzimen=1;}
+
     if (mb >= 38000 && mhp >= 0 && stagecolor == 4) {
         mhp = -2;
         mmsgtm = 30;
@@ -1413,12 +1375,12 @@ void play_update() {
         xx[0] = 200;
         xx[1] = 3000;
         xx[2] = 1000;
-        xx[3] = 3000; // xx[2]=1000
+        xx[3] = 3000;
         xx[8] = ta[t] - fx;
-        xx[9] = tb[t] - fy; // xx[15]=0;
+        xx[9] = tb[t] - fy;
         if (ta[t] - fx + xx[1] >= -10 - xx[3] && ta[t] - fx <= fxmax + 12000 + xx[3]) {
             if (mtype != 200 && mtype != 1 && mtype != 2) {
-                if (ttype[t] < 1000 && ttype[t] != 800 && ttype[t] != 140 && ttype[t] != 141) { // && ttype[t]!=5){
+                if (ttype[t] < 1000 && ttype[t] != 800 && ttype[t] != 140 && ttype[t] != 141) {
 
                     // if (!(mztype == 1)) {
                     // mztype is never assigned to
@@ -1471,7 +1433,6 @@ void play_update() {
                                 }
                                 // ジャンプ台
                                 else if (ttype[t] == 120) {
-                                    // txtype[t]=0;
                                     md = -2400;
                                     mtype = 3;
                                     mtm = 0;
@@ -1487,7 +1448,7 @@ void play_update() {
                     // chiku coding ig
                     if (true) {
                         xx[21] = 0;
-                        xx[22] = 1; // xx[12]=0;
+                        xx[22] = 1;
                         if (mzimen == 1 || mjumptm >= 10) {
                             xx[21] = 3;
                             xx[22] = 0;
@@ -1495,14 +1456,14 @@ void play_update() {
                         for (t3 = 0; t3 <= 1; t3++) {
 
                             // 下
-                            if (t3 == xx[21] && mtype != 100 && ttype[t] != 117) { // && xx[12]==0){
+                            if (t3 == xx[21] && mtype != 100 && ttype[t] != 117) {
                                 if (ma + mnobia > xx[8] + xx[0] * 2 + 800 && ma < xx[8] + xx[1] - xx[0] * 2 - 800 && mb > xx[9] - xx[0] * 2 && mb < xx[9] + xx[1] - xx[0] * 2 && md <= 0) {
                                     xx[16] = 1;
                                     xx[17] = 1;
                                     mb = xx[9] + xx[1] + xx[0];
                                     if (md < 0) {
                                         md = -md * 2 / 3;
-                                    } //}
+                                    }
                                     // 壊れる
                                     if (ttype[t] == 1 && mzimen == 0) {
                                         play_sound_effect(oto[3]);
@@ -1539,44 +1500,39 @@ void play_update() {
                             // 左右
                             if (t3 == xx[22] && xx[15] == 0) {
                                 if (ttype[t] != 7 && ttype[t] != 110 && ttype[t] != 117) {
-                                    if (!(ttype[t] == 114)) { // && txtype[t]==1)){
+                                    if (!(ttype[t] == 114)) {
                                         if (ta[t] >= -20000) {
-                                            // if (ma+mnobia>xx[8] && ma<xx[8]+xx[2] && mb+mnobib>xx[9]+xx[1]/2-xx[0] &&){
                                             if (ma + mnobia > xx[8] && ma < xx[8] + xx[2] && mb + mnobib > xx[9] + xx[1] / 2 - xx[0] && mb < xx[9] + xx[2] && mc >= 0) {
                                                 ma = xx[8] - mnobia;
                                                 mc = 0;
                                                 xx[16] = 1;
-                                                // if (ttype[t]!=4){ma=xx[8]-mnobia;mc=0;xx[16]=1;}
-                                                // if (ttype[t]==4){ma=xx[8]-mnobia;mc=-mc*4/4;}
                                             }
                                             if (ma + mnobia > xx[8] + xx[2] && ma < xx[8] + xx[1] && mb + mnobib > xx[9] + xx[1] / 2 - xx[0] && mb < xx[9] + xx[2] && mc <= 0) {
                                                 ma = xx[8] + xx[1];
                                                 mc = 0;
-                                                xx[16] = 1; // end();
-                                                // if (ttype[t]!=4){ma=xx[8]+xx[1];mc=0;xx[16]=1;}
-                                                // if (ttype[t]==4){ma=xx[8]+xx[1];mc=-mc*4/4;}
+                                                xx[16] = 1;
                                             }
                                         }
                                     }
                                 }
                             }
 
-                        } // t3
-                    } //!
+                        }
+                    }
 
-                } // && ttype[t]<50
+                }
 
                 if (ttype[t] == 800) {
-                    // if (xx[0]+xx[2]>=-xx[14] && xx[0]<=fxmax+xx[14] && xx[1]+xx[3]>=-10-9000 && xx[1]<=fymax+10000){
                     if (mb > xx[9] - xx[0] * 2 - 2000 && mb < xx[9] + xx[1] - xx[0] * 2 + 2000 && ma + mnobia > xx[8] - 400 && ma < xx[8] + xx[1]) {
                         ta[t] = -800000;
                         play_sound_effect(oto[4]);
                     }
                 }
+
                 // 剣とってクリア
                 if (ttype[t] == 140) {
                     if (mb > xx[9] - xx[0] * 2 - 2000 && mb < xx[9] + xx[1] - xx[0] * 2 + 2000 && ma + mnobia > xx[8] - 400 && ma < xx[8] + xx[1]) {
-                        ta[t] = -800000; // ot(oto[4]);
+                        ta[t] = -800000;
                         sracttype[20] = 1;
                         sron[20] = 1;
                         stop_background_music();
@@ -1585,8 +1541,9 @@ void play_update() {
                         play_sound_effect(oto[16]);
                     }
                 }
+
                 // 特殊的
-                if (ttype[t] == 100) { // xx[9]+xx[1]+3000<mb && // && mb>xx[9]-xx[0]*2
+                if (ttype[t] == 100) {
                     if (mb > xx[9] - xx[0] * 2 - 2000 && mb < xx[9] + xx[1] - xx[0] * 2 + 2000 && ma + mnobia > xx[8] - 400 && ma < xx[8] + xx[1] && md <= 0) {
                         if (txtype[t] == 0)
                             tb[t] = mb + fy - 1200 - xx[1];
@@ -1608,10 +1565,10 @@ void play_update() {
                         eyobi(ta[t] + 10, tb[t], 0, -800, 0, 40, 3000, 3000, 0, 16);
                         ttype[t] = 3;
                     }
-                } // 100
+                }
 
                 // 敵出現
-                if (ttype[t] == 101) { // xx[9]+xx[1]+3000<mb && // && mb>xx[9]-xx[0]*2
+                if (ttype[t] == 101) {
                     if (xx[17] == 1) {
                         play_sound_effect(oto[8]);
                         ttype[t] = 3;
@@ -1629,7 +1586,7 @@ void play_update() {
                         if (txtype[t] == 10)
                             ayobi(ta[t], tb[t], 0, 0, 0, 101, 0);
                     }
-                } // 101
+                }
 
                 // おいしいきのこ出現
                 if (ttype[t] == 102) {
@@ -1644,7 +1601,7 @@ void play_update() {
                         if (txtype[t] == 3)
                             ayobi(ta[t], tb[t], 0, 0, 0, 102, 1);
                     }
-                } // 102
+                }
 
                 // まずいきのこ出現
                 if (ttype[t] == 103) {
@@ -1654,7 +1611,7 @@ void play_update() {
                         abrocktm[aco] = 16;
                         ayobi(ta[t], tb[t], 0, 0, 0, 100, 1);
                     }
-                } // 103
+                }
 
                 // 悪スター出し
                 if (ttype[t] == 104) {
@@ -1664,7 +1621,7 @@ void play_update() {
                         abrocktm[aco] = 16;
                         ayobi(ta[t], tb[t], 0, 0, 0, 110, 0);
                     }
-                } // 104
+                }
 
                 // 毒きのこ量産
                 if (ttype[t] == 110) {
@@ -1672,7 +1629,8 @@ void play_update() {
                         ttype[t] = 111;
                         thp[t] = 999;
                     }
-                } // 110
+                }
+
                 if (ttype[t] == 111 && ta[t] - fx >= 0) {
                     thp[t]++;
                     if (thp[t] >= 16) {
@@ -1682,6 +1640,7 @@ void play_update() {
                         ayobi(ta[t], tb[t], 0, 0, 0, 102, 1);
                     }
                 }
+
                 // コイン量産
                 if (ttype[t] == 112) {
                     if (xx[17] == 1) {
@@ -1689,7 +1648,8 @@ void play_update() {
                         thp[t] = 999;
                         titem[t] = 0;
                     }
-                } // 110
+                }
+
                 if (ttype[t] == 113 && ta[t] - fx >= 0) {
                     if (titem[t] <= 19)
                         thp[t]++;
@@ -1701,6 +1661,7 @@ void play_update() {
                         // ttype[t]=3;
                     }
                 }
+
                 // 隠し毒きのこ
                 if (ttype[t] == 114) {
                     if (xx[17] == 1) {
@@ -1737,22 +1698,21 @@ void play_update() {
                             }
                         }
                     }
-                } // 114
+                }
 
                 // もろいブロック
                 if (ttype[t] == 115) {
 
-                } // 115
+                }
 
                 // Pスイッチ
                 if (ttype[t] == 116) {
                     if (xx[17] == 1) {
                         play_sound_effect(oto[8]);
-                        // play_sound_effect(oto[13]);
-                        ttype[t] = 3; // abrocktm[aco]=18;ayobi(ta[t],tb[t],0,0,0,104,1);
+                        ttype[t] = 3;
                         tyobi(ta[t] / 100, (tb[t] / 100) - 29, 400);
                     }
-                } // 116
+                }
 
                 // ファイアバー強化
                 if (ttype[t] == 124) {
@@ -1768,6 +1728,7 @@ void play_update() {
                         ttype[t] = 3;
                     }
                 }
+                
                 // ONスイッチ
                 if (ttype[t] == 130) {
                     if (xx[17] == 1) {
@@ -1804,7 +1765,7 @@ void play_update() {
                             message_box_open(MESSAGE_011);
                         }
                     }
-                } // 300
+                }
 
                 if (ttype[t] == 301) {
                     if (xx[17] == 1) {
@@ -1815,7 +1776,7 @@ void play_update() {
                         eyobi(ta[t] + 1200, tb[t] + 1200, -240, -1400, 0, 160, 1000, 1000, 1, 120);
                         brockbreak(t);
                     }
-                } // 300
+                }
             }
             else if (mtype == 1) {
                 if (ma + mnobia > xx[8] && ma < xx[8] + xx[1] && mb + mnobib > xx[9] && mb < xx[9] + xx[1]) {
@@ -1837,14 +1798,14 @@ void play_update() {
             }
             // ヒント
             if (ttype[t] == 300) {
-                if (txtype[t] >= 500 && ta[t] >= -6000) { // && ta[t]>=-6000){
+                if (txtype[t] >= 500 && ta[t] >= -6000) {
                     if (txtype[t] <= 539)
                         txtype[t]++;
                     if (txtype[t] >= 540) {
                         ta[t] -= 500;
                     }
                 }
-            } // 300
+            }
         }
     } // ブロック
 
@@ -1937,7 +1898,7 @@ void play_update() {
                             md = -md * 2 / 3;
                         }
                     }
-                } // xx[7]
+                }
 
                 // 入る土管
                 if (stype[t] == 50) {
@@ -1977,7 +1938,7 @@ void play_update() {
                             mxtype = 6;
                         }
                     }
-                } // 50
+                }
 
                 // 入る土管(左から)
                 if (stype[t] == 40) {
@@ -1986,7 +1947,7 @@ void play_update() {
                         if (sxtype[t] == 0) {
                             mtype = 500;
                             mtm = 0;
-                            play_sound_effect(oto[7]); // mxtype=1;
+                            play_sound_effect(oto[7]);
                             mtype = 100;
                             mxtype = 10;
                         }
@@ -1994,7 +1955,7 @@ void play_update() {
                         if (sxtype[t] == 2) {
                             mxtype = 3;
                             mtm = 0;
-                            play_sound_effect(oto[7]); // mxtype=1;
+                            play_sound_effect(oto[7]);
                             mtype = 100;
                         }
                         // ループ
@@ -2005,9 +1966,8 @@ void play_update() {
                             mxtype = 6;
                         }
                     }
-                } // 40
-
-            } // stype
+                }
+            }
             else {
                 if (ma + mnobia > xx[8] + xx[0] && ma < xx[8] + sc[t] - xx[0] && mb + mnobib > xx[9] && mb < xx[9] + sd[t] + xx[0]) {
                     if (stype[t] == 100) {
@@ -2102,7 +2062,7 @@ void play_update() {
                             amsgtype[aco] = 50;
                             ayobi(sa[t] - 12000, sb[t] + 2000, 0, 0, 0, 79, 0);
                             sa[t] = -800000000;
-                            txtype[9] = 500; // ttype[9]=1;
+                            txtype[9] = 500;
                         }
                     } // 103
 
@@ -2151,7 +2111,6 @@ void play_update() {
     } // 壁
 
     // キー入力初期化
-    // for (t=0;t<=6;t++)
     actaon[0] = 0;
     actaon[4] = 0;
 
@@ -2171,14 +2130,11 @@ void play_update() {
             if (md >= 100) {
                 xx[1] = 900 + md;
             }
-            // if (srtype[t]==1){xx[0]=600;}
             if (md > xx[1])
                 xx[1] = md + 100;
-            // xx[18]=0;
 
             srb[t] += sre[t];
             sre[t] += srf[t];
-            // if (srf[t]>=500)srf[t]=0;
 
             // 動き
             switch (sracttype[t]) {
@@ -2189,26 +2145,10 @@ void play_update() {
                 break;
 
             case 2:
-                /*
-                if (sra[t]<=srmovep[t]-srmove[t])srmuki[t]=1;
-                if (sra[t]>=srmovep[t]+srmove[t])srmuki[t]=0;
-                */
                 break;
 
             case 3:
-                /*
-                if (srb[t]<=srmovep[t]-srmove[t])srmuki[t]=1;
-                if (srb[t]>=srmovep[t]+srmove[t])srmuki[t]=0;
-                */
                 break;
-
-                /*
-                case 4:
-                if (srmove[t]==0){srmuki[t]=0;}else{srmuki[t]=1;}
-                if (sra[t]-fx<-1100-src[t]){sra[t]=fymax+fx+scrollx;}
-                if (sra[t]-fx>24000+scrollx){sra[t]=-1100-src[t]+fx;}
-                break;
-                */
 
             case 5:
                 if (srmove[t] == 0) {
@@ -2233,15 +2173,12 @@ void play_update() {
             case 7:
                 break;
 
-            } // sw
-
-            // if (srtype[t]==1){sre[10]=300;sre[11]=300;}
+            }
 
             // 乗ったとき
             if (mhp >= 1) {
                 if (ma + mnobia > xx[8] + xx[0] && ma < xx[8] + xx[12] - xx[0] && mb + mnobib > xx[9] && mb + mnobib < xx[9] + xx[1] && md >= -100) {
                     mb = xx[9] - mnobib + 100;
-                    // if (sracttype[t]!=7)mzimen=1;
 
                     if (srtype[t] == 1) {
                         sre[10] = 900;
@@ -2253,20 +2190,8 @@ void play_update() {
                         md = 0;
                     }
                     else {
-                        // すべり
-                        // md=0;mrzimen=1;mzimen=1;
                         md = -800;
                     }
-
-                    /*
-                    md=0;
-                    if ((sracttype[t]==1 || sracttype[t]==6) && sron[t]==1)mb+=sre[t];
-
-                    if (sracttype[t]==2 || sracttype[t]==4){
-                    if (srmuki[t]==0)ma-=srsok[t];
-                    if (srmuki[t]==1)ma+=srsok[t];
-                    }
-                    */
 
                     // 落下
                     if ((sracttype[t] == 1) && sron[t] == 0)
@@ -2274,11 +2199,6 @@ void play_update() {
 
                     if (sracttype[t] == 1 && sron[t] == 1 || sracttype[t] == 3 || sracttype[t] == 5) {
                         mb += sre[t];
-                        // if (srmuki[t]==0)
-                        // if (srf[t]<0)
-                        // if (srmuki[t]==1)
-                        // if (srf[t]>0)
-                        // mb+=srsok[t];
                     }
 
                     if (sracttype[t] == 7) {
@@ -2321,7 +2241,6 @@ void play_update() {
                             srmove[t] = -5000;
                         }
                     }
-                    // if (srtype[t]==1){md=-600;mb-=610;mhp-=1;if (mmutekion!=1)mmutekitm=40;}
                 } // 判定内
 
                 // 疲れ初期化
@@ -2332,7 +2251,7 @@ void play_update() {
                 if (srsp[t] == 11) {
                     if (ma + mnobia > xx[8] + xx[0] - 2000 && ma < xx[8] + xx[12] - xx[0]) {
                         sron[t] = 1;
-                    } // && mb+mnobib>xx[9]-1000 && mb+mnobib<xx[9]+xx[1]+2000)
+                    }
                     if (sron[t] == 1) {
                         srf[t] = 60;
                         srb[t] += sre[t];
@@ -2358,16 +2277,7 @@ void play_update() {
                     }
                 }
 
-            } //!
-
-            /*
-            //ジャンプ台
-            if (sracttype[t]==7){
-            if (ma+mnobia>xx[8]+xx[0] && ma<xx[8]+xx[12]-xx[0] && mb+mnobib>xx[9]+xx[1]/2 && mb+mnobib<xx[9]+xx[1]*3/2 && md>=-100){
-            if (actaon[2]!=1){md=-600;mb-=810;}
-            if (actaon[2]==1){mb-=400;md=-1400;mjumptm=10;}
-            }}
-            */
+            }
 
             if (sracttype[t] == 2 || sracttype[t] == 4) {
                 if (srmuki[t] == 0)
@@ -2412,7 +2322,7 @@ void play_update() {
             ea[t] = -9000000;
         }
 
-    } // emax
+    }
 
     // 敵キャラの配置
     for (t = 0; t < bmax; t++) {
@@ -2429,32 +2339,30 @@ void play_update() {
                 if (bz[t] == 0 && btm[t] < 0 && ba[t] - fx >= fxmax + 2000 && ba[t] - fx < fxmax + 2000 + mc && tt == 0) {
                     xx[0] = 1;
                     amuki[aco] = 0;
-                } // && mmuki==1
+                }
                 if (bz[t] == 0 && btm[t] < 0 && ba[t] - fx >= -400 - anx[btype[t]] + mc && ba[t] - fx < -400 - anx[btype[t]] && tt == 1) {
                     xx[0] = 1;
                     xx[1] = 1;
                     amuki[aco] = 1;
-                } // && mmuki==0
+                }
                 if (bz[t] == 1 && ba[t] - fx >= 0 - anx[btype[t]] && ba[t] - fx <= fxmax + 4000 && bb[t] - fy >= -9000 && bb[t] - fy <= fymax + 4000 && btm[t] < 0) {
                     xx[0] = 1;
                     bz[t] = 0;
-                } // && xza<=5000// && tyuukan!=1
-                // if (bz[t]==2){xx[0]=0;xx[1]=0;}
-                // if (btype[t]>=100){bz[t]=2;}
+                }
 
-                if (xx[0] == 1) { // 400
+                if (xx[0] == 1) {
                     btm[t] = 401;
-                    xx[0] = 0; // if (btype[t]>=20 && btype[t]<=23){btm[t]=90000;}
+                    xx[0] = 0;
                     if (btype[t] >= 10) {
                         btm[t] = 9999999;
                     }
-                    // 10
+
                     ayobi(ba[t], bb[t], 0, 0, 0, btype[t], bxtype[t]);
                 }
 
-            } // tt
+            }
         }
-    } // t
+    }
 
     // 敵キャラ
     for (t = 0; t < amax; t++) {
@@ -2487,8 +2395,6 @@ void play_update() {
                 xx[17] = 800;
                 if (axtype[t] >= 1)
                     xx[10] = xx[17];
-                // if (axtype[t]==1)xx[10]=xx[17];
-                // if (axtype[t]==2)xx[10]=-xx[17];
                 // 他の敵を倒す
                 if (axtype[t] >= 1) {
                     for (tt = 0; tt < amax; tt++) {
@@ -2511,14 +2417,13 @@ void play_update() {
 
                 // あらまき
             case 3:
-                azimentype[t] = 0; // end();
+                azimentype[t] = 0;
                 if (axtype[t] == 0) {
                     ab[t] -= 800;
                 }
                 if (axtype[t] == 1)
                     ab[t] += 1200;
 
-                // xx[10]=100;
                 break;
 
                 // スーパージエン
@@ -2535,13 +2440,12 @@ void play_update() {
                         atm[t] = 40;
                         ab[t] -= 1000;
                     }
-                } //
+                }
                 break;
 
                 // クマー
             case 5:
                 xx[10] = 160;
-                // azimentype[t]=2;
                 break;
 
                 // デフラグさん
@@ -2582,7 +2486,6 @@ void play_update() {
                 if (axtype[t] == 1) {
                     for (tt = 0; tt < smax; tt++) {
                         if (stype[tt] == 300) {
-                            // sa[sco]=xx[21]*100;sb[sco]=xx[22]*100;sc[sco]=3000;sd[sco]=(12-t)*3000;stype[sco]=300;sco++;
                             if (aa[t] - fx >= -8000 && aa[t] >= sa[tt] + 2000 && aa[t] <= sa[tt] + 3600 && axzimen[t] == 1) {
                                 sa[tt] = -800000;
                                 atm[t] = 100;
@@ -2605,7 +2508,6 @@ void play_update() {
                         eyobi(aa[t] + 1200 - 1200, ab[t] + 3000 - 10 * 3000 - 1500, 600, -1200, 0, 160, 1000, 10 * 3000 - 1200, 4, 240);
                         amuki[t] = 1;
                     }
-                    // mc=700;mkeytm=24;md=-1200;mb=xx[1]-1000-3000;amuki[t]=1;if (axtype[t]==1){mc=840;axtype[t]=0;}}
                     if (atm[t] == 140) {
                         amuki[t] = 0;
                         atm[t] = 0;
@@ -2625,11 +2527,10 @@ void play_update() {
                     xx[9] = ab[tt] - fy;
                     if (t != tt && atype[tt] >= 100) {
                         if (aa[t] + anobia[t] - fx > xx[8] + xx[0] * 2 && aa[t] - fx < xx[8] + anobia[tt] - xx[0] * 2 && ab[t] + anobib[t] - fy > xx[9] + xx[5] && ab[t] + anobib[t] - fy < xx[9] + xx[1] * 3 + xx[12] + 1500) {
-                            // aa[tt]=-800000;
                             amuki[tt] = 1;
                             aa[tt] = aa[t] + 300;
                             ab[tt] = ab[t] - 3000;
-                            abrocktm[tt] = 120; // aa[tt]=0;
+                            abrocktm[tt] = 120;
                             atm[t] = 200;
                             amuki[t] = 1;
                         }
@@ -2766,7 +2667,6 @@ void play_update() {
                 // 雲の敵
             case 80:
                 azimentype[t] = 0;
-                // xx[10]=100;
                 break;
             case 81:
                 azimentype[t] = 0;
@@ -2878,7 +2778,6 @@ void play_update() {
 
             case 90:
                 xx[10] = 160;
-                // azimentype[t]=0;
                 break;
 
                 // おいしいキノコ
@@ -2898,7 +2797,7 @@ void play_update() {
                         if (t != tt) {
                             if (aa[t] + anobia[t] - fx > xx[8] + xx[0] * 2 && aa[t] - fx < xx[8] + anobia[tt] - xx[0] * 2 && ab[t] + anobib[t] - fy > xx[9] + xx[5] && ab[t] + anobib[t] - fy < xx[9] + xx[1] * 3 + xx[12]) {
                                 if (atype[tt] == 0 || atype[tt] == 4) {
-                                    atype[tt] = 90; // play_sound_effect(oto[6]);
+                                    atype[tt] = 90;
                                     anobia[tt] = 6400;
                                     anobib[tt] = 6300;
                                     axtype[tt] = 0;
@@ -2936,7 +2835,7 @@ void play_update() {
                 azimentype[t] = 1;
                 xx[10] = 100;
                 break;
-            } // sw
+            }
 
             if (abrocktm[t] >= 1)
                 xx[10] = 0;
@@ -2950,23 +2849,20 @@ void play_update() {
             xx[0] = 850;
             xx[1] = 1200;
 
-            // if (mc>xx[0]){mc=xx[0];}
-            // if (mc<-xx[0]){mc=-xx[0];}
             if (ad[t] > xx[1] && azimentype[t] != 5) {
                 ad[t] = xx[1];
             }
             // 行動
-            aa[t] += aacta[t]; // ab[t]+=aactb[t];
+            aa[t] += aacta[t];
 
             if ((azimentype[t] >= 1 || azimentype[t] == -1) && abrocktm[t] <= 0) {
-                // if (atype[t]==4)end();
 
                 // 移動
                 aa[t] += ac[t];
                 if (azimentype[t] >= 1 && azimentype[t] <= 3) {
                     ab[t] += ad[t];
                     ad[t] += 120;
-                } // ad[t]+=180;
+                }
 
                 if (axzimen[t] == 1) {
                     xx[0] = 100;
@@ -2988,7 +2884,7 @@ void play_update() {
                     tekizimen();
                 }
 
-            } // azimentype[t]>=1
+            }
 
             // ブロックから出現するさい
             if (abrocktm[t] > 0) {
@@ -3004,7 +2900,7 @@ void play_update() {
                     ac[t] = 700;
                     abrocktm[t] = 0;
                 }
-            } // abrocktm[t]>0
+            }
 
             // プレイヤーからの判定
             xx[0] = 250;
@@ -3074,9 +2970,6 @@ void play_update() {
                         atype[t] = 151;
                         ad[t] = 0;
                     }
-                    // if (atype[t]==4){
-                    // xx[25]=1;
-                    // }
 
                     if (atype[t] != 85) {
                         if (xx[25] == 0) {
@@ -3099,10 +2992,7 @@ void play_update() {
                         actaon[2] = 0;
                     }
                 }
-                // if (atype[t]==200){mb=xx[9]-900-anobib[t];md=-2400;}
             }
-            // if (aa[t]+anobia[t]-fx>xx[8]-xx[0] && aa[t]-fx<xx[8]){md=-1000;}//aa[t]=-9000000;
-            //  && ab[t]-fy<xx[9]+xx[1]/2 && ab[t]+anobib[t]-fy>xx[9]+mnobib-xx[2]
 
             xx[15] = -500;
 
@@ -3120,13 +3010,11 @@ void play_update() {
                 }
                 if (mmutekitm <= 0 && (atype[t] <= 99 || atype[t] >= 200)) {
                     if (mmutekion != 1 && mtype != 200) {
-                        // if (mmutekitm<=0)
 
                         // ダメージ
                         if ((atype[t] != 2 || axtype[t] != 0) && mhp >= 1) {
                             if (atype[t] != 6) {
                                 mhp -= 1;
-                                // mmutekitm=40;
                             }
                         }
 
@@ -3188,7 +3076,7 @@ void play_update() {
                                 atype[t] = 83;
                                 aa[t] -= xx[24] + 100;
                                 ab[t] -= xx[24] - 100 * 0;
-                            } // 82
+                            }
 
                             if (atype[t] == 84) {
                                 mmsgtm = 30;
@@ -3204,11 +3092,10 @@ void play_update() {
                                 atype[t] = 81;
                             }
 
-                        } // mhp==0
+                        }
 
                         // こうら
                         if (atype[t] == 2) {
-                            // if (axtype[t]==1 || axtype[t]==2){axtype[t]=0;}
                             if (axtype[t] == 0) {
                                 if (ma + mnobia > xx[8] + xx[0] * 2 && ma < xx[8] + anobia[t] / 2 - xx[0] * 4) {
                                     axtype[t] = 1;
@@ -3225,11 +3112,10 @@ void play_update() {
                             }
                             else {
                                 mhp -= 1;
-                            } // mmutekitm=40;}
+                            }
                         }
                     }
                 }
-                // else if (mmutekitm>=0 && mmutekitm<=2){mmutekitm+=1;}
                 // アイテム
                 if (atype[t] >= 100 && atype[t] <= 199) {
 
@@ -3273,7 +3159,6 @@ void play_update() {
                             txtype[7] = 80;
                             play_sound_effect(oto[4]);
 
-                            // ayobi(aa[t]-6*3000+1000,-3*3000,0,0,0,110,0);
                             ayobi(aa[t] - 8 * 3000 - 1000, -4 * 3000, 0, 0, 0, 110, 0);
                             ayobi(aa[t] - 10 * 3000 + 1000, -1 * 3000, 0, 0, 0, 110, 0);
 
@@ -3295,13 +3180,13 @@ void play_update() {
                     aa[t] = -90000000;
                 }
 
-            } //(ma
+            }
         }
         else {
             aa[t] = -9000000;
         }
 
-    } // t
+    }
 
     // スクロール
     if (true) {
@@ -3316,7 +3201,7 @@ void play_update() {
                 xx[3] = 1;
         }
     }
-} // Mainprogram()
+}
 
 void tekizimen() {
 
@@ -3325,7 +3210,7 @@ void tekizimen() {
         if (sa[tt] - fx + sc[tt] >= -12010 && sa[tt] - fx <= fxmax + 12100 && stype[tt] <= 99) {
             xx[0] = 200;
             xx[2] = 1000;
-            xx[1] = 2000; // anobia[t]
+            xx[1] = 2000;
 
             xx[8] = sa[tt] - fx;
             xx[9] = sb[tt] - fy;
@@ -3337,7 +3222,7 @@ void tekizimen() {
                 aa[t] = xx[8] + sc[tt] + xx[0] + fx;
                 amuki[t] = 1;
             }
-            // if (aa[t]+anobia[t]-fx>xx[8]+xx[0] && aa[t]-fx<xx[8]+sc[tt]-xx[0] && ab[t]+anobib[t]-fy>xx[9] && ab[t]+anobib[t]-fy<xx[9]+xx[1] && ad[t]>=-100){ab[t]=sb[tt]-fy-anobib[t]+100+fy;ad[t]=0;}//mzimen=1;}
+            
             if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + sc[tt] - xx[0] && ab[t] + anobib[t] - fy > xx[9] && ab[t] + anobib[t] - fy < xx[9] + sd[tt] - xx[1] && ad[t] >= -100) {
                 ab[t] = sb[tt] - fy - anobib[t] + 100 + fy;
                 ad[t] = 0;
@@ -3348,7 +3233,7 @@ void tekizimen() {
                 ab[t] = xx[9] + sd[tt] + xx[0] + fy;
                 if (ad[t] < 0) {
                     ad[t] = -ad[t] * 2 / 3;
-                } // axzimen[t]=1;
+                }
             }
         }
     }
@@ -3365,9 +3250,7 @@ void tekizimen() {
 
                 // 上
                 if (ttype[tt] != 7) {
-                    // if (ttype[tt]==117 && txtype[t]==1){ad[t]=-1500;}
                     if (!(ttype[tt] == 117)) {
-                        // if (!(ttype[tt]==120 && txtype[t]==0)){
                         if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + xx[1] - xx[0] * 1 && ab[t] + anobib[t] - fy > xx[9] && ab[t] + anobib[t] - fy < xx[9] + xx[1] && ad[t] >= -100) {
                             ab[t] = xx[9] - anobib[t] + 100 + fy;
                             ad[t] = 0;
@@ -3377,7 +3260,6 @@ void tekizimen() {
                                 ad[t] = -1600;
                                 azimentype[t] = 30;
                             }
-                            //}
                         }
                     }
                 }
@@ -3387,10 +3269,7 @@ void tekizimen() {
                         ab[t] = xx[9] + xx[1] + xx[0] + fy;
                         if (ad[t] < 0) {
                             ad[t] = 0;
-                        } //=-ad[t]*2/3;}
-                        // if (ttype[t]==7){
-                        // for (t2=0;t2<tmax;t2++){if (ttype[t2]==5){ttype[t2]=6;}else if (ttype[t2]==6){ttype[t2]=5;}}
-                        // }
+                        }
                     }
                 }
                 // 左右
@@ -3435,12 +3314,12 @@ void tekizimen() {
                     eyobi(ta[tt] + 1200, tb[tt] + 1200, -240, -1400, 0, 160, 1000, 1000, 1, 120);
                     brockbreak(tt);
                 }
-            } // 90
+            }
         }
         // 剣とってクリア
         if (ttype[tt] == 140) {
             if (ab[t] - fy > xx[9] - xx[0] * 2 - 2000 && ab[t] - fy < xx[9] + xx[1] - xx[0] * 2 + 2000 && aa[t] + anobia[t] - fx > xx[8] - 400 && aa[t] - fx < xx[8] + xx[1]) {
-                ta[tt] = -800000; // play_sound_effect(oto[4]);
+                ta[tt] = -800000;
                 sracttype[20] = 1;
                 sron[20] = 1;
             }
@@ -3730,7 +3609,7 @@ eyobi(int xa, int xb, int xc, int xd, int xe, int xf, int xnobia, int xnobib, in
     if (eco >= emax)
 	eco = 0;
 
-}				//eyobi
+}
 
 //敵キャラ、アイテム作成
 void ayobi(int xa, int xb, int xc, int xd, int xnotm, int xtype, int xxtype) {

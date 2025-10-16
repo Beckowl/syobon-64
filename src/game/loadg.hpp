@@ -166,11 +166,11 @@ void loadg(void) {
         }
     }
 
-    otom[1] = wav64_load("rom:/BGM/field.wav64", NULL);   // 50
-    otom[2] = wav64_load("rom:/BGM/dungeon.wav64", NULL); // 40
-    otom[3] = wav64_load("rom:/BGM/star4.wav64", NULL);   // 50
-    otom[4] = wav64_load("rom:/BGM/castle.wav64", NULL);  // 50
-    otom[5] = wav64_load("rom:/BGM/puyo.wav64", NULL);    // 50
+    otom[1] = wav64_load("rom:/BGM/field.wav64", NULL);
+    otom[2] = wav64_load("rom:/BGM/dungeon.wav64", NULL);
+    otom[3] = wav64_load("rom:/BGM/star4.wav64", NULL);
+    otom[4] = wav64_load("rom:/BGM/castle.wav64", NULL);
+    otom[5] = wav64_load("rom:/BGM/puyo.wav64", NULL);
 
     oto[1] = wav64_load("rom:/SE/jump.wav64", NULL);
     oto[3] = wav64_load("rom:/SE/brockbreak.wav64", NULL);
