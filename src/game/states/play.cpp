@@ -52,8 +52,7 @@ void play_draw() {
     if (stagecolor == 5) {
         set_draw_color(160, 180, 250);
         mrzimen = 1;
-    }
-    else {
+    } else {
         mrzimen = 0;
     }
 
@@ -73,8 +72,7 @@ void play_draw() {
             if (ntype[t] != 3) {
                 if ((ntype[t] == 1 || ntype[t] == 2) && stagecolor == 5) {
                     draw_sprite_region(grap[ntype[t] + 30][4], xx[0] / 100, xx[1] / 100, mirror);
-                }
-                else {
+                } else {
                     draw_sprite_region(grap[ntype[t]][4], xx[0] / 100, xx[1] / 100, mirror);
                 }
             }
@@ -173,8 +171,7 @@ void play_draw() {
                     set_draw_color(150, 150, 150);
                 }
                 draw_rectangle_outline((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, xx[2]);
-            }
-            else if (srsp[t] <= 14) {
+            } else if (srsp[t] <= 14) {
                 if (src[t] >= 5000) {
                     set_draw_color(0, 200, 0);
                     draw_rectangle_filled((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, 30);
@@ -203,8 +200,7 @@ void play_draw() {
         mactp -= 2000;
         if (mact == 0) {
             mact = 1;
-        }
-        else {
+        } else {
             mact = 0;
         }
     }
@@ -226,9 +222,7 @@ void play_draw() {
     // 巨大化
     else if (mtype == 1) {
         draw_sprite_region(grap[41][0], ma / 100, mb / 100, mirror);
-    }
-
-    else if (mtype == 200) {
+    } else if (mtype == 200) {
         draw_sprite_region(grap[3][0], ma / 100, mb / 100, mirror);
     }
 
@@ -268,8 +262,7 @@ void play_draw() {
             if (atype[t] == 6) {
                 if (atm[t] >= 10 && atm[t] <= 19 || atm[t] >= 100 && atm[t] <= 119 || atm[t] >= 200) {
                     draw_sprite_region(grap[150][3], xx[0] / 100, xx[1] / 100, mirror);
-                }
-                else {
+                } else {
                     draw_sprite_region(grap[6][3], xx[0] / 100, xx[1] / 100, mirror);
                 }
             }
@@ -381,8 +374,7 @@ void play_draw() {
             if (atype[t] == 86) {
                 if (ma >= aa[t] - fx - mnobia - 4000 && ma <= aa[t] - fx + anobia[t] + 4000) {
                     draw_sprite_region(grap[152][3], xx[0] / 100, xx[1] / 100, mirror);
-                }
-                else {
+                } else {
                     draw_sprite_region(grap[86][3], xx[0] / 100, xx[1] / 100, mirror);
                 }
             }
@@ -559,8 +551,7 @@ void play_draw() {
                         draw_sprite_region(grap[5 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100, mirror);
                         if (stagecolor != 4) {
                             draw_sprite_region(grap[6 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29, mirror);
-                        }
-                        else {
+                        } else {
                             draw_sprite_region(grap[5 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29, mirror);
                         }
                     }
@@ -667,8 +658,7 @@ void play_draw() {
                         draw_circle_filled(xx[0] / 100 + xx[24], xx[1] / 100 + xx[25], xx[23]);
                         set_draw_color(0, 0, 0);
                         draw_circle_outline(xx[0] / 100 + xx[24], xx[1] / 100 + xx[25], xx[23]);
-                    }
-                    else {
+                    } else {
                         draw_circle_filled(xx[0] / 100 - xx[24], xx[1] / 100 + xx[25], xx[23]);
                         set_draw_color(0, 0, 0);
                         draw_circle_outline(xx[0] / 100 - xx[24], xx[1] / 100 + xx[25], xx[23]);
@@ -829,8 +819,7 @@ void play_draw() {
             if (amsgtype[t] != 31) {
                 xx[5] = (aa[t] + anobia[t] + 300 - fx) / 100;
                 xx[6] = (ab[t] - fy) / 100;
-            }
-            else {
+            } else {
                 xx[5] = (aa[t] + anobia[t] + 300 - fx) / 100;
                 xx[6] = (ab[t] - fy - 800) / 100;
             }
@@ -1143,8 +1132,7 @@ void play_update() {
                     mtype = 0;
                     mhp--;
                 }
-            }
-            else {
+            } else {
                 mc = 0;
                 md = 0;
                 if (mtm <= 16 && mxtype != 3) {
@@ -1170,8 +1158,7 @@ void play_update() {
                 if (mtm == 20) {
                     if (mxtype == 6) {
                         stc += 10;
-                    }
-                    else {
+                    } else {
                         stc++;
                     }
                     mb = -80000000;
@@ -1241,8 +1228,7 @@ void play_update() {
                     nco++;
                     if (nco >= nmax)
                         nco = 0;
-                }
-                else {
+                } else {
                     na[nco] = 157 * 29 * 100 - 1100;
                     nb[nco] = 4 * 29 * 100;
                     ntype[nco] = 101;
@@ -1262,8 +1248,7 @@ void play_update() {
             if (mtm == 440) {
                 if (mtype == 301) {
                     game_set_state(STATE_CREDITS);
-                }
-                else {
+                } else {
                     sta++;
                     stb = 1;
                     stc = 0;
@@ -1396,8 +1381,7 @@ void play_update() {
                                     md = 0;
                                     mzimen = 1;
                                     xx[16] = 1;
-                                }
-                                else if (ttype[t] == 115) {
+                                } else if (ttype[t] == 115) {
                                     play_sound_effect(oto[3]);
                                     eyobi(ta[t] + 1200, tb[t] + 1200, 300, -1000, 0, 160, 1000, 1000, 1, 120);
                                     eyobi(ta[t] + 1200, tb[t] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);
@@ -1553,8 +1537,7 @@ void play_update() {
                         if (xx[17] == 1) {
                             if (ma + mnobia > xx[8] - 400 && ma < xx[8] + xx[1] / 2 - 1500) {
                                 ta[t] += 3000;
-                            }
-                            else if (ma + mnobia >= xx[8] + xx[1] / 2 - 1500 && ma < xx[8] + xx[1]) {
+                            } else if (ma + mnobia >= xx[8] + xx[1] / 2 - 1500 && ma < xx[8] + xx[1]) {
                                 ta[t] -= 3000;
                             }
                         }
@@ -1690,8 +1673,7 @@ void play_update() {
                                         }
                                     }
                                 }
-                            }
-                            else {
+                            } else {
                                 play_sound_effect(oto[4]);
                                 eyobi(ta[t] + 10, tb[t], 0, -800, 0, 40, 3000, 3000, 0, 16);
                                 ttype[t] = 3;
@@ -1737,8 +1719,7 @@ void play_update() {
                             play_sound_effect(oto[13]);
                         }
                     }
-                }
-                else if (ttype[t] == 131) {
+                } else if (ttype[t] == 131) {
                     if (xx[17] == 1 && txtype[t] != 2) {
                         stageonoff = 1;
                         play_sound_effect(oto[13]);
@@ -1777,8 +1758,7 @@ void play_update() {
                         brockbreak(t);
                     }
                 }
-            }
-            else if (mtype == 1) {
+            } else if (mtype == 1) {
                 if (ma + mnobia > xx[8] && ma < xx[8] + xx[1] && mb + mnobib > xx[9] && mb < xx[9] + xx[1]) {
 
                     play_sound_effect(oto[3]);
@@ -1967,8 +1947,7 @@ void play_update() {
                         }
                     }
                 }
-            }
-            else {
+            } else {
                 if (ma + mnobia > xx[8] + xx[0] && ma < xx[8] + sc[t] - xx[0] && mb + mnobib > xx[9] && mb < xx[9] + sd[t] + xx[0]) {
                     if (stype[t] == 100) {
                         if (sxtype[t] == 0 || sxtype[t] == 1 && ttype[1] != 3) {
@@ -1990,32 +1969,25 @@ void play_update() {
                         }
                         if (sxtype[t] == 1 && mb >= 16000) {
                             ayobi(sa[t] + 1500, 44000, 0, -2000, 0, 4, 0);
-                        }
-                        else if (sxtype[t] == 2) {
+                        } else if (sxtype[t] == 2) {
                             ayobi(sa[t] + 4500, 30000, 0, -1600, 0, 5, 0);
                             play_sound_effect(oto[10]);
                             sxtype[t] = 3;
                             sa[t] -= 12000;
-                        }
-                        else if (sxtype[t] == 3) {
+                        } else if (sxtype[t] == 3) {
                             sa[t] += 12000;
                             sxtype[t] = 4;
-                        }
-                        else if (sxtype[t] == 4) {
+                        } else if (sxtype[t] == 4) {
                             ayobi(sa[t] + 4500, 30000, 0, -1600, 0, 5, 0);
                             play_sound_effect(oto[10]);
                             sxtype[t] = 5;
                             sxtype[t] = 0;
-                        }
-
-                        else if (sxtype[t] == 7) {
+                        } else if (sxtype[t] == 7) {
                             mainmsgtype = 1;
-                        }
-                        else if (sxtype[t] == 8) {
+                        } else if (sxtype[t] == 8) {
                             ayobi(sa[t] - 5000 - 3000 * 1, 26000, 0, -1600, 0, 5, 0);
                             play_sound_effect(oto[10]);
-                        }
-                        else if (sxtype[t] == 9) {
+                        } else if (sxtype[t] == 9) {
                             for (t3 = 0; t3 <= 2; t3++) {
                                 ayobi(sa[t] + t3 * 3000 + 3000, 48000, 0, -6000, 0, 3, 0);
                             }
@@ -2153,8 +2125,7 @@ void play_update() {
             case 5:
                 if (srmove[t] == 0) {
                     srmuki[t] = 0;
-                }
-                else {
+                } else {
                     srmuki[t] = 1;
                 }
                 if (srb[t] - fy < -2100) {
@@ -2188,8 +2159,7 @@ void play_update() {
                     if (srsp[t] != 12) {
                         mzimen = 1;
                         md = 0;
-                    }
-                    else {
+                    } else {
                         md = -800;
                     }
 
@@ -2317,8 +2287,7 @@ void play_update() {
             eb[t] += ed[t];
             ec[t] += ee[t];
             ed[t] += ef[t];
-        }
-        else {
+        } else {
             ea[t] = -9000000;
         }
 
@@ -2868,11 +2837,9 @@ void play_update() {
                     xx[0] = 100;
                     if (ac[t] >= 200) {
                         ac[t] -= xx[0];
-                    }
-                    else if (ac[t] <= -200) {
+                    } else if (ac[t] <= -200) {
                         ac[t] += xx[0];
-                    }
-                    else {
+                    } else {
                         ac[t] = 0;
                     }
                 }
@@ -2940,13 +2907,11 @@ void play_update() {
                     else if (atype[t] == 2 && md >= 0) {
                         if (axtype[t] == 1 || axtype[t] == 2) {
                             axtype[t] = 0;
-                        }
-                        else if (axtype[t] == 0) {
+                        } else if (axtype[t] == 0) {
                             if (ma + mnobia > xx[8] + xx[0] * 2 && ma < xx[8] + anobia[t] / 2 - xx[0] * 4) {
                                 axtype[t] = 1;
                                 amuki[t] = 1;
-                            }
-                            else {
+                            } else {
                                 axtype[t] = 1;
                                 amuki[t] = 0;
                             }
@@ -3102,15 +3067,13 @@ void play_update() {
                                     amuki[t] = 1;
                                     aa[t] = ma + mnobia + fx + mc;
                                     mmutekitm = 5;
-                                }
-                                else {
+                                } else {
                                     axtype[t] = 1;
                                     amuki[t] = 0;
                                     aa[t] = ma - anobia[t] + fx - mc;
                                     mmutekitm = 5;
                                 }
-                            }
-                            else {
+                            } else {
                                 mhp -= 1;
                             }
                         }
@@ -3181,8 +3144,7 @@ void play_update() {
                 }
 
             }
-        }
-        else {
+        } else {
             aa[t] = -9000000;
         }
 
@@ -3293,8 +3255,7 @@ void tekizimen() {
                             play_sound_effect(oto[4]);
                             ttype[tt] = 3;
                             eyobi(ta[tt] + 10, tb[tt], 0, -800, 0, 40, 3000, 3000, 0, 16);
-                        }
-                        else if (ttype[tt] == 1) {
+                        } else if (ttype[tt] == 1) {
                             play_sound_effect(oto[3]);
                             eyobi(ta[tt] + 1200, tb[tt] + 1200, 300, -1000, 0, 160, 1000, 1000, 1, 120);
                             eyobi(ta[tt] + 1200, tb[tt] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);
