@@ -87,7 +87,7 @@ void message_box_update() {
 void draw_message_text(TextMessageId id) {
     const char* text = gTextMessages[id];
 
-    draw_text(text, MESSAGE_BOX_X + PADDING, MESSAGE_BOX_Y + PADDING + 16);
+    draw_text(text, MESSAGE_BOX_X + PADDING, MESSAGE_BOX_Y + PADDING);
 }
 
 void draw_box(int x, int y, int w, int h) {

@@ -36,7 +36,7 @@ void transition_draw(void) {
 		char buf[16];
 		snprintf(buf, sizeof(buf), " × %d", nokori);
 
-		draw_text(buf, RECENTER_X(230), 218);
+		draw_text(buf, RECENTER_X(230), 200);
 	}
 }
 

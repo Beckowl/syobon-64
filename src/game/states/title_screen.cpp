@@ -81,9 +81,9 @@ void title_screen_draw(void) {
     rdpq_sprite_blit(mgrap[30], RECENTER_X(50), 60, NULL);
 
     // decor
-    draw_sprite_region(grap[0][4], 360, 278);
-    draw_sprite_region(grap[1][4], 180, 336);
-    draw_sprite_region(grap[0][0], 60, 330); // this is syobon!!
+    draw_sprite_region(grap[0][4], RECENTER_X(360), 278);
+    draw_sprite_region(grap[1][4], RECENTER_X(180), 336);
+    draw_sprite_region(grap[0][0], RECENTER_X(60), 330); // this is syobon!!
 
     // floor
     for (t = 0; t <= 19; t++) {

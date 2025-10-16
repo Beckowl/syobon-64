@@ -175,9 +175,12 @@ void draw_circle_outline(int x, int y, int radius) {
     }
 }
 
+// the origin of the text is the BOTTOM LEFT for some reason
+// so i added a 16px y offset to make it the top left
 void draw_text(const char* text, int x, int y) {
     rdpq_set_mode_standard();
-    rdpq_text_print(NULL, FONT_SAZANAMI, x, y, text);
+    rdpq_font_get_glyph_metrics
+    rdpq_text_print(NULL, FONT_SAZANAMI, x, y + 16, text);
 }
 
 void draw_text_fmt(int x, int y, const char* format, ...) {
@@ -186,7 +189,7 @@ void draw_text_fmt(int x, int y, const char* format, ...) {
     va_list args;
     va_start(args, format);
 
-    rdpq_text_vprintf(NULL, FONT_SAZANAMI, x, y, format, args);
+    rdpq_text_vprintf(NULL, FONT_SAZANAMI, x, y + 16, format, args);
 
     va_end(args);
 }
