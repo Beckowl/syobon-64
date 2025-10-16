@@ -3,6 +3,6 @@
 
 #include "game.hpp"
 
-extern GameState STATE_TITLE_SCREEN;
+extern const GameState STATE_TITLE_SCREEN;
 
 #endif

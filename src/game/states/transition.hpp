@@ -3,7 +3,7 @@
 
 #include "game.hpp"
 
-extern GameState STATE_TRANSITION;
+extern const GameState STATE_TRANSITION;
 
 void play_transition(int duration, bool showLives);
 

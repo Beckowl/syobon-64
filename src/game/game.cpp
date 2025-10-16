@@ -6,9 +6,9 @@
 
 #include "states/title_screen.hpp"
 
-static GameState sCurrState = STATE_TITLE_SCREEN;
+static const GameState* sCurrState = &STATE_TITLE_SCREEN;
 
-#define CALL_STATE_FUNC(func) if (sCurrState.func) { sCurrState.func(); }
+#define CALL_STATE_FUNC(func) if (sCurrState->func) { sCurrState->func(); }
 
 void game_init(void) {
     loadg();
@@ -21,7 +21,7 @@ void game_draw(void) {
     CALL_STATE_FUNC(draw);
 }
 
-void game_set_state(GameState newState) {
+void game_set_state(const GameState* newState) {
     CALL_STATE_FUNC(exit);
 
     sCurrState = newState;

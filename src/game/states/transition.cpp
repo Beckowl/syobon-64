@@ -24,7 +24,7 @@ void transition_update(void) {
     }
 
 	if (sTransitionTimer >= sTransitionDuration) {
-	   game_set_state(STATE_PLAY);
+	   game_set_state(&STATE_PLAY);
 	}
 }
 
@@ -45,10 +45,10 @@ void play_transition(int duration, bool showLives) {
 	sTransitionDuration = duration;
 	sShowLives = showLives;
 	
-    game_set_state(STATE_TRANSITION);
+    game_set_state(&STATE_TRANSITION);
 }
 
-GameState STATE_TRANSITION = {
+const GameState STATE_TRANSITION = {
     .enter = transition_enter,
     .update = transition_update,
     .draw = transition_draw,

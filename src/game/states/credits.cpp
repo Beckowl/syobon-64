@@ -28,7 +28,7 @@ void credits_update(void) {
     sTextOffset--;
 
 	if (sTextOffset <= TEXT_SCROLL_LIMIT) {
-	   game_set_state(STATE_TITLE_SCREEN);
+	   game_set_state(&STATE_TITLE_SCREEN);
 	}
 }
 
@@ -44,7 +44,7 @@ static void credits_exit(void) {
 	stop_background_music();
 }
 
-GameState STATE_CREDITS = {
+const GameState STATE_CREDITS = {
     .enter = credits_enter,
     .update = credits_update,
     .draw = credits_draw,

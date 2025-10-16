@@ -3,6 +3,6 @@
 
 #include "game.hpp"
 
-extern GameState STATE_CREDITS;
+extern const GameState STATE_CREDITS;
 
 #endif

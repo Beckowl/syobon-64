@@ -107,7 +107,7 @@ void title_screen_draw(void) {
     }
 }
 
-GameState STATE_TITLE_SCREEN = {
+const GameState STATE_TITLE_SCREEN = {
     .enter = title_screen_enter,
     .update = title_screen_update,
     .draw = title_screen_draw,

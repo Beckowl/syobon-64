@@ -1247,7 +1247,7 @@ void play_update() {
 
             if (mtm == 440) {
                 if (mtype == 301) {
-                    game_set_state(STATE_CREDITS);
+                    game_set_state(&STATE_CREDITS);
                 } else {
                     sta++;
                     stb = 1;
@@ -3675,7 +3675,7 @@ void spawn_general_object(int type, int subtype, int x, int y, int width, int he
     sco = (sco + 1) % smax;
 }
 
-GameState STATE_PLAY = {
+const GameState STATE_PLAY = {
     .enter = play_enter,
     .update = play_update,
     .draw = play_draw,
