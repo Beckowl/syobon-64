@@ -24,8 +24,6 @@ void level_unload_current(void) {
     for (t = 0; t < tmax; t++) {
         ta[t] = -9000000;
         tb[t] = 1;
-        tc[t] = 1;
-        td[t] = 1;
         titem[t] = 0;
         txtype[t] = 0;
     }
@@ -39,7 +37,6 @@ void level_unload_current(void) {
         srf[t] = 0;
         srmuki[t] = 0;
         sron[t] = 0;
-        sree[t] = 0;
         srsok[t] = 0;
         srmove[t] = 0;
         srmovep[t] = 0;
@@ -57,7 +54,6 @@ void level_unload_current(void) {
         ae[t] = 0;
         af[t] = 0;
         atm[t] = 0;
-        a2tm[t] = 0;
         abrocktm[t] = 0;
         amsgtm[t] = 0;
     }
@@ -81,11 +77,8 @@ void level_unload_current(void) {
     for (t = 0; t < nmax; t++) {
         na[t] = -9000000;
         nb[t] = 1;
-        nc[t] = 1;
-        nd[t] = 1;
         ne[t] = 1;
         nf[t] = 1;
-        ng[t] = 0;
         ntype[t] = 0;
     }
 
@@ -93,7 +86,6 @@ void level_unload_current(void) {
     stagecolor = 1;   
     fx = 0;
     fy = 0;
-    fzx = 0;
     stageonoff = 0;
     sco = 0;
     tco = 0;

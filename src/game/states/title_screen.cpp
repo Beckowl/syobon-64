@@ -46,10 +46,7 @@ static void select_stage(uint8_t num) {
 }
 
 static void enter_stage() {
-	zxon = 0;
-	maintm = 0;
 	nokori = 2;
-
 	fast = 0;
 	trap = 0;
 	tyuukan = 0;
