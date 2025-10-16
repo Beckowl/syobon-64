@@ -5,6 +5,6 @@
 
 extern const GameState STATE_TRANSITION;
 
-void play_transition(int duration, bool showLives);
+void play_transition(const GameState* nextState, uint16_t duration, bool showLives);
 
 #endif

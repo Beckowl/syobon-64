@@ -8,7 +8,7 @@
 
 static const GameState* sCurrState = &STATE_TITLE_SCREEN;
 
-#define CALL_STATE_FUNC(func) if (sCurrState->func) { sCurrState->func(); }
+#define CALL_STATE_FUNC(func) if (sCurrState && sCurrState->func) { sCurrState->func(); }
 
 void game_init(void) {
     loadg();

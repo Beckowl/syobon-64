@@ -6,7 +6,7 @@
 
 #include "sa_graphics.hpp"
 
-
+static const GameState* sNextState = NULL;
 static int sTransitionTimer = 0;
 static int sTransitionDuration = 30;
 static bool sShowLives = false;
@@ -18,13 +18,12 @@ void transition_enter(void) {
 void transition_update(void) {
     sTransitionTimer++;
     
-    // it seems fast will always be 0 during gameplay?? not sure though
 	if (fast == 1) {
 	    sTransitionTimer += 2;
     }
 
 	if (sTransitionTimer >= sTransitionDuration) {
-	   game_set_state(&STATE_PLAY);
+	   game_set_state(sNextState);
 	}
 }
 
@@ -41,7 +40,8 @@ void transition_draw(void) {
 	}
 }
 
-void play_transition(int duration, bool showLives) {
+void play_transition(const GameState* nextState, uint16_t duration, bool showLives) {
+    sNextState = nextState;
 	sTransitionDuration = duration;
 	sShowLives = showLives;
 	

@@ -1033,7 +1033,7 @@ void play_update() {
             mkeytm = 0;
             nokori--;
 
-            play_transition(30, true);
+            play_transition(&STATE_PLAY, 30, true);
             if (fast == 1)
                 mtype = 0;
         }
@@ -1046,7 +1046,7 @@ void play_update() {
         mkeytm = 2;
         md = -1500;
         if (mb <= -6000) {
-            play_transition(20, false);
+            play_transition(&STATE_PLAY, 20, false);
             stc += 5;
             stop_background_music();
             mtm = 0;
@@ -1163,7 +1163,7 @@ void play_update() {
                     }
                     mb = -80000000;
                     mxtype = 0;
-                    play_transition(20, false);
+                    play_transition(&STATE_PLAY, 20, false);
                     stop_background_music();
                 }
             }
@@ -1190,7 +1190,7 @@ void play_update() {
                 stb++;
                 stc = 0;
                 tyuukan = 0;
-                play_transition(30, true);
+                play_transition(&STATE_PLAY, 30, true);
             }
         }
 
@@ -1253,7 +1253,7 @@ void play_update() {
                     stb = 1;
                     stc = 0;
                     tyuukan = 0;
-                    play_transition(30, true);
+                    play_transition(&STATE_PLAY, 30, true);
                 }
             }
 

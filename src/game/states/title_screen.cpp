@@ -3,6 +3,7 @@
 #include "global.hpp"
 #include "title_screen.hpp"
 #include "transition.hpp"
+#include "states/play.hpp"
 
 #include "sa_audio.hpp"
 #include "sa_graphics.hpp"
@@ -53,7 +54,7 @@ static void enter_stage() {
 
     over = sStageNum == STAGE_MYSTERY_DUNGEON;
 
-    play_transition(30, true);
+    play_transition(&STATE_PLAY, 30, true);
 }
 
 void title_screen_enter(void) {
