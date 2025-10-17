@@ -20,7 +20,7 @@ static void credits_enter(void)
     sTextOffset = 0;
 }
 
-void credits_update(void) {
+static void credits_update(void) {
     if (is_button_down(BUTTON_B)) {
         sTextOffset -= 3;
     }
@@ -32,7 +32,7 @@ void credits_update(void) {
 	}
 }
 
-void credits_draw(void) {
+static void credits_draw(void) {
     rdpq_clear(RGBA32(0, 0, 0, 0));
 
     for (uint32_t i = 0; i < CREDITS_LINE_COUNT; i++) {

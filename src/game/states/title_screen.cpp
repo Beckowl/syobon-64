@@ -55,14 +55,14 @@ static void enter_stage() {
     play_transition(&STATE_PLAY, 30, true);
 }
 
-void title_screen_enter(void) {
+static void title_screen_enter(void) {
     sStageNum = STAGE_MIN;
     sShowStageNum = false;
 
     stop_background_music();
 }
 
-void title_screen_update(void) {
+static void title_screen_update(void) {
     handle_scrolling();
 
 	if (is_button_pressed(CONTROL_START_PAUSE)) {
@@ -70,7 +70,7 @@ void title_screen_update(void) {
 	}
 }
 
-void title_screen_draw(void) {
+static void title_screen_draw(void) {
     rdpq_clear(RGBA32(160, 180, 250, 255));
 
     // syobon action logo

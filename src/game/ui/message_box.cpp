@@ -32,14 +32,6 @@ int sScrollBottom = 0;
 
 #define IS_VALID_MESSAGE(id) (id >= MESSAGE_000 && id <= MESSAGE_MAX)
 
-void reset_state(void) {
-    sCurrentMessage = MESSAGE_NONE;
-    sCurrentState = STATE_NONE;
-    sScrollTop = MESSAGE_BOX_Y;
-    sScrollBottom = MESSAGE_BOX_Y;
-    gMessageBoxActive = false;
-}
-
 void message_box_open(TextMessageId messageId) {
     if (IS_VALID_MESSAGE(messageId)) {
         gMessageBoxActive = true;
@@ -53,7 +45,15 @@ void message_box_open(TextMessageId messageId) {
     }
 }
 
-void message_box_state_open() {
+static void reset_state(void) {
+    sCurrentMessage = MESSAGE_NONE;
+    sCurrentState = STATE_NONE;
+    sScrollTop = MESSAGE_BOX_Y;
+    sScrollBottom = MESSAGE_BOX_Y;
+    gMessageBoxActive = false;
+}
+
+static void message_box_open_update() {
     sScrollBottom += SCROLL_SPEED;
     if (sScrollBottom >= MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT) {
         sScrollBottom = MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT;
@@ -61,14 +61,14 @@ void message_box_state_open() {
     }
 }
 
-void message_box_state_show() {
+static void message_box_show_update() {
     joypad_buttons_t pressed = joypad_get_buttons_pressed(gMainController);
     if (pressed.raw) {
         sCurrentState = STATE_CLOSE;
     }
 }
 
-void message_box_state_close() {
+static void message_box_close_update() {
     sScrollTop += SCROLL_SPEED;
     if (sScrollTop >= MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT) {
         reset_state();
@@ -77,34 +77,25 @@ void message_box_state_close() {
 
 void message_box_update() {
     switch (sCurrentState) {
-        case STATE_OPEN:  message_box_state_open();  break;
-        case STATE_SHOW:  message_box_state_show();  break;
-        case STATE_CLOSE: message_box_state_close(); break;
+        case STATE_OPEN:  message_box_open_update();  break;
+        case STATE_SHOW:  message_box_show_update();  break;
+        case STATE_CLOSE: message_box_close_update(); break;
         default: break;
     }
-}
-
-void draw_message_text(TextMessageId id) {
-    const char* text = gTextMessages[id];
-
-    draw_text(text, MESSAGE_BOX_X + PADDING, MESSAGE_BOX_Y + PADDING);
-}
-
-void draw_box(int x, int y, int w, int h) {
-    set_draw_color(0, 0, 0);
-    draw_rectangle_filled(x, y, w, h);
-
-    set_draw_color(255, 255, 255);
-    draw_rectangle_outline(x, y, w, h);
 }
 
 void message_box_draw(void) {
     if (!gMessageBoxActive || !IS_VALID_MESSAGE(sCurrentMessage)) { return; }
 
     int height = sScrollBottom - sScrollTop;
-    draw_box(MESSAGE_BOX_X, sScrollTop, MESSAGE_BOX_WIDTH, height);
+
+    set_draw_color(0, 0, 0);
+    draw_rectangle_filled(MESSAGE_BOX_X, sScrollTop, MESSAGE_BOX_WIDTH, height);
+
+    set_draw_color(255, 255, 255);
+    draw_rectangle_outline(MESSAGE_BOX_X, sScrollTop, MESSAGE_BOX_WIDTH, height);
 
     if (sCurrentState == STATE_SHOW) {
-        draw_message_text(sCurrentMessage);
+        draw_text(gTextMessages[sCurrentMessage], MESSAGE_BOX_X + PADDING, MESSAGE_BOX_Y + PADDING);
     }
 }

@@ -11,11 +11,11 @@ static int sTransitionTimer = 0;
 static int sTransitionDuration = 30;
 static bool sShowLives = false;
 
-void transition_enter(void) {
+static void transition_enter(void) {
     sTransitionTimer = 0;
 }
 
-void transition_update(void) {
+static void transition_update(void) {
     sTransitionTimer++;
     
 	if (fast == 1) {
@@ -27,7 +27,7 @@ void transition_update(void) {
 	}
 }
 
-void transition_draw(void) {
+static void transition_draw(void) {
     rdpq_clear(RGBA32(0, 0, 0, 0));
 	
 	if (sShowLives) {

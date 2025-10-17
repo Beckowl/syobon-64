@@ -15,7 +15,7 @@
 #include "level/level_loader.hpp"
 #include "levels.hpp"
 
-void play_enter() {
+static void play_enter() {
     mainmsgtype = 0;
 
     ma = 5600;
@@ -35,817 +35,8 @@ void play_enter() {
     stage();
 }
 
-// メイン描画
-void play_draw() {
-
-    // ダブルバッファリング
-    set_draw_color(0, 0, 0);
-
-    if (stagecolor == 1)
-        set_draw_color(160, 180, 250);
-    if (stagecolor == 2)
-        set_draw_color(10, 10, 10);
-    if (stagecolor == 3)
-        set_draw_color(160, 180, 250);
-    if (stagecolor == 4)
-        set_draw_color(10, 10, 10);
-    if (stagecolor == 5) {
-        set_draw_color(160, 180, 250);
-        mrzimen = 1;
-    } else {
-        mrzimen = 0;
-    }
-
-    sa_graphics_clear();
-
-    // 背景
-    for (t = 0; t < nmax; t++) {
-        xx[0] = na[t] - fx;
-        xx[1] = nb[t] - fy;
-        xx[2] = ne[ntype[t]] * 100;
-        xx[3] = nf[ntype[t]] * 100;
-        xx[2] = 16000;
-        xx[3] = 16000;
-
-        if (xx[0] + xx[2] >= -10 && xx[0] <= fxmax && xx[1] + xx[3] >= -10 && xx[3] <= fymax) {
-
-            if (ntype[t] != 3) {
-                if ((ntype[t] == 1 || ntype[t] == 2) && stagecolor == 5) {
-                    draw_sprite_region(grap[ntype[t] + 30][4], xx[0] / 100, xx[1] / 100, mirror);
-                } else {
-                    draw_sprite_region(grap[ntype[t]][4], xx[0] / 100, xx[1] / 100, mirror);
-                }
-            }
-            if (ntype[t] == 3)
-                draw_sprite_region(grap[ntype[t]][4], xx[0] / 100 - 5, xx[1] / 100, mirror);
-
-            // 51
-            if (ntype[t] == 100) {
-                draw_text("51", xx[0] / 100, xx[1] / 100);
-            }
-
-            if (ntype[t] == 101)
-                draw_text("ゲームクリアー", xx[0] / 100, xx[1] / 100);
-            if (ntype[t] == 102)
-                draw_text("プレイしてくれてありがとー", xx[0] / 100, xx[1] / 100);
-        }
-    }
-
-    // グラ
-    for (t = 0; t < emax; t++) {
-        xx[0] = ea[t] - fx;
-        xx[1] = eb[t] - fy;
-        xx[2] = enobia[t] / 100;
-        xx[3] = enobib[t] / 100;
-        if (xx[0] + xx[2] * 100 >= -10 && xx[1] <= fxmax && xx[1] + xx[3] * 100 >= -10 - 8000 && xx[3] <= fymax) {
-
-            // コイン
-            if (egtype[t] == 0)
-                draw_sprite_region(grap[0][2], xx[0] / 100, xx[1] / 100, mirror);
-
-            // ブロックの破片
-            if (egtype[t] == 1) {
-                rdpq_set_mode_standard();
-                rdpq_mode_combiner(RDPQ_COMBINER_TEX_FLAT);
-                rdpq_mode_alphacompare(1);
-
-                if (stagecolor == 1 || stagecolor == 3 || stagecolor == 5)
-                    rdpq_set_prim_color(RGBA32(9 * 16, 6 * 16, 3 * 16, 255));
-                if (stagecolor == 2)
-                    rdpq_set_prim_color(RGBA32(0, 120, 160, 255));
-                if (stagecolor == 4)
-                    rdpq_set_prim_color(RGBA32(192, 192, 192, 255));
-
-                rdpq_sprite_blit(mgrap[8], xx[0] / 100, xx[1] / 100, NULL);
-                rdpq_set_prim_color(RGBA32(255, 255, 255, 255));
-            }
-            // リフトの破片
-            if (egtype[t] == 2 || egtype[t] == 3) {
-                if (egtype[t] == 3)
-                    mirror = 1;
-                draw_sprite_region(grap[0][5], xx[0] / 100, xx[1] / 100, mirror);
-                mirror = 0;
-            }
-            // ポール
-            if (egtype[t] == 4) {
-                set_draw_color(255, 255, 255);
-
-                draw_rectangle_filled((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
-                set_draw_color(0, 0, 0);
-
-                draw_rectangle_outline((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
-                set_draw_color(250, 250, 0);
-                draw_circle_filled((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
-                set_draw_color(0, 0, 0);
-
-                draw_circle_outline((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
-            }
-        }
-    }
-
-    // リフト
-    for (t = 0; t < srmax; t++) {
-        xx[0] = sra[t] - fx;
-        xx[1] = srb[t] - fy;
-        if (xx[0] + src[t] >= -10 && xx[1] <= fxmax + 12100 && src[t] / 100 >= 1) {
-            xx[2] = 14;
-            if (srsp[t] == 1) {
-                xx[2] = 12;
-            }
-
-            if (srsp[t] <= 9 || srsp[t] >= 20) {
-                set_draw_color(220, 220, 0);
-                if (srsp[t] == 2 || srsp[t] == 3) {
-                    set_draw_color(0, 220, 0);
-                }
-                if (srsp[t] == 21) {
-                    set_draw_color(180, 180, 180);
-                }
-                draw_rectangle_filled((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, xx[2]);
-
-                set_draw_color(180, 180, 0);
-                if (srsp[t] == 2 || srsp[t] == 3) {
-                    set_draw_color(0, 180, 0);
-                }
-                if (srsp[t] == 21) {
-                    set_draw_color(150, 150, 150);
-                }
-                draw_rectangle_outline((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, xx[2]);
-            } else if (srsp[t] <= 14) {
-                if (src[t] >= 5000) {
-                    set_draw_color(0, 200, 0);
-                    draw_rectangle_filled((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, 30);
-                    set_draw_color(0, 160, 0);
-                    draw_rectangle_outline((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, 30);
-
-                    set_draw_color(180, 120, 60);
-                    draw_rectangle_filled((sra[t] - fx) / 100 + 20, (srb[t] - fy) / 100 + 30, src[t] / 100 - 40, 480);
-                    set_draw_color(100, 80, 20);
-                    draw_rectangle_outline((sra[t] - fx) / 100 + 20, (srb[t] - fy) / 100 + 30, src[t] / 100 - 40, 480);
-                }
-            }
-            if (srsp[t] == 15) {
-                for (t2 = 0; t2 <= 2; t2++) {
-                    xx[6] = 1 + 0;
-                    draw_sprite_region(grap[xx[6]][1], (sra[t] - fx) / 100 + t2 * 29, (srb[t] - fy) / 100, mirror);
-                }
-            }
-        }
-    }
-
-    // プレイヤー描画
-    set_draw_color(0, 0, 255);
-
-    if (mactp >= 2000) {
-        mactp -= 2000;
-        if (mact == 0) {
-            mact = 1;
-        } else {
-            mact = 0;
-        }
-    }
-    if (mmuki == 0)
-        mirror = 1;
-
-    if (mtype != 200 && mtype != 1) {
-        if (mzimen == 1) {
-            // 読みこんだグラフィックを拡大描画
-            if (mact == 0)
-                draw_sprite_region(grap[0][0], ma / 100, mb / 100, mirror);
-            if (mact == 1)
-                draw_sprite_region(grap[1][0], ma / 100, mb / 100, mirror);
-        }
-        if (mzimen == 0) {
-            draw_sprite_region(grap[2][0], ma / 100, mb / 100, mirror);
-        }
-    }
-    // 巨大化
-    else if (mtype == 1) {
-        draw_sprite_region(grap[41][0], ma / 100, mb / 100, mirror);
-    } else if (mtype == 200) {
-        draw_sprite_region(grap[3][0], ma / 100, mb / 100, mirror);
-    }
-
-    mirror = 0;
-
-    // 敵キャラ
-    for (t = 0; t < amax; t++) {
-
-        xx[0] = aa[t] - fx;
-        xx[1] = ab[t] - fy;
-        xx[2] = anobia[t] / 100;
-        xx[3] = anobib[t] / 100;
-        xx[14] = 3000;
-        xx[16] = 0;
-        if (xx[0] + xx[2] * 100 >= -10 - xx[14] && xx[1] <= fxmax + xx[14] && xx[1] + xx[3] * 100 >= -10 && xx[3] <= fymax) {
-            if (amuki[t] == 1) {
-                mirror = 1;
-            }
-            if (atype[t] == 3 && axtype[t] == 1) {
-                draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, false, true);
-                xx[16] = 1;
-            }
-            if (atype[t] == 9 && ad[t] >= 1) {
-                draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, false, true);
-                xx[16] = 1;
-            }
-            if (atype[t] >= 100 && amuki[t] == 1)
-                mirror = 0;
-
-            // メイン
-            if (atype[t] < 200 && xx[16] == 0 && atype[t] != 6 && atype[t] != 79 && atype[t] != 86 && atype[t] != 30) {
-                if (!((atype[t] == 80 || atype[t] == 81) && axtype[t] == 1)) {
-                    draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, mirror);
-                }
-            }
-            // デフラグさん
-            if (atype[t] == 6) {
-                if (atm[t] >= 10 && atm[t] <= 19 || atm[t] >= 100 && atm[t] <= 119 || atm[t] >= 200) {
-                    draw_sprite_region(grap[150][3], xx[0] / 100, xx[1] / 100, mirror);
-                } else {
-                    draw_sprite_region(grap[6][3], xx[0] / 100, xx[1] / 100, mirror);
-                }
-            }
-            // モララー
-            if (atype[t] == 30) {
-                if (axtype[t] == 0)
-                    draw_sprite_region(grap[30][3], xx[0] / 100, xx[1] / 100, mirror);
-                if (axtype[t] == 1)
-                    draw_sprite_region(grap[155][3], xx[0] / 100, xx[1] / 100, mirror);
-            }
-            // ステルス雲
-            if ((atype[t] == 81) && axtype[t] == 1) {
-                draw_sprite_region(grap[130][3], xx[0] / 100, xx[1] / 100, mirror);
-            }
-
-            if (atype[t] == 79) {
-                set_draw_color(250, 250, 0);
-                draw_rectangle_filled(xx[0] / 100, xx[1] / 100, xx[2], xx[3]);
-                set_draw_color(0, 0, 0);
-
-                draw_rectangle_outline(xx[0] / 100, xx[1] / 100, xx[2], xx[3]);
-            }
-
-            if (atype[t] == 82) {
-
-                if (axtype[t] == 0) {
-                    xx[9] = 0;
-                    if (stagecolor == 2) {
-                        xx[9] = 30;
-                    }
-                    if (stagecolor == 4) {
-                        xx[9] = 60;
-                    }
-                    if (stagecolor == 5) {
-                        xx[9] = 90;
-                    }
-                    xx[6] = 5 + xx[9];
-                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
-                }
-
-                if (axtype[t] == 1) {
-                    xx[9] = 0;
-                    if (stagecolor == 2) {
-                        xx[9] = 30;
-                    }
-                    if (stagecolor == 4) {
-                        xx[9] = 60;
-                    }
-                    if (stagecolor == 5) {
-                        xx[9] = 90;
-                    }
-                    xx[6] = 4 + xx[9];
-                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
-                }
-
-                if (axtype[t] == 2) {
-                    draw_sprite_region(grap[1][5], xx[0] / 100, xx[1] / 100, mirror);
-                }
-            }
-            if (atype[t] == 83) {
-
-                if (axtype[t] == 0) {
-                    xx[9] = 0;
-                    if (stagecolor == 2) {
-                        xx[9] = 30;
-                    }
-                    if (stagecolor == 4) {
-                        xx[9] = 60;
-                    }
-                    if (stagecolor == 5) {
-                        xx[9] = 90;
-                    }
-                    xx[6] = 5 + xx[9];
-                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100 + 10, xx[1] / 100 + 9, mirror);
-                }
-
-                if (axtype[t] == 1) {
-                    xx[9] = 0;
-                    if (stagecolor == 2) {
-                        xx[9] = 30;
-                    }
-                    if (stagecolor == 4) {
-                        xx[9] = 60;
-                    }
-                    if (stagecolor == 5) {
-                        xx[9] = 90;
-                    }
-                    xx[6] = 4 + xx[9];
-                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100 + 10, xx[1] / 100 + 9, mirror);
-                }
-            }
-            // 偽ポール
-            if (atype[t] == 85) {
-                set_draw_color(255, 255, 255);
-
-                draw_rectangle_filled((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
-                set_draw_color(0, 0, 0);
-
-                draw_rectangle_outline((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
-                set_draw_color(0, 250, 200);
-                draw_circle_filled((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
-                set_draw_color(0, 0, 0);
-
-                draw_circle_outline((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
-
-            }
-
-            // ニャッスン
-            if (atype[t] == 86) {
-                if (ma >= aa[t] - fx - mnobia - 4000 && ma <= aa[t] - fx + anobia[t] + 4000) {
-                    draw_sprite_region(grap[152][3], xx[0] / 100, xx[1] / 100, mirror);
-                } else {
-                    draw_sprite_region(grap[86][3], xx[0] / 100, xx[1] / 100, mirror);
-                }
-            }
-
-            if (atype[t] == 200)
-                draw_sprite_region(grap[0][3], xx[0] / 100, xx[1] / 100, mirror);
-
-            mirror = 0;
-        }
-    }
-
-    // ブロック描画
-    for (t = 0; t < tmax; t++) {
-        xx[0] = ta[t] - fx;
-        xx[1] = tb[t] - fy;
-        xx[2] = 32;
-        xx[3] = xx[2];
-        if (xx[0] + xx[2] * 100 >= -10 && xx[1] <= fxmax) {
-
-            xx[9] = 0;
-            if (stagecolor == 2) {
-                xx[9] = 30;
-            }
-            if (stagecolor == 4) {
-                xx[9] = 60;
-            }
-            if (stagecolor == 5) {
-                xx[9] = 90;
-            }
-
-            if (ttype[t] < 100) {
-                xx[6] = ttype[t] + xx[9];
-                draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
-            }
-
-            if (txtype[t] != 10) {
-
-                if (ttype[t] == 100 || ttype[t] == 101 || ttype[t] == 102 || ttype[t] == 103 || ttype[t] == 104 && txtype[t] == 1 || ttype[t] == 114 && txtype[t] == 1 || ttype[t] == 116) {
-                    xx[6] = 2 + xx[9];
-                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
-                }
-
-                if (ttype[t] == 112 || ttype[t] == 104 && txtype[t] == 0 || ttype[t] == 115 && txtype[t] == 1) {
-                    xx[6] = 1 + xx[9];
-                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
-                }
-
-                if (ttype[t] == 111 || ttype[t] == 113 || ttype[t] == 115 && txtype[t] == 0 || ttype[t] == 124) {
-                    xx[6] = 3 + xx[9];
-                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
-                }
-            }
-
-            if (ttype[t] == 117 && txtype[t] == 1) {
-                draw_sprite_region(grap[4][5], xx[0] / 100, xx[1] / 100, mirror);
-            }
-
-            if (ttype[t] == 117 && txtype[t] >= 3) {
-                draw_sprite_region(grap[3][5], xx[0] / 100, xx[1] / 100, mirror);
-            }
-
-            if (ttype[t] == 115 && txtype[t] == 3) {
-                xx[6] = 1 + xx[9];
-                draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
-            }
-            // ジャンプ台
-            if (ttype[t] == 120 && txtype[t] != 1) {
-                draw_sprite_region(grap[16][1], xx[0] / 100 + 3, xx[1] / 100 + 2, mirror);
-            }
-            // ON-OFF
-            if (ttype[t] == 130)
-                draw_sprite_region(grap[10][5], xx[0] / 100, xx[1] / 100, mirror);
-            if (ttype[t] == 131)
-                draw_sprite_region(grap[11][5], xx[0] / 100, xx[1] / 100, mirror);
-
-            if (ttype[t] == 140)
-                draw_sprite_region(grap[12][5], xx[0] / 100, xx[1] / 100, mirror);
-            if (ttype[t] == 141)
-                draw_sprite_region(grap[13][5], xx[0] / 100, xx[1] / 100, mirror);
-            if (ttype[t] == 142)
-                draw_sprite_region(grap[14][5], xx[0] / 100, xx[1] / 100, mirror);
-
-            if (ttype[t] == 300 || ttype[t] == 301)
-                draw_sprite_region(grap[1][5], xx[0] / 100, xx[1] / 100, mirror);
-
-            // Pスイッチ
-            if (ttype[t] == 400) {
-                draw_sprite_region(grap[2][5], xx[0] / 100, xx[1] / 100, mirror);
-            }
-            // コイン
-            if (ttype[t] == 800) {
-                draw_sprite_region(grap[0][2], xx[0] / 100 + 2, xx[1] / 100 + 1, mirror);
-            }
-        }
-    }
-
-    // 地面(壁)//土管も
-    for (t = 0; t < smax; t++) {
-        if (sa[t] - fx + sc[t] >= -10 && sa[t] - fx <= fxmax + 1100) {
-
-            if (stype[t] == 0) {
-                set_draw_color(40, 200, 40);
-                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100, sc[t] / 100, sd[t] / 100);
-                draw_rectangle_outline((sa[t] - fx) / 100, (sb[t] - fy) / 100, sc[t] / 100, sd[t] / 100);
-            }
-            // 土管
-            if (stype[t] == 1) {
-                set_draw_color(0, 230, 0);
-                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100, sc[t] / 100, sd[t] / 100);
-                set_draw_color(0, 0, 0);
-
-                draw_rectangle_outline((sa[t] - fx) / 100, (sb[t] - fy) / 100, sc[t] / 100, sd[t] / 100);
-            }
-            // 土管(下)
-            if (stype[t] == 2) {
-                set_draw_color(0, 230, 0);
-                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, sc[t] / 100, sd[t] / 100);
-                set_draw_color(0, 0, 0);
-
-                draw_line((sa[t] - fx) / 100, (sb[t] - fy) / 100, (sa[t] - fx) / 100, (sb[t] - fy) / 100 + sd[t] / 100);
-                draw_line((sa[t] - fx) / 100 + sc[t] / 100, (sb[t] - fy) / 100, (sa[t] - fx) / 100 + sc[t] / 100, (sb[t] - fy) / 100 + sd[t] / 100);
-            }
-            // 土管(横)
-            if (stype[t] == 5) {
-                set_draw_color(0, 230, 0);
-                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, sc[t] / 100, sd[t] / 100);
-                set_draw_color(0, 0, 0);
-                draw_line((sa[t] - fx) / 100, (sb[t] - fy) / 100, (sa[t] - fx) / 100 + sc[t] / 100, (sb[t] - fy) / 100);
-                draw_line((sa[t] - fx) / 100, (sb[t] - fy) / 100 + sd[t] / 100, (sa[t] - fx) / 100 + sc[t] / 100, (sb[t] - fy) / 100 + sd[t] / 100);
-            }
-            // 落ちてくるブロック
-            if (stype[t] == 51) {
-                if (sxtype[t] == 0) {
-                    for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
-                        draw_sprite_region(grap[1][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100, mirror);
-                    }
-                }
-                if (sxtype[t] == 1 || sxtype[t] == 2) {
-                    for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
-                        draw_sprite_region(grap[31][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100, mirror);
-                    }
-                }
-                if (sxtype[t] == 3 || sxtype[t] == 4) {
-                    for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
-                        for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
-                            draw_sprite_region(grap[65][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29 * t2, mirror);
-                        }
-                    }
-                }
-
-                if (sxtype[t] == 10) {
-                    for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
-                        draw_sprite_region(grap[65][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100, mirror);
-                    }
-                }
-
-            }
-
-            // 落ちるやつ
-            if (stype[t] == 52) {
-                xx[29] = 0;
-                if (stagecolor == 2) {
-                    xx[29] = 30;
-                }
-                if (stagecolor == 4) {
-                    xx[29] = 60;
-                }
-                if (stagecolor == 5) {
-                    xx[29] = 90;
-                }
-
-                for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
-                    if (sxtype[t] == 0) {
-                        draw_sprite_region(grap[5 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100, mirror);
-                        if (stagecolor != 4) {
-                            draw_sprite_region(grap[6 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29, mirror);
-                        } else {
-                            draw_sprite_region(grap[5 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29, mirror);
-                        }
-                    }
-                    if (sxtype[t] == 1) {
-                        for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
-                            draw_sprite_region(grap[1 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29 * t2, mirror);
-                        }
-                    }
-
-                    if (sxtype[t] == 2) {
-                        for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
-                            draw_sprite_region(grap[5 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29 * t2, mirror);
-                        }
-                    }
-                }
-            }
-            // ステージトラップ
-            if (trap == 1) {
-                if (stype[t] >= 100 && stype[t] <= 299) {
-                    if (stagecolor == 1 || stagecolor == 3 || stagecolor == 5)
-                        set_draw_color(0, 0, 0);
-                    if (stagecolor == 2 || stagecolor == 4)
-                        set_draw_color(255, 255, 255);
-                    draw_rectangle_outline((sa[t] - fx) / 100, (sb[t] - fy) / 100, sc[t] / 100, sd[t] / 100);
-                }
-            }
-            // ゴール
-            if (stype[t] == 300) {
-                set_draw_color(255, 255, 255);
-
-                draw_rectangle_filled((sa[t] - fx) / 100 + 10, (sb[t] - fy) / 100, 10, sd[t] / 100 - 8);
-                set_draw_color(0, 0, 0);
-
-                draw_rectangle_outline((sa[t] - fx) / 100 + 10, (sb[t] - fy) / 100, 10, sd[t] / 100 - 8);
-                set_draw_color(250, 250, 0);
-                draw_circle_filled((sa[t] - fx) / 100 + 15 - 1, (sb[t] - fy) / 100, 10);
-                set_draw_color(0, 0, 0);
-
-                draw_circle_outline((sa[t] - fx) / 100 + 15 - 1, (sb[t] - fy) / 100, 10);
-            }
-            // 中間
-            if (stype[t] == 500) {
-                draw_sprite_region(grap[20][4], (sa[t] - fx) / 100, (sb[t] - fy) / 100, mirror);
-            }
-        }
-    }
-
-    // 描画上書き(土管)
-    for (t = 0; t < smax; t++) {
-        if (sa[t] - fx + sc[t] >= -10 && sa[t] - fx <= fxmax + 1100) {
-
-            // 入る土管(右)
-            if (stype[t] == 40) {
-                set_draw_color(0, 230, 0);
-                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, sc[t] / 100, sd[t] / 100);
-                set_draw_color(0, 0, 0);
-
-                draw_rectangle_outline((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, sc[t] / 100, sd[t] / 100);
-            }
-            // とぶ土管
-            if (stype[t] == 50) {
-                set_draw_color(0, 230, 0);
-                draw_rectangle_filled((sa[t] - fx) / 100 + 5, (sb[t] - fy) / 100 + 30, 50, sd[t] / 100 - 30);
-                set_draw_color(0, 0, 0);
-                draw_line((sa[t] - fx) / 100 + 5, (sb[t] - fy) / 100 + 30, (sa[t] - fx) / 100 + 5, (sb[t] - fy) / 100 + sd[t] / 100);
-                draw_line((sa[t] - fx) / 100 + 5 + 50, (sb[t] - fy) / 100 + 30, (sa[t] - fx) / 100 + 50 + 5, (sb[t] - fy) / 100 + sd[t] / 100);
-
-                set_draw_color(0, 230, 0);
-                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, 60, 30);
-                set_draw_color(0, 0, 0);
-
-                draw_rectangle_outline((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, 60, 30);
-            }
-            // 地面(ブロック)
-            if (stype[t] == 200) {
-                for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
-                    for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
-                        draw_sprite_region(grap[65][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29 * t2, mirror);
-                    }
-                }
-            }
-        }
-    }
-
-    // ファイアバー
-    for (t = 0; t < amax; t++) {
-
-        xx[0] = aa[t] - fx;
-        xx[1] = ab[t] - fy;
-        xx[14] = 12000;
-        xx[16] = 0;
-        if (atype[t] == 87 || atype[t] == 88) {
-            if (xx[0] + xx[2] * 100 >= -10 - xx[14] && xx[1] <= fxmax + xx[14] && xx[1] + xx[3] * 100 >= -10 && xx[3] <= fymax) {
-
-                for (tt = 0; tt <= axtype[t] % 100; tt++) {
-                    xx[26] = 18;
-                    xd[4] = tt * xx[26] * cos(atm[t] * FM_PI / 180 / 2);
-                    xd[5] = tt * xx[26] * sin(atm[t] * FM_PI / 180 / 2);
-                    xx[24] = (int)xd[4];
-                    xx[25] = (int)xd[5];
-                    set_draw_color(230, 120, 0);
-                    xx[23] = 8;
-                    if (atype[t] == 87) {
-                        draw_circle_filled(xx[0] / 100 + xx[24], xx[1] / 100 + xx[25], xx[23]);
-                        set_draw_color(0, 0, 0);
-                        draw_circle_outline(xx[0] / 100 + xx[24], xx[1] / 100 + xx[25], xx[23]);
-                    } else {
-                        draw_circle_filled(xx[0] / 100 - xx[24], xx[1] / 100 + xx[25], xx[23]);
-                        set_draw_color(0, 0, 0);
-                        draw_circle_outline(xx[0] / 100 - xx[24], xx[1] / 100 + xx[25], xx[23]);
-                    }
-                }
-            }
-        }
-    }
-
-    // プレイヤーのメッセージ
-    set_draw_color(0, 0, 0);
-
-    if (mmsgtm >= 1) {
-        mmsgtm--;
-        xs[0] = "";
-
-        if (mmsgtype == 1)
-            xs[0] = "お、おいしい!!";
-        if (mmsgtype == 2)
-            xs[0] = "毒は無いが……";
-        if (mmsgtype == 3)
-            xs[0] = "刺さった!!";
-        if (mmsgtype == 10)
-            xs[0] = "食べるべきではなかった!!";
-        if (mmsgtype == 11)
-            xs[0] = "俺は燃える男だ!!";
-        if (mmsgtype == 50)
-            xs[0] = "体が……焼ける……";
-        if (mmsgtype == 51)
-            xs[0] = "たーまやー!!";
-        if (mmsgtype == 52)
-            xs[0] = "見事にオワタ";
-        if (mmsgtype == 53)
-            xs[0] = "足が、足がぁ!!";
-        if (mmsgtype == 54)
-            xs[0] = "流石は摂氏800度!!";
-        if (mmsgtype == 55)
-            xs[0] = "溶岩と合体したい……";
-
-        set_draw_color(0, 0, 0);
-
-        draw_text(xs[0], (ma + mnobia + 300) / 100 - 1, mb / 100 - 1);
-        draw_text(xs[0], (ma + mnobia + 300) / 100 + 1, mb / 100 + 1);
-        set_draw_color(255, 255, 255);
-
-        draw_text(xs[0], (ma + mnobia + 300) / 100, mb / 100);
-
-    }
-
-    // 敵キャラのメッセージ
-    set_draw_color(0, 0, 0);
-
-    for (t = 0; t < amax; t++) {
-        if (amsgtm[t] >= 1) {
-            amsgtm[t]--;
-
-            xs[0] = "";
-
-            if (amsgtype[t] == 1001)
-                xs[0] = "ヤッフー!!";
-            if (amsgtype[t] == 1002)
-                xs[0] = "え?俺勝っちゃったの?";
-            if (amsgtype[t] == 1003)
-                xs[0] = "貴様の死に場所はここだ!";
-            if (amsgtype[t] == 1004)
-                xs[0] = "二度と会う事もないだろう";
-            if (amsgtype[t] == 1005)
-                xs[0] = "俺、最強!!";
-            if (amsgtype[t] == 1006)
-                xs[0] = "一昨日来やがれ!!";
-            if (amsgtype[t] == 1007)
-                xs[0] = "漢に後退の二文字は無い!!";
-            if (amsgtype[t] == 1008)
-                xs[0] = "ハッハァ!!";
-
-            if (amsgtype[t] == 1011)
-                xs[0] = "ヤッフー!!";
-            if (amsgtype[t] == 1012)
-                xs[0] = "え?俺勝っちゃったの?";
-            if (amsgtype[t] == 1013)
-                xs[0] = "貴様の死に場所はここだ!";
-            if (amsgtype[t] == 1014)
-                xs[0] = "身の程知らずが……";
-            if (amsgtype[t] == 1015)
-                xs[0] = "油断が死を招く";
-            if (amsgtype[t] == 1016)
-                xs[0] = "おめでたい奴だ";
-            if (amsgtype[t] == 1017)
-                xs[0] = "屑が!!";
-            if (amsgtype[t] == 1018)
-                xs[0] = "無謀な……";
-
-            if (amsgtype[t] == 1021)
-                xs[0] = "ヤッフー!!";
-            if (amsgtype[t] == 1022)
-                xs[0] = "え?俺勝っちゃったの?";
-            if (amsgtype[t] == 1023)
-                xs[0] = "二度と会う事もないだろう";
-            if (amsgtype[t] == 1024)
-                xs[0] = "身の程知らずが……";
-            if (amsgtype[t] == 1025)
-                xs[0] = "僕は……負けない!!";
-            if (amsgtype[t] == 1026)
-                xs[0] = "貴様に見切れる筋は無い";
-            if (amsgtype[t] == 1027)
-                xs[0] =
-                    "今死ね、すぐ死ね、骨まで砕けろ!!";
-            if (amsgtype[t] == 1028)
-                xs[0] = "任務完了!!";
-
-            if (amsgtype[t] == 1031)
-                xs[0] = "ヤッフー!!";
-            if (amsgtype[t] == 1032)
-                xs[0] = "え?俺勝っちゃったの?";
-            if (amsgtype[t] == 1033)
-                xs[0] = "貴様の死に場所はここだ!";
-            if (amsgtype[t] == 1034)
-                xs[0] = "身の程知らずが……";
-            if (amsgtype[t] == 1035)
-                xs[0] = "油断が死を招く";
-            if (amsgtype[t] == 1036)
-                xs[0] = "おめでたい奴だ";
-            if (amsgtype[t] == 1037)
-                xs[0] = "屑が!!";
-            if (amsgtype[t] == 1038)
-                xs[0] = "無謀な……";
-
-            if (amsgtype[t] == 15)
-                xs[0] = "鉄壁!!よって、無敵!!";
-            if (amsgtype[t] == 16)
-                xs[0] = "丸腰で勝てるとでも?";
-            if (amsgtype[t] == 17)
-                xs[0] = "パリイ!!";
-            if (amsgtype[t] == 18)
-                xs[0] = "自業自得だ";
-            if (amsgtype[t] == 20)
-                xs[0] = "Zzz";
-            if (amsgtype[t] == 21)
-                xs[0] = "ク、クマー";
-            if (amsgtype[t] == 24)
-                xs[0] = "?";
-            if (amsgtype[t] == 25)
-                xs[0] = "食べるべきではなかった!!";
-            if (amsgtype[t] == 30)
-                xs[0] = "うめぇ!!";
-            if (amsgtype[t] == 31)
-                xs[0] = "ブロックを侮ったな?";
-            if (amsgtype[t] == 32)
-                xs[0] = "シャキーン";
-
-            if (amsgtype[t] == 50)
-                xs[0] = "波動砲!!";
-            if (amsgtype[t] == 85)
-                xs[0] = "裏切られたとでも思ったか?";
-            if (amsgtype[t] == 86)
-                xs[0] = "ポールアターック!!";
-
-            if (amsgtype[t] != 31) {
-                xx[5] = (aa[t] + anobia[t] + 300 - fx) / 100;
-                xx[6] = (ab[t] - fy) / 100;
-            } else {
-                xx[5] = (aa[t] + anobia[t] + 300 - fx) / 100;
-                xx[6] = (ab[t] - fy - 800) / 100;
-            }
-
-            set_draw_color(255, 255, 255);
-
-            draw_text(xs[0], xx[5], xx[6]);
-        }
-    }
-
-    message_box_draw();
-
-    // メッセージ
-    if (mainmsgtype >= 1) {
-        if (mainmsgtype == 1) {
-            draw_text("WELCOME TO OWATA ZONE", 126, 100);
-        }
-        if (mainmsgtype == 1) {
-            for (t2 = 0; t2 <= 2; t2++)
-                draw_text("1", 88 + t2 * 143, 210);
-        }
-    }
-}
-
 // メインプログラム
-void play_update() {
+static void play_update() {
     // キー
     message_box_update();
 
@@ -3439,6 +2630,816 @@ void stage() {
 
     player_init_checkpoint();
 }
+
+// メイン描画
+static void play_draw() {
+
+    // ダブルバッファリング
+    set_draw_color(0, 0, 0);
+
+    if (stagecolor == 1)
+        set_draw_color(160, 180, 250);
+    if (stagecolor == 2)
+        set_draw_color(10, 10, 10);
+    if (stagecolor == 3)
+        set_draw_color(160, 180, 250);
+    if (stagecolor == 4)
+        set_draw_color(10, 10, 10);
+    if (stagecolor == 5) {
+        set_draw_color(160, 180, 250);
+        mrzimen = 1;
+    } else {
+        mrzimen = 0;
+    }
+
+    sa_graphics_clear();
+
+    // 背景
+    for (t = 0; t < nmax; t++) {
+        xx[0] = na[t] - fx;
+        xx[1] = nb[t] - fy;
+        xx[2] = ne[ntype[t]] * 100;
+        xx[3] = nf[ntype[t]] * 100;
+        xx[2] = 16000;
+        xx[3] = 16000;
+
+        if (xx[0] + xx[2] >= -10 && xx[0] <= fxmax && xx[1] + xx[3] >= -10 && xx[3] <= fymax) {
+
+            if (ntype[t] != 3) {
+                if ((ntype[t] == 1 || ntype[t] == 2) && stagecolor == 5) {
+                    draw_sprite_region(grap[ntype[t] + 30][4], xx[0] / 100, xx[1] / 100, mirror);
+                } else {
+                    draw_sprite_region(grap[ntype[t]][4], xx[0] / 100, xx[1] / 100, mirror);
+                }
+            }
+            if (ntype[t] == 3)
+                draw_sprite_region(grap[ntype[t]][4], xx[0] / 100 - 5, xx[1] / 100, mirror);
+
+            // 51
+            if (ntype[t] == 100) {
+                draw_text("51", xx[0] / 100, xx[1] / 100);
+            }
+
+            if (ntype[t] == 101)
+                draw_text("ゲームクリアー", xx[0] / 100, xx[1] / 100);
+            if (ntype[t] == 102)
+                draw_text("プレイしてくれてありがとー", xx[0] / 100, xx[1] / 100);
+        }
+    }
+
+    // グラ
+    for (t = 0; t < emax; t++) {
+        xx[0] = ea[t] - fx;
+        xx[1] = eb[t] - fy;
+        xx[2] = enobia[t] / 100;
+        xx[3] = enobib[t] / 100;
+        if (xx[0] + xx[2] * 100 >= -10 && xx[1] <= fxmax && xx[1] + xx[3] * 100 >= -10 - 8000 && xx[3] <= fymax) {
+
+            // コイン
+            if (egtype[t] == 0)
+                draw_sprite_region(grap[0][2], xx[0] / 100, xx[1] / 100, mirror);
+
+            // ブロックの破片
+            if (egtype[t] == 1) {
+                rdpq_set_mode_standard();
+                rdpq_mode_combiner(RDPQ_COMBINER_TEX_FLAT);
+                rdpq_mode_alphacompare(1);
+
+                if (stagecolor == 1 || stagecolor == 3 || stagecolor == 5)
+                    rdpq_set_prim_color(RGBA32(9 * 16, 6 * 16, 3 * 16, 255));
+                if (stagecolor == 2)
+                    rdpq_set_prim_color(RGBA32(0, 120, 160, 255));
+                if (stagecolor == 4)
+                    rdpq_set_prim_color(RGBA32(192, 192, 192, 255));
+
+                rdpq_sprite_blit(mgrap[8], xx[0] / 100, xx[1] / 100, NULL);
+                rdpq_set_prim_color(RGBA32(255, 255, 255, 255));
+            }
+            // リフトの破片
+            if (egtype[t] == 2 || egtype[t] == 3) {
+                if (egtype[t] == 3)
+                    mirror = 1;
+                draw_sprite_region(grap[0][5], xx[0] / 100, xx[1] / 100, mirror);
+                mirror = 0;
+            }
+            // ポール
+            if (egtype[t] == 4) {
+                set_draw_color(255, 255, 255);
+
+                draw_rectangle_filled((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
+                set_draw_color(0, 0, 0);
+
+                draw_rectangle_outline((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
+                set_draw_color(250, 250, 0);
+                draw_circle_filled((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
+                set_draw_color(0, 0, 0);
+
+                draw_circle_outline((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
+            }
+        }
+    }
+
+    // リフト
+    for (t = 0; t < srmax; t++) {
+        xx[0] = sra[t] - fx;
+        xx[1] = srb[t] - fy;
+        if (xx[0] + src[t] >= -10 && xx[1] <= fxmax + 12100 && src[t] / 100 >= 1) {
+            xx[2] = 14;
+            if (srsp[t] == 1) {
+                xx[2] = 12;
+            }
+
+            if (srsp[t] <= 9 || srsp[t] >= 20) {
+                set_draw_color(220, 220, 0);
+                if (srsp[t] == 2 || srsp[t] == 3) {
+                    set_draw_color(0, 220, 0);
+                }
+                if (srsp[t] == 21) {
+                    set_draw_color(180, 180, 180);
+                }
+                draw_rectangle_filled((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, xx[2]);
+
+                set_draw_color(180, 180, 0);
+                if (srsp[t] == 2 || srsp[t] == 3) {
+                    set_draw_color(0, 180, 0);
+                }
+                if (srsp[t] == 21) {
+                    set_draw_color(150, 150, 150);
+                }
+                draw_rectangle_outline((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, xx[2]);
+            } else if (srsp[t] <= 14) {
+                if (src[t] >= 5000) {
+                    set_draw_color(0, 200, 0);
+                    draw_rectangle_filled((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, 30);
+                    set_draw_color(0, 160, 0);
+                    draw_rectangle_outline((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, 30);
+
+                    set_draw_color(180, 120, 60);
+                    draw_rectangle_filled((sra[t] - fx) / 100 + 20, (srb[t] - fy) / 100 + 30, src[t] / 100 - 40, 480);
+                    set_draw_color(100, 80, 20);
+                    draw_rectangle_outline((sra[t] - fx) / 100 + 20, (srb[t] - fy) / 100 + 30, src[t] / 100 - 40, 480);
+                }
+            }
+            if (srsp[t] == 15) {
+                for (t2 = 0; t2 <= 2; t2++) {
+                    xx[6] = 1 + 0;
+                    draw_sprite_region(grap[xx[6]][1], (sra[t] - fx) / 100 + t2 * 29, (srb[t] - fy) / 100, mirror);
+                }
+            }
+        }
+    }
+
+    // プレイヤー描画
+    set_draw_color(0, 0, 255);
+
+    if (mactp >= 2000) {
+        mactp -= 2000;
+        if (mact == 0) {
+            mact = 1;
+        } else {
+            mact = 0;
+        }
+    }
+    if (mmuki == 0)
+        mirror = 1;
+
+    if (mtype != 200 && mtype != 1) {
+        if (mzimen == 1) {
+            // 読みこんだグラフィックを拡大描画
+            if (mact == 0)
+                draw_sprite_region(grap[0][0], ma / 100, mb / 100, mirror);
+            if (mact == 1)
+                draw_sprite_region(grap[1][0], ma / 100, mb / 100, mirror);
+        }
+        if (mzimen == 0) {
+            draw_sprite_region(grap[2][0], ma / 100, mb / 100, mirror);
+        }
+    }
+    // 巨大化
+    else if (mtype == 1) {
+        draw_sprite_region(grap[41][0], ma / 100, mb / 100, mirror);
+    } else if (mtype == 200) {
+        draw_sprite_region(grap[3][0], ma / 100, mb / 100, mirror);
+    }
+
+    mirror = 0;
+
+    // 敵キャラ
+    for (t = 0; t < amax; t++) {
+
+        xx[0] = aa[t] - fx;
+        xx[1] = ab[t] - fy;
+        xx[2] = anobia[t] / 100;
+        xx[3] = anobib[t] / 100;
+        xx[14] = 3000;
+        xx[16] = 0;
+        if (xx[0] + xx[2] * 100 >= -10 - xx[14] && xx[1] <= fxmax + xx[14] && xx[1] + xx[3] * 100 >= -10 && xx[3] <= fymax) {
+            if (amuki[t] == 1) {
+                mirror = 1;
+            }
+            if (atype[t] == 3 && axtype[t] == 1) {
+                draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, false, true);
+                xx[16] = 1;
+            }
+            if (atype[t] == 9 && ad[t] >= 1) {
+                draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, false, true);
+                xx[16] = 1;
+            }
+            if (atype[t] >= 100 && amuki[t] == 1)
+                mirror = 0;
+
+            // メイン
+            if (atype[t] < 200 && xx[16] == 0 && atype[t] != 6 && atype[t] != 79 && atype[t] != 86 && atype[t] != 30) {
+                if (!((atype[t] == 80 || atype[t] == 81) && axtype[t] == 1)) {
+                    draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, mirror);
+                }
+            }
+            // デフラグさん
+            if (atype[t] == 6) {
+                if (atm[t] >= 10 && atm[t] <= 19 || atm[t] >= 100 && atm[t] <= 119 || atm[t] >= 200) {
+                    draw_sprite_region(grap[150][3], xx[0] / 100, xx[1] / 100, mirror);
+                } else {
+                    draw_sprite_region(grap[6][3], xx[0] / 100, xx[1] / 100, mirror);
+                }
+            }
+            // モララー
+            if (atype[t] == 30) {
+                if (axtype[t] == 0)
+                    draw_sprite_region(grap[30][3], xx[0] / 100, xx[1] / 100, mirror);
+                if (axtype[t] == 1)
+                    draw_sprite_region(grap[155][3], xx[0] / 100, xx[1] / 100, mirror);
+            }
+            // ステルス雲
+            if ((atype[t] == 81) && axtype[t] == 1) {
+                draw_sprite_region(grap[130][3], xx[0] / 100, xx[1] / 100, mirror);
+            }
+
+            if (atype[t] == 79) {
+                set_draw_color(250, 250, 0);
+                draw_rectangle_filled(xx[0] / 100, xx[1] / 100, xx[2], xx[3]);
+                set_draw_color(0, 0, 0);
+
+                draw_rectangle_outline(xx[0] / 100, xx[1] / 100, xx[2], xx[3]);
+            }
+
+            if (atype[t] == 82) {
+
+                if (axtype[t] == 0) {
+                    xx[9] = 0;
+                    if (stagecolor == 2) {
+                        xx[9] = 30;
+                    }
+                    if (stagecolor == 4) {
+                        xx[9] = 60;
+                    }
+                    if (stagecolor == 5) {
+                        xx[9] = 90;
+                    }
+                    xx[6] = 5 + xx[9];
+                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
+                }
+
+                if (axtype[t] == 1) {
+                    xx[9] = 0;
+                    if (stagecolor == 2) {
+                        xx[9] = 30;
+                    }
+                    if (stagecolor == 4) {
+                        xx[9] = 60;
+                    }
+                    if (stagecolor == 5) {
+                        xx[9] = 90;
+                    }
+                    xx[6] = 4 + xx[9];
+                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
+                }
+
+                if (axtype[t] == 2) {
+                    draw_sprite_region(grap[1][5], xx[0] / 100, xx[1] / 100, mirror);
+                }
+            }
+            if (atype[t] == 83) {
+
+                if (axtype[t] == 0) {
+                    xx[9] = 0;
+                    if (stagecolor == 2) {
+                        xx[9] = 30;
+                    }
+                    if (stagecolor == 4) {
+                        xx[9] = 60;
+                    }
+                    if (stagecolor == 5) {
+                        xx[9] = 90;
+                    }
+                    xx[6] = 5 + xx[9];
+                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100 + 10, xx[1] / 100 + 9, mirror);
+                }
+
+                if (axtype[t] == 1) {
+                    xx[9] = 0;
+                    if (stagecolor == 2) {
+                        xx[9] = 30;
+                    }
+                    if (stagecolor == 4) {
+                        xx[9] = 60;
+                    }
+                    if (stagecolor == 5) {
+                        xx[9] = 90;
+                    }
+                    xx[6] = 4 + xx[9];
+                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100 + 10, xx[1] / 100 + 9, mirror);
+                }
+            }
+            // 偽ポール
+            if (atype[t] == 85) {
+                set_draw_color(255, 255, 255);
+
+                draw_rectangle_filled((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
+                set_draw_color(0, 0, 0);
+
+                draw_rectangle_outline((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
+                set_draw_color(0, 250, 200);
+                draw_circle_filled((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
+                set_draw_color(0, 0, 0);
+
+                draw_circle_outline((xx[0]) / 100 + 15 - 1, (xx[1]) / 100, 10);
+
+            }
+
+            // ニャッスン
+            if (atype[t] == 86) {
+                if (ma >= aa[t] - fx - mnobia - 4000 && ma <= aa[t] - fx + anobia[t] + 4000) {
+                    draw_sprite_region(grap[152][3], xx[0] / 100, xx[1] / 100, mirror);
+                } else {
+                    draw_sprite_region(grap[86][3], xx[0] / 100, xx[1] / 100, mirror);
+                }
+            }
+
+            if (atype[t] == 200)
+                draw_sprite_region(grap[0][3], xx[0] / 100, xx[1] / 100, mirror);
+
+            mirror = 0;
+        }
+    }
+
+    // ブロック描画
+    for (t = 0; t < tmax; t++) {
+        xx[0] = ta[t] - fx;
+        xx[1] = tb[t] - fy;
+        xx[2] = 32;
+        xx[3] = xx[2];
+        if (xx[0] + xx[2] * 100 >= -10 && xx[1] <= fxmax) {
+
+            xx[9] = 0;
+            if (stagecolor == 2) {
+                xx[9] = 30;
+            }
+            if (stagecolor == 4) {
+                xx[9] = 60;
+            }
+            if (stagecolor == 5) {
+                xx[9] = 90;
+            }
+
+            if (ttype[t] < 100) {
+                xx[6] = ttype[t] + xx[9];
+                draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
+            }
+
+            if (txtype[t] != 10) {
+
+                if (ttype[t] == 100 || ttype[t] == 101 || ttype[t] == 102 || ttype[t] == 103 || ttype[t] == 104 && txtype[t] == 1 || ttype[t] == 114 && txtype[t] == 1 || ttype[t] == 116) {
+                    xx[6] = 2 + xx[9];
+                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
+                }
+
+                if (ttype[t] == 112 || ttype[t] == 104 && txtype[t] == 0 || ttype[t] == 115 && txtype[t] == 1) {
+                    xx[6] = 1 + xx[9];
+                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
+                }
+
+                if (ttype[t] == 111 || ttype[t] == 113 || ttype[t] == 115 && txtype[t] == 0 || ttype[t] == 124) {
+                    xx[6] = 3 + xx[9];
+                    draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
+                }
+            }
+
+            if (ttype[t] == 117 && txtype[t] == 1) {
+                draw_sprite_region(grap[4][5], xx[0] / 100, xx[1] / 100, mirror);
+            }
+
+            if (ttype[t] == 117 && txtype[t] >= 3) {
+                draw_sprite_region(grap[3][5], xx[0] / 100, xx[1] / 100, mirror);
+            }
+
+            if (ttype[t] == 115 && txtype[t] == 3) {
+                xx[6] = 1 + xx[9];
+                draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
+            }
+            // ジャンプ台
+            if (ttype[t] == 120 && txtype[t] != 1) {
+                draw_sprite_region(grap[16][1], xx[0] / 100 + 3, xx[1] / 100 + 2, mirror);
+            }
+            // ON-OFF
+            if (ttype[t] == 130)
+                draw_sprite_region(grap[10][5], xx[0] / 100, xx[1] / 100, mirror);
+            if (ttype[t] == 131)
+                draw_sprite_region(grap[11][5], xx[0] / 100, xx[1] / 100, mirror);
+
+            if (ttype[t] == 140)
+                draw_sprite_region(grap[12][5], xx[0] / 100, xx[1] / 100, mirror);
+            if (ttype[t] == 141)
+                draw_sprite_region(grap[13][5], xx[0] / 100, xx[1] / 100, mirror);
+            if (ttype[t] == 142)
+                draw_sprite_region(grap[14][5], xx[0] / 100, xx[1] / 100, mirror);
+
+            if (ttype[t] == 300 || ttype[t] == 301)
+                draw_sprite_region(grap[1][5], xx[0] / 100, xx[1] / 100, mirror);
+
+            // Pスイッチ
+            if (ttype[t] == 400) {
+                draw_sprite_region(grap[2][5], xx[0] / 100, xx[1] / 100, mirror);
+            }
+            // コイン
+            if (ttype[t] == 800) {
+                draw_sprite_region(grap[0][2], xx[0] / 100 + 2, xx[1] / 100 + 1, mirror);
+            }
+        }
+    }
+
+    // 地面(壁)//土管も
+    for (t = 0; t < smax; t++) {
+        if (sa[t] - fx + sc[t] >= -10 && sa[t] - fx <= fxmax + 1100) {
+
+            if (stype[t] == 0) {
+                set_draw_color(40, 200, 40);
+                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100, sc[t] / 100, sd[t] / 100);
+                draw_rectangle_outline((sa[t] - fx) / 100, (sb[t] - fy) / 100, sc[t] / 100, sd[t] / 100);
+            }
+            // 土管
+            if (stype[t] == 1) {
+                set_draw_color(0, 230, 0);
+                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100, sc[t] / 100, sd[t] / 100);
+                set_draw_color(0, 0, 0);
+
+                draw_rectangle_outline((sa[t] - fx) / 100, (sb[t] - fy) / 100, sc[t] / 100, sd[t] / 100);
+            }
+            // 土管(下)
+            if (stype[t] == 2) {
+                set_draw_color(0, 230, 0);
+                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, sc[t] / 100, sd[t] / 100);
+                set_draw_color(0, 0, 0);
+
+                draw_line((sa[t] - fx) / 100, (sb[t] - fy) / 100, (sa[t] - fx) / 100, (sb[t] - fy) / 100 + sd[t] / 100);
+                draw_line((sa[t] - fx) / 100 + sc[t] / 100, (sb[t] - fy) / 100, (sa[t] - fx) / 100 + sc[t] / 100, (sb[t] - fy) / 100 + sd[t] / 100);
+            }
+            // 土管(横)
+            if (stype[t] == 5) {
+                set_draw_color(0, 230, 0);
+                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, sc[t] / 100, sd[t] / 100);
+                set_draw_color(0, 0, 0);
+                draw_line((sa[t] - fx) / 100, (sb[t] - fy) / 100, (sa[t] - fx) / 100 + sc[t] / 100, (sb[t] - fy) / 100);
+                draw_line((sa[t] - fx) / 100, (sb[t] - fy) / 100 + sd[t] / 100, (sa[t] - fx) / 100 + sc[t] / 100, (sb[t] - fy) / 100 + sd[t] / 100);
+            }
+            // 落ちてくるブロック
+            if (stype[t] == 51) {
+                if (sxtype[t] == 0) {
+                    for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
+                        draw_sprite_region(grap[1][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100, mirror);
+                    }
+                }
+                if (sxtype[t] == 1 || sxtype[t] == 2) {
+                    for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
+                        draw_sprite_region(grap[31][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100, mirror);
+                    }
+                }
+                if (sxtype[t] == 3 || sxtype[t] == 4) {
+                    for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
+                        for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
+                            draw_sprite_region(grap[65][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29 * t2, mirror);
+                        }
+                    }
+                }
+
+                if (sxtype[t] == 10) {
+                    for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
+                        draw_sprite_region(grap[65][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100, mirror);
+                    }
+                }
+
+            }
+
+            // 落ちるやつ
+            if (stype[t] == 52) {
+                xx[29] = 0;
+                if (stagecolor == 2) {
+                    xx[29] = 30;
+                }
+                if (stagecolor == 4) {
+                    xx[29] = 60;
+                }
+                if (stagecolor == 5) {
+                    xx[29] = 90;
+                }
+
+                for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
+                    if (sxtype[t] == 0) {
+                        draw_sprite_region(grap[5 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100, mirror);
+                        if (stagecolor != 4) {
+                            draw_sprite_region(grap[6 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29, mirror);
+                        } else {
+                            draw_sprite_region(grap[5 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29, mirror);
+                        }
+                    }
+                    if (sxtype[t] == 1) {
+                        for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
+                            draw_sprite_region(grap[1 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29 * t2, mirror);
+                        }
+                    }
+
+                    if (sxtype[t] == 2) {
+                        for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
+                            draw_sprite_region(grap[5 + xx[29]][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29 * t2, mirror);
+                        }
+                    }
+                }
+            }
+            // ステージトラップ
+            if (trap == 1) {
+                if (stype[t] >= 100 && stype[t] <= 299) {
+                    if (stagecolor == 1 || stagecolor == 3 || stagecolor == 5)
+                        set_draw_color(0, 0, 0);
+                    if (stagecolor == 2 || stagecolor == 4)
+                        set_draw_color(255, 255, 255);
+                    draw_rectangle_outline((sa[t] - fx) / 100, (sb[t] - fy) / 100, sc[t] / 100, sd[t] / 100);
+                }
+            }
+            // ゴール
+            if (stype[t] == 300) {
+                set_draw_color(255, 255, 255);
+
+                draw_rectangle_filled((sa[t] - fx) / 100 + 10, (sb[t] - fy) / 100, 10, sd[t] / 100 - 8);
+                set_draw_color(0, 0, 0);
+
+                draw_rectangle_outline((sa[t] - fx) / 100 + 10, (sb[t] - fy) / 100, 10, sd[t] / 100 - 8);
+                set_draw_color(250, 250, 0);
+                draw_circle_filled((sa[t] - fx) / 100 + 15 - 1, (sb[t] - fy) / 100, 10);
+                set_draw_color(0, 0, 0);
+
+                draw_circle_outline((sa[t] - fx) / 100 + 15 - 1, (sb[t] - fy) / 100, 10);
+            }
+            // 中間
+            if (stype[t] == 500) {
+                draw_sprite_region(grap[20][4], (sa[t] - fx) / 100, (sb[t] - fy) / 100, mirror);
+            }
+        }
+    }
+
+    // 描画上書き(土管)
+    for (t = 0; t < smax; t++) {
+        if (sa[t] - fx + sc[t] >= -10 && sa[t] - fx <= fxmax + 1100) {
+
+            // 入る土管(右)
+            if (stype[t] == 40) {
+                set_draw_color(0, 230, 0);
+                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, sc[t] / 100, sd[t] / 100);
+                set_draw_color(0, 0, 0);
+
+                draw_rectangle_outline((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, sc[t] / 100, sd[t] / 100);
+            }
+            // とぶ土管
+            if (stype[t] == 50) {
+                set_draw_color(0, 230, 0);
+                draw_rectangle_filled((sa[t] - fx) / 100 + 5, (sb[t] - fy) / 100 + 30, 50, sd[t] / 100 - 30);
+                set_draw_color(0, 0, 0);
+                draw_line((sa[t] - fx) / 100 + 5, (sb[t] - fy) / 100 + 30, (sa[t] - fx) / 100 + 5, (sb[t] - fy) / 100 + sd[t] / 100);
+                draw_line((sa[t] - fx) / 100 + 5 + 50, (sb[t] - fy) / 100 + 30, (sa[t] - fx) / 100 + 50 + 5, (sb[t] - fy) / 100 + sd[t] / 100);
+
+                set_draw_color(0, 230, 0);
+                draw_rectangle_filled((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, 60, 30);
+                set_draw_color(0, 0, 0);
+
+                draw_rectangle_outline((sa[t] - fx) / 100, (sb[t] - fy) / 100 + 1, 60, 30);
+            }
+            // 地面(ブロック)
+            if (stype[t] == 200) {
+                for (t3 = 0; t3 <= sc[t] / 3000; t3++) {
+                    for (t2 = 0; t2 <= sd[t] / 3000; t2++) {
+                        draw_sprite_region(grap[65][1], (sa[t] - fx) / 100 + 29 * t3, (sb[t] - fy) / 100 + 29 * t2, mirror);
+                    }
+                }
+            }
+        }
+    }
+
+    // ファイアバー
+    for (t = 0; t < amax; t++) {
+
+        xx[0] = aa[t] - fx;
+        xx[1] = ab[t] - fy;
+        xx[14] = 12000;
+        xx[16] = 0;
+        if (atype[t] == 87 || atype[t] == 88) {
+            if (xx[0] + xx[2] * 100 >= -10 - xx[14] && xx[1] <= fxmax + xx[14] && xx[1] + xx[3] * 100 >= -10 && xx[3] <= fymax) {
+
+                for (tt = 0; tt <= axtype[t] % 100; tt++) {
+                    xx[26] = 18;
+                    xd[4] = tt * xx[26] * cos(atm[t] * FM_PI / 180 / 2);
+                    xd[5] = tt * xx[26] * sin(atm[t] * FM_PI / 180 / 2);
+                    xx[24] = (int)xd[4];
+                    xx[25] = (int)xd[5];
+                    set_draw_color(230, 120, 0);
+                    xx[23] = 8;
+                    if (atype[t] == 87) {
+                        draw_circle_filled(xx[0] / 100 + xx[24], xx[1] / 100 + xx[25], xx[23]);
+                        set_draw_color(0, 0, 0);
+                        draw_circle_outline(xx[0] / 100 + xx[24], xx[1] / 100 + xx[25], xx[23]);
+                    } else {
+                        draw_circle_filled(xx[0] / 100 - xx[24], xx[1] / 100 + xx[25], xx[23]);
+                        set_draw_color(0, 0, 0);
+                        draw_circle_outline(xx[0] / 100 - xx[24], xx[1] / 100 + xx[25], xx[23]);
+                    }
+                }
+            }
+        }
+    }
+
+    // プレイヤーのメッセージ
+    set_draw_color(0, 0, 0);
+
+    if (mmsgtm >= 1) {
+        mmsgtm--;
+        xs[0] = "";
+
+        if (mmsgtype == 1)
+            xs[0] = "お、おいしい!!";
+        if (mmsgtype == 2)
+            xs[0] = "毒は無いが……";
+        if (mmsgtype == 3)
+            xs[0] = "刺さった!!";
+        if (mmsgtype == 10)
+            xs[0] = "食べるべきではなかった!!";
+        if (mmsgtype == 11)
+            xs[0] = "俺は燃える男だ!!";
+        if (mmsgtype == 50)
+            xs[0] = "体が……焼ける……";
+        if (mmsgtype == 51)
+            xs[0] = "たーまやー!!";
+        if (mmsgtype == 52)
+            xs[0] = "見事にオワタ";
+        if (mmsgtype == 53)
+            xs[0] = "足が、足がぁ!!";
+        if (mmsgtype == 54)
+            xs[0] = "流石は摂氏800度!!";
+        if (mmsgtype == 55)
+            xs[0] = "溶岩と合体したい……";
+
+        set_draw_color(0, 0, 0);
+
+        draw_text(xs[0], (ma + mnobia + 300) / 100 - 1, mb / 100 - 1);
+        draw_text(xs[0], (ma + mnobia + 300) / 100 + 1, mb / 100 + 1);
+        set_draw_color(255, 255, 255);
+
+        draw_text(xs[0], (ma + mnobia + 300) / 100, mb / 100);
+
+    }
+
+    // 敵キャラのメッセージ
+    set_draw_color(0, 0, 0);
+
+    for (t = 0; t < amax; t++) {
+        if (amsgtm[t] >= 1) {
+            amsgtm[t]--;
+
+            xs[0] = "";
+
+            if (amsgtype[t] == 1001)
+                xs[0] = "ヤッフー!!";
+            if (amsgtype[t] == 1002)
+                xs[0] = "え?俺勝っちゃったの?";
+            if (amsgtype[t] == 1003)
+                xs[0] = "貴様の死に場所はここだ!";
+            if (amsgtype[t] == 1004)
+                xs[0] = "二度と会う事もないだろう";
+            if (amsgtype[t] == 1005)
+                xs[0] = "俺、最強!!";
+            if (amsgtype[t] == 1006)
+                xs[0] = "一昨日来やがれ!!";
+            if (amsgtype[t] == 1007)
+                xs[0] = "漢に後退の二文字は無い!!";
+            if (amsgtype[t] == 1008)
+                xs[0] = "ハッハァ!!";
+
+            if (amsgtype[t] == 1011)
+                xs[0] = "ヤッフー!!";
+            if (amsgtype[t] == 1012)
+                xs[0] = "え?俺勝っちゃったの?";
+            if (amsgtype[t] == 1013)
+                xs[0] = "貴様の死に場所はここだ!";
+            if (amsgtype[t] == 1014)
+                xs[0] = "身の程知らずが……";
+            if (amsgtype[t] == 1015)
+                xs[0] = "油断が死を招く";
+            if (amsgtype[t] == 1016)
+                xs[0] = "おめでたい奴だ";
+            if (amsgtype[t] == 1017)
+                xs[0] = "屑が!!";
+            if (amsgtype[t] == 1018)
+                xs[0] = "無謀な……";
+
+            if (amsgtype[t] == 1021)
+                xs[0] = "ヤッフー!!";
+            if (amsgtype[t] == 1022)
+                xs[0] = "え?俺勝っちゃったの?";
+            if (amsgtype[t] == 1023)
+                xs[0] = "二度と会う事もないだろう";
+            if (amsgtype[t] == 1024)
+                xs[0] = "身の程知らずが……";
+            if (amsgtype[t] == 1025)
+                xs[0] = "僕は……負けない!!";
+            if (amsgtype[t] == 1026)
+                xs[0] = "貴様に見切れる筋は無い";
+            if (amsgtype[t] == 1027)
+                xs[0] =
+                    "今死ね、すぐ死ね、骨まで砕けろ!!";
+            if (amsgtype[t] == 1028)
+                xs[0] = "任務完了!!";
+
+            if (amsgtype[t] == 1031)
+                xs[0] = "ヤッフー!!";
+            if (amsgtype[t] == 1032)
+                xs[0] = "え?俺勝っちゃったの?";
+            if (amsgtype[t] == 1033)
+                xs[0] = "貴様の死に場所はここだ!";
+            if (amsgtype[t] == 1034)
+                xs[0] = "身の程知らずが……";
+            if (amsgtype[t] == 1035)
+                xs[0] = "油断が死を招く";
+            if (amsgtype[t] == 1036)
+                xs[0] = "おめでたい奴だ";
+            if (amsgtype[t] == 1037)
+                xs[0] = "屑が!!";
+            if (amsgtype[t] == 1038)
+                xs[0] = "無謀な……";
+
+            if (amsgtype[t] == 15)
+                xs[0] = "鉄壁!!よって、無敵!!";
+            if (amsgtype[t] == 16)
+                xs[0] = "丸腰で勝てるとでも?";
+            if (amsgtype[t] == 17)
+                xs[0] = "パリイ!!";
+            if (amsgtype[t] == 18)
+                xs[0] = "自業自得だ";
+            if (amsgtype[t] == 20)
+                xs[0] = "Zzz";
+            if (amsgtype[t] == 21)
+                xs[0] = "ク、クマー";
+            if (amsgtype[t] == 24)
+                xs[0] = "?";
+            if (amsgtype[t] == 25)
+                xs[0] = "食べるべきではなかった!!";
+            if (amsgtype[t] == 30)
+                xs[0] = "うめぇ!!";
+            if (amsgtype[t] == 31)
+                xs[0] = "ブロックを侮ったな?";
+            if (amsgtype[t] == 32)
+                xs[0] = "シャキーン";
+
+            if (amsgtype[t] == 50)
+                xs[0] = "波動砲!!";
+            if (amsgtype[t] == 85)
+                xs[0] = "裏切られたとでも思ったか?";
+            if (amsgtype[t] == 86)
+                xs[0] = "ポールアターック!!";
+
+            if (amsgtype[t] != 31) {
+                xx[5] = (aa[t] + anobia[t] + 300 - fx) / 100;
+                xx[6] = (ab[t] - fy) / 100;
+            } else {
+                xx[5] = (aa[t] + anobia[t] + 300 - fx) / 100;
+                xx[6] = (ab[t] - fy - 800) / 100;
+            }
+
+            set_draw_color(255, 255, 255);
+
+            draw_text(xs[0], xx[5], xx[6]);
+        }
+    }
+
+    message_box_draw();
+
+    // メッセージ
+    if (mainmsgtype >= 1) {
+        if (mainmsgtype == 1) {
+            draw_text("WELCOME TO OWATA ZONE", 126, 100);
+        }
+        if (mainmsgtype == 1) {
+            for (t2 = 0; t2 <= 2; t2++)
+                draw_text("1", 88 + t2 * 143, 210);
+        }
+    }
+}
+
 
 void stagep() {
 
