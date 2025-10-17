@@ -36,17 +36,15 @@ static void handle_scrolling(void) {
     }
 }
 
-static void select_stage(uint8_t num) {
-    if (num >= STAGE_MYSTERY_DUNGEON) {
-        num = STAGE_MIN;
+static void enter_stage() {
+    if (sStageNum >= STAGE_MYSTERY_DUNGEON) {
+        sStageNum = STAGE_MIN;
     }
 
-    sta = (num - 1) / 4 + 1; // current world?
-    stb = (num - 1) % 4 + 1; // current level??
-    stc = 0;
-}
+    sta = (sStageNum - 1) / 4 + 1;  // current world
+    stb = (sStageNum - 1) % 4 + 1;  // current level
+    stc = 0;                        // current area
 
-static void enter_stage() {
 	nokori = 2;
 	fast = 0;
 	trap = 0;
@@ -67,8 +65,7 @@ void title_screen_enter(void) {
 void title_screen_update(void) {
     handle_scrolling();
 
-	if (is_button_down(CONTROL_START_PAUSE)) {
-        select_stage(sStageNum);
+	if (is_button_pressed(CONTROL_START_PAUSE)) {
 	    enter_stage();
 	}
 }
@@ -91,19 +88,31 @@ void title_screen_draw(void) {
         draw_sprite_region(grap[6][1], 29 * t, 394);
     }
 
+    uint16_t textWidth = 0;
+    int16_t textX = 0;
+
     if (!gControllerFound) {
-        draw_text("No controller!", RECENTER_X(160), 250);
+        const char* text = "NO CONTROLLER!";
+
+        measure_text(text, &textWidth, NULL);
+        textX = (SCREEN_WIDTH - textWidth) / 2;
+
+        draw_text(text, textX, 250);
         return;
     }
 
-    // TODO: use paragraphs so text can be centered regardless of width
-    draw_text("STARTボタンを押せ!!", RECENTER_X(160), 250);
+    const char* text = "STARTボタンを押せ!!";
+
+    measure_text(text, &textWidth, NULL);
+    textX = (SCREEN_WIDTH - textWidth) / 2;
+
+    draw_text(text, textX, 250);
 
     if (sShowStageNum) {
         if (sStageNum != STAGE_MYSTERY_DUNGEON) {
-            draw_text_fmt(RECENTER_X(160), 270, "Stage number: %d", sStageNum);
+            draw_text_fmt(textX, 270, "Stage number: %d", sStageNum);
         } else {
-            draw_text("Mystery Dungeon", RECENTER_X(160), 270);
+            draw_text("Mystery Dungeon", textX, 270);
         }
     }
 }

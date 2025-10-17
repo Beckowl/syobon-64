@@ -39,5 +39,6 @@ void draw_circle_outline(int x, int y, int radius);
 
 void draw_text(const char* text, int x, int y);
 void draw_text_fmt(int x, int y, const char* format, ...);
+void measure_text(const char* text, uint16_t* width, uint16_t* height);
 
 #endif

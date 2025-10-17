@@ -36,7 +36,10 @@ void credits_draw(void) {
     rdpq_clear(RGBA32(0, 0, 0, 0));
 
     for (uint32_t i = 0; i < CREDITS_LINE_COUNT; i++) {
-        draw_text(gCreditsText[i].text, gCreditsText[i].xPos, sTextOffset + gCreditsText[i].yOffset);
+        uint16_t width;
+        measure_text(gCreditsText[i].text, &width, NULL);
+
+        draw_text(gCreditsText[i].text, (SCREEN_WIDTH - width) / 2, sTextOffset + gCreditsText[i].yOffset);
     }
 }
 

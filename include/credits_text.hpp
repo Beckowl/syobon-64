@@ -5,12 +5,10 @@
 
 struct CreditsLine {
     const char* text;
-    int xPos;
     int yOffset;
 };
 
-#define CENTER_LINE(length) ((SCREEN_WIDTH / 2) - ((length) * 20 / 2))
-#define CREDITS_LINE(text, length, yOffset) { text, CENTER_LINE(length), yOffset}
+#define CREDITS_LINE(text, yOffset) { text, yOffset}
 
 CreditsLine gCreditsText[] = {
 #if defined(LANG_EN)

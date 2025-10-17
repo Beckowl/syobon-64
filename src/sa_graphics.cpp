@@ -179,7 +179,6 @@ void draw_circle_outline(int x, int y, int radius) {
 // so i added a 16px y offset to make it the top left
 void draw_text(const char* text, int x, int y) {
     rdpq_set_mode_standard();
-    rdpq_font_get_glyph_metrics
     rdpq_text_print(NULL, FONT_SAZANAMI, x, y + 16, text);
 }
 
@@ -192,4 +191,49 @@ void draw_text_fmt(int x, int y, const char* format, ...) {
     rdpq_text_vprintf(NULL, FONT_SAZANAMI, x, y + 16, format, args);
 
     va_end(args);
+}
+
+// sourced from https://gist.github.com/tylerneylon/9773800
+
+#define IS_CONT(x) (((x) & 0xc0) == 0x80)
+
+static int decode_code_point(const char **s) {
+    int k = **s ? __builtin_clz(~(**s << 24)) : 0; // Count # of leading 1 bits.
+    int mask = (1 << (8 - k)) - 1;                 // All 1s with k leading 0s.
+    int value = **s & mask;
+    // k = 0 for one-byte code points; otherwise, k = #total bytes.
+    for (++(*s), --k; k > 0 && IS_CONT(**s); --k, ++(*s)) {
+        value <<= 6;
+        value += (**s & 0x3F);
+    }
+    return value;
+}
+
+void measure_text(const char* text, uint16_t* width, uint16_t* height) {
+    const rdpq_font_t* font = rdpq_text_get_font(FONT_SAZANAMI);
+    if (!font) {
+        if (width)  { *width = 0; }
+        if (height) { *height = 0; }
+
+        return;
+    }
+
+    uint16_t w = 0;
+    int16_t minY = 0, maxY = 0;
+
+    const char* ptr = text;
+    while (*ptr) {
+        int codePoint = decode_code_point(&ptr);
+
+        rdpq_font_gmetrics_t metrics;
+        if (rdpq_font_get_glyph_metrics(font, codePoint, &metrics)) {
+            w += metrics.xadvance;
+
+            if (metrics.y0 < minY) { minY = metrics.y0; }
+            if (metrics.y1 > maxY) { maxY = metrics.y1; }
+        }
+    }
+
+    if (width)  { *width  = w; }
+    if (height) { *height = maxY - minY; }
 }
