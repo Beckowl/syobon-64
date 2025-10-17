@@ -7,8 +7,8 @@
 #include "sa_graphics.hpp"
 
 static const GameState* sNextState = NULL;
-static int sTransitionTimer = 0;
-static int sTransitionDuration = 30;
+static uint16_t sTransitionTimer = 0;
+static uint16_t sTransitionDuration = 30;
 static bool sShowLives = false;
 
 static void transition_enter(void) {
