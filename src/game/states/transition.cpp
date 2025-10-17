@@ -33,10 +33,7 @@ void transition_draw(void) {
 	if (sShowLives) {
 		draw_sprite_region(grap[0][0], RECENTER_X(190), 190);
 
-		char buf[16];
-		snprintf(buf, sizeof(buf), " × %d", nokori);
-
-		draw_text(buf, RECENTER_X(230), 200);
+        draw_text_fmt(RECENTER_X(230), 200, " × %d", nokori);
 	}
 }
 
