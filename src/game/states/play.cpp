@@ -573,11 +573,6 @@ static void play_update() {
                                     mzimen = 1;
                                     xx[16] = 1;
                                 } else if (ttype[t] == 115) {
-                                    play_sound_effect(oto[3]);
-                                    eyobi(ta[t] + 1200, tb[t] + 1200, 300, -1000, 0, 160, 1000, 1000, 1, 120);
-                                    eyobi(ta[t] + 1200, tb[t] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);
-                                    eyobi(ta[t] + 1200, tb[t] + 1200, 240, -1400, 0, 160, 1000, 1000, 1, 120);
-                                    eyobi(ta[t] + 1200, tb[t] + 1200, -240, -1400, 0, 160, 1000, 1000, 1, 120);
                                     brockbreak(t);
                                 }
                                 // Pスイッチ
@@ -641,11 +636,6 @@ static void play_update() {
                                     }
                                     // 壊れる
                                     if (ttype[t] == 1 && mzimen == 0) {
-                                        play_sound_effect(oto[3]);
-                                        eyobi(ta[t] + 1200, tb[t] + 1200, 300, -1000, 0, 160, 1000, 1000, 1, 120);
-                                        eyobi(ta[t] + 1200, tb[t] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);
-                                        eyobi(ta[t] + 1200, tb[t] + 1200, 240, -1400, 0, 160, 1000, 1000, 1, 120);
-                                        eyobi(ta[t] + 1200, tb[t] + 1200, -240, -1400, 0, 160, 1000, 1000, 1, 120);
                                         brockbreak(t);
                                     }
                                     // コイン
@@ -941,22 +931,11 @@ static void play_update() {
 
                 if (ttype[t] == 301) {
                     if (xx[17] == 1) {
-                        play_sound_effect(oto[3]);
-                        eyobi(ta[t] + 1200, tb[t] + 1200, 300, -1000, 0, 160, 1000, 1000, 1, 120);
-                        eyobi(ta[t] + 1200, tb[t] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);
-                        eyobi(ta[t] + 1200, tb[t] + 1200, 240, -1400, 0, 160, 1000, 1000, 1, 120);
-                        eyobi(ta[t] + 1200, tb[t] + 1200, -240, -1400, 0, 160, 1000, 1000, 1, 120);
                         brockbreak(t);
                     }
                 }
             } else if (mtype == 1) {
                 if (ma + mnobia > xx[8] && ma < xx[8] + xx[1] && mb + mnobib > xx[9] && mb < xx[9] + xx[1]) {
-
-                    play_sound_effect(oto[3]);
-                    eyobi(ta[t] + 1200, tb[t] + 1200, 300, -1000, 0, 160, 1000, 1000, 1, 120);
-                    eyobi(ta[t] + 1200, tb[t] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);
-                    eyobi(ta[t] + 1200, tb[t] + 1200, 240, -1400, 0, 160, 1000, 1000, 1, 120);
-                    eyobi(ta[t] + 1200, tb[t] + 1200, -240, -1400, 0, 160, 1000, 1000, 1, 120);
                     brockbreak(t);
                 }
             }
@@ -2447,11 +2426,6 @@ void tekizimen() {
                             ttype[tt] = 3;
                             eyobi(ta[tt] + 10, tb[tt], 0, -800, 0, 40, 3000, 3000, 0, 16);
                         } else if (ttype[tt] == 1) {
-                            play_sound_effect(oto[3]);
-                            eyobi(ta[tt] + 1200, tb[tt] + 1200, 300, -1000, 0, 160, 1000, 1000, 1, 120);
-                            eyobi(ta[tt] + 1200, tb[tt] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);
-                            eyobi(ta[tt] + 1200, tb[tt] + 1200, 240, -1400, 0, 160, 1000, 1000, 1, 120);
-                            eyobi(ta[tt] + 1200, tb[tt] + 1200, -240, -1400, 0, 160, 1000, 1000, 1, 120);
                             brockbreak(tt);
                         }
                     }
@@ -2459,11 +2433,6 @@ void tekizimen() {
             }
             if (atype[t] == 86 || atype[t] == 90) {
                 if (aa[t] + anobia[t] - fx > xx[8] && aa[t] - fx < xx[8] + xx[1] && ab[t] + anobib[t] - fy > xx[9] && ab[t] - fy < xx[9] + xx[1]) {
-                    play_sound_effect(oto[3]);
-                    eyobi(ta[tt] + 1200, tb[tt] + 1200, 300, -1000, 0, 160, 1000, 1000, 1, 120);
-                    eyobi(ta[tt] + 1200, tb[tt] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);
-                    eyobi(ta[tt] + 1200, tb[tt] + 1200, 240, -1400, 0, 160, 1000, 1000, 1, 120);
-                    eyobi(ta[tt] + 1200, tb[tt] + 1200, -240, -1400, 0, 160, 1000, 1000, 1, 120);
                     brockbreak(tt);
                 }
             }
@@ -3549,6 +3518,12 @@ void tyobi(int x, int y, int type) {
 
 //ブロック破壊
 void brockbreak(int t) {
+    play_sound_effect(oto[3]);
+    eyobi(ta[tt] + 1200, tb[tt] + 1200, 300, -1000, 0, 160, 1000, 1000, 1, 120);
+    eyobi(ta[tt] + 1200, tb[tt] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);
+    eyobi(ta[tt] + 1200, tb[tt] + 1200, 240, -1400, 0, 160, 1000, 1000, 1, 120);
+    eyobi(ta[tt] + 1200, tb[tt] + 1200, -240, -1400, 0, 160, 1000, 1000, 1, 120);
+    
     ta[t] = -800000;
 }
 
