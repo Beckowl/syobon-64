@@ -2,7 +2,6 @@
 #define GAME_H
 
 #include "global.hpp"
-#include "controls.hpp"
 
 typedef struct {
     void (*enter)(void);

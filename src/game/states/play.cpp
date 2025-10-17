@@ -2,7 +2,6 @@
 
 #include "game.hpp"
 #include "play.hpp"
-#include "controls.hpp"
 
 #include "states/credits.hpp"
 #include "states/transition.hpp"
@@ -49,32 +48,20 @@ static void play_update() {
     actaon[2] = 0;
     actaon[3] = 0;
     if (mkeytm <= 0) {
-        if (is_button_down(CONTROL_LEFT)) {
+        if (is_button_down(BUTTON_D_LEFT)) {
             actaon[0] = -1;
             mmuki = 0;
             actaon[4] = -1;
         }
-        if (is_button_down(CONTROL_RIGHT)) {
+        if (is_button_down(BUTTON_D_RIGHT)) {
             actaon[0] = 1;
             mmuki = 1;
             actaon[4] = 1;
         }
-        if (is_button_down(CONTROL_DOWN)) {
+        if (is_button_down(BUTTON_D_DOWN)) {
             actaon[3] = 1;
         }
-    }
-
-    if (is_button_combo_pressed(CONTROL_SUICIDE)) {
-        if (mhp >= 1)
-            mhp = 0;
-        if (stc >= 5) {
-            stc = 0;
-            stagepoint = 0;
-        }
-    }
-
-    if (mkeytm <= 0) {
-        if (is_button_down(CONTROL_JUMP)) {
+        if (is_button_down(BUTTON_A)) {
             if (actaon[1] == 10) {
                 actaon[1] = 1;
                 xx[0] = 1;
@@ -83,7 +70,16 @@ static void play_update() {
         }
     }
 
-    if (is_button_down(CONTROL_JUMP)) {
+    if (is_button_combo_pressed(BUTTON_L | BUTTON_R)) {
+        if (mhp >= 1)
+            mhp = 0;
+        if (stc >= 5) {
+            stc = 0;
+            stagepoint = 0;
+        }
+    }
+
+    if (is_button_down(BUTTON_A)) {
         if (mjumptm == 8 && md >= -900) {
             md = -1300;
             // ダッシュ中

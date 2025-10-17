@@ -8,7 +8,6 @@
 #include "sa_audio.hpp"
 #include "sa_graphics.hpp"
 #include "sa_input.hpp"
-#include "controls.hpp"
 
 #define STAGE_MAX 10 // 1-9 + mystery dungeon (randomized map)
 #define STAGE_MIN 1
@@ -18,8 +17,8 @@ static uint8_t sStageNum = 1;
 static bool sShowStageNum = false;
 
 static void handle_scrolling(void) {
-    bool lPressed = is_button_pressed(CONTROL_PAGE_DOWN);
-    bool rPressed = is_button_pressed(CONTROL_PAGE_UP);
+    bool lPressed = is_button_pressed(BUTTON_L);
+    bool rPressed = is_button_pressed(BUTTON_R);
 
     if (lPressed || rPressed) {
         if (!sShowStageNum) {
@@ -65,7 +64,7 @@ static void title_screen_enter(void) {
 static void title_screen_update(void) {
     handle_scrolling();
 
-	if (is_button_pressed(CONTROL_START_PAUSE)) {
+	if (is_button_pressed(BUTTON_START | BUTTON_A)) {
 	    enter_stage();
 	}
 }

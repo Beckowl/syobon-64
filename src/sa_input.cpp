@@ -24,28 +24,28 @@ void sa_input_init(void) {
     find_main_controller();
 }
 
-bool is_button_pressed(CONT_BUTTON button) {
+bool is_button_pressed(uint16_t button) {
     if (!gControllerFound) return false;
 
     joypad_buttons_t pressed = joypad_get_buttons_pressed(gMainController);
     return pressed.raw & button;
 }
 
-bool is_button_down(CONT_BUTTON button) {
+bool is_button_down(uint16_t button) {
     if (!gControllerFound) return false;
 
     joypad_buttons_t held = joypad_get_buttons_held(gMainController);
     return held.raw & button;
 }
 
-bool is_button_released(CONT_BUTTON button) {
+bool is_button_released(uint16_t button) {
     if (!gControllerFound) return false;
 
     joypad_buttons_t released = joypad_get_buttons_released(gMainController);
     return released.raw & button;
 }
 
-bool is_button_combo_pressed(CONT_BUTTON buttons) {
+bool is_button_combo_pressed(uint16_t buttons) {
     joypad_buttons_t pressed = joypad_get_buttons_pressed(gMainController);
     joypad_buttons_t held = joypad_get_buttons_held(gMainController);
 

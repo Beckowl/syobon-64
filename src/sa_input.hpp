@@ -6,31 +6,31 @@
 extern joypad_port_t gMainController;
 extern bool gControllerFound;
 
-typedef enum {
-    BUTTON_A       = 1 << 15,
-    BUTTON_B       = 1 << 14,
-    BUTTON_Z       = 1 << 13,
-    BUTTON_START   = 1 << 12,
-    BUTTON_D_UP    = 1 << 11,
-    BUTTON_D_DOWN  = 1 << 10,
-    BUTTON_D_LEFT  = 1 << 9,
-    BUTTON_D_RIGHT = 1 << 8,
-    BUTTON_Y       = 1 << 7,
-    BUTTON_X       = 1 << 6,
-    BUTTON_L       = 1 << 5,
-    BUTTON_R       = 1 << 4,
-    BUTTON_C_UP    = 1 << 3,
-    BUTTON_C_DOWN  = 1 << 2,
-    BUTTON_C_LEFT  = 1 << 1,
-    BUTTON_C_RIGHT = 1 << 0
-} CONT_BUTTON;
+#define BUTTON_A       (1 << 15)
+#define BUTTON_B       (1 << 14)
+#define BUTTON_Z       (1 << 13)
+#define BUTTON_START   (1 << 12)
+#define BUTTON_D_UP    (1 << 11)
+#define BUTTON_D_DOWN  (1 << 10)
+#define BUTTON_D_LEFT  (1 << 9)
+#define BUTTON_D_RIGHT (1 << 8)
+#define BUTTON_Y       (1 << 7)
+#define BUTTON_X       (1 << 6)
+#define BUTTON_L       (1 << 5)
+#define BUTTON_R       (1 << 4)
+#define BUTTON_C_UP    (1 << 3)
+#define BUTTON_C_DOWN  (1 << 2)
+#define BUTTON_C_LEFT  (1 << 1)
+#define BUTTON_C_RIGHT (1 << 0)
+#define BUTTON_NONE    0
+#define BUTTON_ALL     0xFFFFFF
 
 void sa_input_init(void);
 
-bool is_button_down(CONT_BUTTON button);
-bool is_button_pressed(CONT_BUTTON button);
-bool is_button_released(CONT_BUTTON button);
+bool is_button_down(uint16_t button);
+bool is_button_pressed(uint16_t button);
+bool is_button_released(uint16_t button);
 
-bool is_button_combo_pressed(CONT_BUTTON buttons);
+bool is_button_combo_pressed(uint16_t buttons);
 
 #endif
