@@ -45,7 +45,7 @@ void message_box_open(TextMessageId messageId) {
     }
 }
 
-static void reset_state(void) {
+void message_box_reset(void) {
     sCurrentMessage = MESSAGE_NONE;
     sCurrentState = STATE_NONE;
     sScrollTop = MESSAGE_BOX_Y;
@@ -71,7 +71,7 @@ static void message_box_show_update(void) {
 static void message_box_close_update(void) {
     sScrollTop += SCROLL_SPEED;
     if (sScrollTop >= MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT) {
-        reset_state();
+        message_box_reset();
     }
 }
 

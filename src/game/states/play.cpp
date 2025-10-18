@@ -3662,8 +3662,13 @@ void spawn_general_object(int type, int subtype, int x, int y, int width, int he
     sco = (sco + 1) % smax;
 }
 
+static void play_exit(void) {
+    message_box_reset();
+}
+
 const GameState STATE_PLAY = {
     .enter = play_enter,
     .update = play_update,
     .draw = play_draw,
+    .exit = play_exit,
 };
