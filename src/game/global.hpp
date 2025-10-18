@@ -32,7 +32,7 @@ inline sprite_t *mgrap[51];
 inline int mirror;
 
 inline wav64_t *otom[6];
-inline wav64_t *oto[19];
+inline wav64_t *oto[20];
 
 //ループ
 inline int t, tt, t1, t2, t3, t4;

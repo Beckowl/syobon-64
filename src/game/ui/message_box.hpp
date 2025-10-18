@@ -7,6 +7,6 @@ extern bool gMessageBoxActive;
 
 void message_box_open(TextMessageId messageId);
 void message_box_draw(void);
-void message_box_update(void);
+bool message_box_update(void);
 
 #endif

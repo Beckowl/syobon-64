@@ -18,7 +18,7 @@ typedef enum {
 MessageBoxState sCurrentState = STATE_NONE;
 TextMessageId sCurrentMessage = MESSAGE_NONE;
 
-bool gMessageBoxActive = false;
+static bool sMessageBoxActive = false;
 
 int sScrollTop = 0;
 int sScrollBottom = 0;
@@ -34,7 +34,7 @@ int sScrollBottom = 0;
 
 void message_box_open(TextMessageId messageId) {
     if (IS_VALID_MESSAGE(messageId)) {
-        gMessageBoxActive = true;
+        sMessageBoxActive = true;
         sCurrentMessage = messageId;
         sCurrentState = STATE_OPEN;
 
@@ -50,10 +50,10 @@ static void reset_state(void) {
     sCurrentState = STATE_NONE;
     sScrollTop = MESSAGE_BOX_Y;
     sScrollBottom = MESSAGE_BOX_Y;
-    gMessageBoxActive = false;
+    sMessageBoxActive = false;
 }
 
-static void message_box_open_update() {
+static void message_box_open_update(void) {
     sScrollBottom += SCROLL_SPEED;
     if (sScrollBottom >= MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT) {
         sScrollBottom = MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT;
@@ -61,31 +61,33 @@ static void message_box_open_update() {
     }
 }
 
-static void message_box_show_update() {
+static void message_box_show_update(void) {
     joypad_buttons_t pressed = joypad_get_buttons_pressed(gMainController);
     if (pressed.raw) {
         sCurrentState = STATE_CLOSE;
     }
 }
 
-static void message_box_close_update() {
+static void message_box_close_update(void) {
     sScrollTop += SCROLL_SPEED;
     if (sScrollTop >= MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT) {
         reset_state();
     }
 }
 
-void message_box_update() {
+bool message_box_update(void) {
     switch (sCurrentState) {
         case STATE_OPEN:  message_box_open_update();  break;
         case STATE_SHOW:  message_box_show_update();  break;
         case STATE_CLOSE: message_box_close_update(); break;
         default: break;
     }
+
+    return sMessageBoxActive;
 }
 
 void message_box_draw(void) {
-    if (!gMessageBoxActive || !IS_VALID_MESSAGE(sCurrentMessage)) { return; }
+    if (!sMessageBoxActive || !IS_VALID_MESSAGE(sCurrentMessage)) { return; }
 
     int height = sScrollBottom - sScrollTop;
 

@@ -7,12 +7,15 @@
 #include "states/transition.hpp"
 
 #include "ui/message_box.hpp"
+#include "ui/pause_menu.hpp"
 
 #include "sa_input.hpp"
 #include "sa_audio.hpp"
 
 #include "level/level_loader.hpp"
 #include "levels.hpp"
+
+static bool sPaused = false;
 
 static void play_enter() {
     mainmsgtype = 0;
@@ -34,14 +37,25 @@ static void play_enter() {
     stage();
 }
 
+static bool game_can_update(void) {
+    if (sPaused) {
+        sPaused = pause_menu_update();
+        return false;
+    }
+
+    if (is_button_pressed(BUTTON_START)) {
+        sPaused = true;
+        pause_menu_open();
+        return false;
+    }
+
+    bool messageBoxActive = message_box_update();
+    return !messageBoxActive;
+}
+
 // メインプログラム
 static void play_update() {
-    // キー
-    message_box_update();
-
-    if (gMessageBoxActive) {
-        return;
-    }
+    if (!game_can_update()) { return; }
 
     // プレイヤーの移動
     xx[0] = 0;
@@ -3392,6 +3406,7 @@ static void play_draw() {
     }
 
     message_box_draw();
+    pause_menu_draw();
 
     // メッセージ
     if (mainmsgtype >= 1) {

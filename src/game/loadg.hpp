@@ -189,4 +189,5 @@ void loadg(void) {
     oto[16] = wav64_load("rom:/SE/4-clear.wav64", NULL);
     oto[17] = wav64_load("rom:/SE/allclear.wav64", NULL);
     oto[18] = wav64_load("rom:/SE/tekifire.wav64", NULL);
+    oto[19] = wav64_load("rom:/SE/pause.wav64", NULL);
 }
