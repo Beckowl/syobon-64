@@ -603,7 +603,7 @@ static void play_update() {
                                     md = -1500;
                                     mtype = 2;
                                     mtm = 0;
-                                    if (txtype[t] >= 2 && mtype == 2) {
+                                    if (txtype[t] >= 2) {
                                         mtype = 0;
                                         md = -1600;
                                         txtype[t] = 3;
@@ -1160,7 +1160,6 @@ static void play_update() {
                         } else if (sxtype[t] == 4) {
                             ayobi(sa[t] + 4500, 30000, 0, -1600, 0, 5, 0);
                             play_sound_effect(oto[10]);
-                            sxtype[t] = 5;
                             sxtype[t] = 0;
                         } else if (sxtype[t] == 7) {
                             mainmsgtype = 1;
@@ -1542,10 +1541,9 @@ static void play_update() {
             case 2:
                 xx[10] = 0;
                 xx[17] = 800;
-                if (axtype[t] >= 1)
-                    xx[10] = xx[17];
                 // 他の敵を倒す
                 if (axtype[t] >= 1) {
+                    xx[10] = xx[17];
                     for (tt = 0; tt < amax; tt++) {
                         xx[0] = 250;
                         xx[5] = -800;
@@ -2216,7 +2214,7 @@ static void play_update() {
 
                             if (atype[t] == 82) {
                                 amsgtm[t] = 20;
-                                amsgtype[t] = rand(1) + 31;
+                                amsgtype[t] = 31;
                                 xx[24] = 900;
                                 atype[t] = 83;
                                 aa[t] -= xx[24] + 100;
@@ -2230,7 +2228,7 @@ static void play_update() {
 
                             if (atype[t] == 85) {
                                 amsgtm[t] = 60;
-                                amsgtype[t] = rand(1) + 85;
+                                amsgtype[t] = 85;
                             }
                             // 雲
                             if (atype[t] == 80) {
@@ -2416,7 +2414,7 @@ void tekizimen() {
                 }
                 // 左右
                 xx[27] = 0;
-                if ((atype[t] >= 100 || (ttype[tt] != 7 || ttype[tt] == 7 && atype[t] == 2)) && ttype[tt] != 117) {
+                if ((atype[t] >= 100 || ttype[tt] != 7 || atype[t] == 2) && ttype[tt] != 117) {
                     if (aa[t] + anobia[t] - fx > xx[8] && aa[t] - fx < xx[8] + xx[2] && ab[t] + anobib[t] - fy > xx[9] + xx[1] / 2 - xx[0] && ab[t] - fy < xx[9] + xx[2]) {
                         aa[t] = xx[8] - anobia[t] + fx;
                         ac[t] = 0;
