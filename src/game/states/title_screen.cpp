@@ -77,14 +77,16 @@ static void title_screen_draw(void) {
     rdpq_sprite_blit(mgrap[30], RECENTER_X(50), 60, NULL);
 
     // decor
-    draw_sprite_region(grap[0][4], RECENTER_X(360), 278);
-    draw_sprite_region(grap[1][4], RECENTER_X(180), 336);
-    draw_sprite_region(grap[0][0], RECENTER_X(60), 330); // this is syobon!!
+    draw_sprite_region(grap[0][4], RESCALE_X(360), 278);
+    draw_sprite_region(grap[1][4], RESCALE_X(180), 336);
+    draw_sprite_region(grap[0][0], RESCALE_X(60), 330); // this is syobon!!
 
     // floor
-    for (t = 0; t <= 19; t++) {
-        draw_sprite_region(grap[5][1], 29 * t, 365);
-        draw_sprite_region(grap[6][1], 29 * t, 394);
+    const int FLOOR_WIDTH = SCREEN_WIDTH / 29;
+
+    for (int t = 0; t <= FLOOR_WIDTH; t++) {
+        draw_sprite_region(grap[5][1], t * 29, 365);
+        draw_sprite_region(grap[6][1], t * 29, 394);
     }
 
     uint16_t textWidth = 0;

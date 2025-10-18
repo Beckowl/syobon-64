@@ -18,8 +18,8 @@ typedef struct {
 #define PI 3.1415926
 
 #define RECENTER_X(x) ((x) + (((SCREEN_WIDTH) - (480)) / 2))
+#define RESCALE_X(x) ((x) * SCREEN_WIDTH / 480)
 #define IS_OFFSCREEN(x, y, w, h) (((x)+(w) <= 0) || ((x) >= SCREEN_WIDTH) || ((y)+(h) <= 0) || ((y) >= SCREEN_HEIGHT))
-
 
 void sa_graphics_init(void);
 
