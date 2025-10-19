@@ -6,6 +6,7 @@ static wav64_t* sActiveSounds[CH_COUNT];
 void sa_audio_init(void) {
     audio_init(AUDIO_FREQ, NUM_AUDIO_BUFFERS);
     mixer_init(CH_COUNT);
+    mixer_set_vol(0.8f);
 }
 
 void process_audio(void) {
