@@ -15,20 +15,19 @@ typedef enum {
     STATE_CLOSE,
 } MessageBoxState;
 
-MessageBoxState sCurrentState = STATE_NONE;
-TextMessageId sCurrentMessage = MESSAGE_NONE;
-
+static MessageBoxState sCurrentState = STATE_NONE;
+static TextMessageId sCurrentMessage = MESSAGE_NONE;
 static bool sMessageBoxActive = false;
-
-int sScrollTop = 0;
-int sScrollBottom = 0;
+static int sBoxTop = 0;
+static int sBoxBottom = 0;
+static int sAnimFrame = 0;
 
 #define MESSAGE_BOX_Y 40
 #define MESSAGE_BOX_X RECENTER_X(60)
 #define MESSAGE_BOX_WIDTH 360
 #define MESSAGE_BOX_HEIGHT 183
 #define PADDING 6
-#define SCROLL_SPEED 12
+#define ANIM_FRAMES 15
 
 #define IS_VALID_MESSAGE(id) (id >= MESSAGE_000 && id <= MESSAGE_MAX)
 
@@ -38,8 +37,9 @@ void message_box_open(TextMessageId messageId) {
         sCurrentMessage = messageId;
         sCurrentState = STATE_OPEN;
 
-        sScrollTop = MESSAGE_BOX_Y;
-        sScrollBottom = MESSAGE_BOX_Y;
+        sBoxTop = MESSAGE_BOX_Y;
+        sBoxBottom = MESSAGE_BOX_Y;
+        sAnimFrame = 0;
 
         play_sound_effect(oto[15]);
     }
@@ -48,16 +48,20 @@ void message_box_open(TextMessageId messageId) {
 void message_box_reset(void) {
     sCurrentMessage = MESSAGE_NONE;
     sCurrentState = STATE_NONE;
-    sScrollTop = MESSAGE_BOX_Y;
-    sScrollBottom = MESSAGE_BOX_Y;
+    sBoxTop = MESSAGE_BOX_Y;
+    sBoxBottom = MESSAGE_BOX_Y;
     sMessageBoxActive = false;
 }
 
 static void message_box_open_update(void) {
-    sScrollBottom += SCROLL_SPEED;
-    if (sScrollBottom >= MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT) {
-        sScrollBottom = MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT;
+    if (sAnimFrame < ANIM_FRAMES) {
+        sAnimFrame++;
+        float t = (float)sAnimFrame / ANIM_FRAMES;
+        sBoxBottom = MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT * t;
+    } else {
+        sBoxBottom = MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT;
         sCurrentState = STATE_SHOW;
+        sAnimFrame = 0;
     }
 }
 
@@ -69,9 +73,13 @@ static void message_box_show_update(void) {
 }
 
 static void message_box_close_update(void) {
-    sScrollTop += SCROLL_SPEED;
-    if (sScrollTop >= MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT) {
+    if (sAnimFrame < ANIM_FRAMES) {
+        sAnimFrame++;
+        float t = (float)sAnimFrame / ANIM_FRAMES;
+        sBoxTop = MESSAGE_BOX_Y + MESSAGE_BOX_HEIGHT * t;
+    } else {
         message_box_reset();
+        sAnimFrame = 0;
     }
 }
 
@@ -89,13 +97,13 @@ bool message_box_update(void) {
 void message_box_draw(void) {
     if (!sMessageBoxActive || !IS_VALID_MESSAGE(sCurrentMessage)) { return; }
 
-    int height = sScrollBottom - sScrollTop;
+    int height = sBoxBottom - sBoxTop;
 
     set_draw_color(0, 0, 0);
-    draw_rectangle_filled(MESSAGE_BOX_X, sScrollTop, MESSAGE_BOX_WIDTH, height);
+    draw_rectangle_filled(MESSAGE_BOX_X, sBoxTop, MESSAGE_BOX_WIDTH, height);
 
     set_draw_color(255, 255, 255);
-    draw_rectangle_outline(MESSAGE_BOX_X, sScrollTop, MESSAGE_BOX_WIDTH, height);
+    draw_rectangle_outline(MESSAGE_BOX_X, sBoxTop, MESSAGE_BOX_WIDTH, height);
 
     if (sCurrentState == STATE_SHOW) {
         draw_text(gTextMessages[sCurrentMessage], MESSAGE_BOX_X + PADDING, MESSAGE_BOX_Y + PADDING);
