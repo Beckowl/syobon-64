@@ -78,10 +78,10 @@ typedef enum {
     TILE_ITEM_BLOCK_MUSHROOM_2 = 103, // "Not poisonous, but..."
     TILE_BRICK_STAR = 104,
 
-    // Invisible item block with infinite poisonous mushrooms
-    TILE_ITEM_BLOCK_POISON = 110,
+    // Invisible item block with infinite purple mushrooms
+    TILE_ITEM_BLOCK_MUSHROOM_PURPLE = 110,
     // Same as above, but already open
-    TILE_ITEM_BLOCK_POISON_OPEN = 111,
+    TILE_ITEM_BLOCK_MUSHROOM_PURPLE_OPEN = 111,
 
     // Has a ton of coins inside
     TILE_BRICK_COIN = 112,
@@ -174,6 +174,10 @@ typedef enum {
     ENEMY_FIREBAR_CLOCKWISE = 87,
     ENEMY_FIREBAR_COUNTERCLOCKWISE = 88,
 
+    ENEMY_MUSHROOM_RED = 100,
+    ENEMY_FIRE_FLOWER = 101,
+    ENEMY_MUSHROOM_PURPLE = 102,
+
     // green "?" ball
     ENEMY_MYSTERY_BALL = 105,
 
@@ -254,7 +258,7 @@ typedef enum {
 
     OBJECT_TRIGGER_SEAL_UP = 100,
     OBJECT_TRIGGER_SEAL_DOWN = 101,
-    OBJECT_TRIGGER_FOUR_ENEMIES = 102,
+    OBJECT_TRIGGER_MISC = 102,
     OBJECT_TRIGGER_LASER = 103,
     OBJECT_TRIGGER_MULTI_LASER = 104,
 
