@@ -2343,271 +2343,6 @@ static void play_update() {
     }
 }
 
-void tekizimen() {
-
-    // 壁
-    for (tt = 0; tt < smax; tt++) {
-        if (sa[tt] - fx + sc[tt] >= -12010 && sa[tt] - fx <= fxmax + 12100 && stype[tt] <= 99) {
-            xx[0] = 200;
-            xx[2] = 1000;
-            xx[1] = 2000;
-
-            xx[8] = sa[tt] - fx;
-            xx[9] = sb[tt] - fy;
-            if (aa[t] + anobia[t] - fx > xx[8] - xx[0] && aa[t] - fx < xx[8] + xx[2] && ab[t] + anobib[t] - fy > xx[9] + xx[1] * 3 / 4 && ab[t] - fy < xx[9] + sd[tt] - xx[2]) {
-                aa[t] = xx[8] - xx[0] - anobia[t] + fx;
-                amuki[t] = 0;
-            }
-            if (aa[t] + anobia[t] - fx > xx[8] + sc[tt] - xx[0] && aa[t] - fx < xx[8] + sc[tt] + xx[0] && ab[t] + anobib[t] - fy > xx[9] + xx[1] * 3 / 4 && ab[t] - fy < xx[9] + sd[tt] - xx[2]) {
-                aa[t] = xx[8] + sc[tt] + xx[0] + fx;
-                amuki[t] = 1;
-            }
-            
-            if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + sc[tt] - xx[0] && ab[t] + anobib[t] - fy > xx[9] && ab[t] + anobib[t] - fy < xx[9] + sd[tt] - xx[1] && ad[t] >= -100) {
-                ab[t] = sb[tt] - fy - anobib[t] + 100 + fy;
-                ad[t] = 0;
-                axzimen[t] = 1;
-            }
-
-            if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + sc[tt] - xx[0] && ab[t] - fy > xx[9] + sd[tt] - xx[1] && ab[t] - fy < xx[9] + sd[tt] + xx[0]) {
-                ab[t] = xx[9] + sd[tt] + xx[0] + fy;
-                if (ad[t] < 0) {
-                    ad[t] = -ad[t] * 2 / 3;
-                }
-            }
-        }
-    }
-
-    // ブロック
-    for (tt = 0; tt < tmax; tt++) {
-        xx[0] = 200;
-        xx[1] = 3000;
-        xx[2] = 1000;
-        xx[8] = ta[tt] - fx;
-        xx[9] = tb[tt] - fy;
-        if (ta[tt] - fx + xx[1] >= -12010 && ta[tt] - fx <= fxmax + 12000) {
-            if (atype[t] != 86 && atype[t] != 90 && ttype[tt] != 140) {
-
-                // 上
-                if (ttype[tt] != 7) {
-                    if (!(ttype[tt] == 117)) {
-                        if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + xx[1] - xx[0] * 1 && ab[t] + anobib[t] - fy > xx[9] && ab[t] + anobib[t] - fy < xx[9] + xx[1] && ad[t] >= -100) {
-                            ab[t] = xx[9] - anobib[t] + 100 + fy;
-                            ad[t] = 0;
-                            axzimen[t] = 1;
-                            // ジャンプ台
-                            if (ttype[tt] == 120) {
-                                ad[t] = -1600;
-                                azimentype[t] = 30;
-                            }
-                        }
-                    }
-                }
-                // 下
-                if (ttype[tt] != 117) {
-                    if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + xx[1] - xx[0] * 1 && ab[t] - fy > xx[9] + xx[1] - xx[1] && ab[t] - fy < xx[9] + xx[1] + xx[0]) {
-                        ab[t] = xx[9] + xx[1] + xx[0] + fy;
-                        if (ad[t] < 0) {
-                            ad[t] = 0;
-                        }
-                    }
-                }
-                // 左右
-                xx[27] = 0;
-                if ((atype[t] >= 100 || ttype[tt] != 7 || atype[t] == 2) && ttype[tt] != 117) {
-                    if (aa[t] + anobia[t] - fx > xx[8] && aa[t] - fx < xx[8] + xx[2] && ab[t] + anobib[t] - fy > xx[9] + xx[1] / 2 - xx[0] && ab[t] - fy < xx[9] + xx[2]) {
-                        aa[t] = xx[8] - anobia[t] + fx;
-                        ac[t] = 0;
-                        amuki[t] = 0;
-                        xx[27] = 1;
-                    }
-                    if (aa[t] + anobia[t] - fx > xx[8] + xx[1] - xx[0] * 2 && aa[t] - fx < xx[8] + xx[1] && ab[t] + anobib[t] - fy > xx[9] + xx[1] / 2 - xx[0] && ab[t] - fy < xx[9] + xx[2]) {
-                        aa[t] = xx[8] + xx[1] + fx;
-                        ac[t] = 0;
-                        amuki[t] = 1;
-                        xx[27] = 1;
-                    }
-                    // こうらブレイク
-                    if (xx[27] == 1 && (ttype[tt] == 7 || ttype[tt] == 1) && atype[t] == 2) {
-                        if (ttype[tt] == 7) {
-                            play_sound_effect(oto[4]);
-                            ttype[tt] = 3;
-                            eyobi(ta[tt] + 10, tb[tt], 0, -800, 0, 40, 3000, 3000, 0, 16);
-                        } else if (ttype[tt] == 1) {
-                            brockbreak(tt);
-                        }
-                    }
-                }
-            }
-            if (atype[t] == 86 || atype[t] == 90) {
-                if (aa[t] + anobia[t] - fx > xx[8] && aa[t] - fx < xx[8] + xx[1] && ab[t] + anobib[t] - fy > xx[9] && ab[t] - fy < xx[9] + xx[1]) {
-                    brockbreak(tt);
-                }
-            }
-        }
-        // 剣とってクリア
-        if (ttype[tt] == 140) {
-            if (ab[t] - fy > xx[9] - xx[0] * 2 - 2000 && ab[t] - fy < xx[9] + xx[1] - xx[0] * 2 + 2000 && aa[t] + anobia[t] - fx > xx[8] - 400 && aa[t] - fx < xx[8] + xx[1]) {
-                ta[tt] = -800000;
-                sracttype[20] = 1;
-                sron[20] = 1;
-            }
-        }
-    } // tt
-
-} // tekizimen
-
-// moves player to the checkpoint that
-// corresponds to the checkpoint index (tyuukan)
-void player_init_checkpoint(void) {
-    if (tyuukan >= 1) {
-        xx[17] = 0;
-        for (t = 0; t < smax; t++) {
-            if (stype[t] == 500 && tyuukan >= 1) {
-                fx = sa[t] - fxmax / 2;
-                ma = sa[t] - fx;
-                mb = sb[t] - fy;
-                tyuukan--;
-                xx[17]++;
-
-                sa[t] = -80000000;
-            }
-        }
-        tyuukan += xx[17];
-    }
-}
-
-//ステージロード
-void stage() {
-    // 1-レンガ,2-コイン,3-空,4-土台//5-6地面//7-隠し//
-    stagep();
-
-    for (tt = 0; tt <= 1000; tt++) {
-        for (t = 0; t <= 16; t++) {
-            xx[10] = 0;
-
-            if (stagedate[t][tt] >= 1 && stagedate[t][tt] <= 255)
-                xx[10] = (int)stagedate[t][tt];
-
-            xx[21] = tt * 29;
-            xx[22] = t * 29 - 12;
-            xx[23] = xx[10];
-
-            if (xx[10] >= 1 && xx[10] <= 19 && xx[10] != 9) {
-                tyobi(tt * 29, t * 29 - 12, xx[10]);
-            }
-
-            if (xx[10] >= 20 && xx[10] <= 29) {
-                sra[srco] = xx[21] * 100;
-                srb[srco] = xx[22] * 100;
-                src[srco] = 3000;
-                srtype[srco] = 0;
-                srco++;
-
-                if (srco >= srmax)
-                    srco = 0;
-            }
-
-            if (xx[10] == 30) {
-                sa[sco] = xx[21] * 100;
-                sb[sco] = xx[22] * 100;
-                sc[sco] = 3000;
-                sd[sco] = 6000;
-                stype[sco] = 500;
-                sco++;
-                if (sco >= smax)
-                    sco = 0;
-            }
-
-            if (xx[10] == 40) {
-                sa[sco] = xx[21] * 100;
-                sb[sco] = xx[22] * 100;
-                sc[sco] = 6000;
-                sd[sco] = 3000;
-                stype[sco] = 1;
-                sco++;
-                if (sco >= smax)
-                    sco = 0;
-            }
-
-            if (xx[10] == 41) {
-                sa[sco] = xx[21] * 100 + 500;
-                sb[sco] = xx[22] * 100;
-                sc[sco] = 5000;
-                sd[sco] = 3000;
-                stype[sco] = 2;
-                sco++;
-                if (sco >= smax)
-                    sco = 0;
-            }
-
-            if (xx[10] == 43) {
-                sa[sco] = xx[21] * 100;
-                sb[sco] = xx[22] * 100 + 500;
-                sc[sco] = 2900;
-                sd[sco] = 5300;
-                stype[sco] = 1;
-                sco++;
-                if (sco >= smax)
-                    sco = 0;
-            }
-
-            if (xx[10] == 44) {
-                sa[sco] = xx[21] * 100;
-                sb[sco] = xx[22] * 100 + 700;
-                sc[sco] = 3900;
-                sd[sco] = 5000;
-                stype[sco] = 5;
-                sco++;
-                if (sco >= smax)
-                    sco = 0;
-            }
-
-            // これなぜかバグの原因ｗ
-            if (xx[10] >= 50 && xx[10] <= 79) {
-                ba[bco] = xx[21] * 100;
-                bb[bco] = xx[22] * 100;
-                btype[bco] = xx[23] - 50;
-                bco++;
-                if (bco >= bmax)
-                    bco = 0;
-            }
-
-            if (xx[10] >= 80 && xx[10] <= 89)
-            {
-                na[nco] = xx[21] * 100;
-                nb[nco] = xx[22] * 100;
-                ntype[nco] = xx[23] - 80;
-                nco++;
-                if (nco >= nmax)
-                    nco = 0;
-            }
-
-            // コイン
-            if (xx[10] == 9) {
-                tyobi(tt * 29, t * 29 - 12, 800);
-            }
-            if (xx[10] == 99) {
-                sa[sco] = xx[21] * 100;
-                sb[sco] = xx[22] * 100;
-                sc[sco] = 3000;
-                sd[sco] = (12 - t) * 3000;
-                stype[sco] = 300;
-                sco++;
-                if (sco >= smax)
-                    sco = 0;
-            }
-        }
-    }
-
-    // TODO: remove this when you convert all levels to level scripts
-    if (over == 1) {
-        level_randomize();
-    }
-
-    player_init_checkpoint();
-}
-
 // メイン描画
 static void play_draw() {
 
@@ -3419,7 +3154,141 @@ static void play_draw() {
 }
 
 
-void stagep() {
+void tekizimen() {
+
+    // 壁
+    for (tt = 0; tt < smax; tt++) {
+        if (sa[tt] - fx + sc[tt] >= -12010 && sa[tt] - fx <= fxmax + 12100 && stype[tt] <= 99) {
+            xx[0] = 200;
+            xx[2] = 1000;
+            xx[1] = 2000;
+
+            xx[8] = sa[tt] - fx;
+            xx[9] = sb[tt] - fy;
+            if (aa[t] + anobia[t] - fx > xx[8] - xx[0] && aa[t] - fx < xx[8] + xx[2] && ab[t] + anobib[t] - fy > xx[9] + xx[1] * 3 / 4 && ab[t] - fy < xx[9] + sd[tt] - xx[2]) {
+                aa[t] = xx[8] - xx[0] - anobia[t] + fx;
+                amuki[t] = 0;
+            }
+            if (aa[t] + anobia[t] - fx > xx[8] + sc[tt] - xx[0] && aa[t] - fx < xx[8] + sc[tt] + xx[0] && ab[t] + anobib[t] - fy > xx[9] + xx[1] * 3 / 4 && ab[t] - fy < xx[9] + sd[tt] - xx[2]) {
+                aa[t] = xx[8] + sc[tt] + xx[0] + fx;
+                amuki[t] = 1;
+            }
+            
+            if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + sc[tt] - xx[0] && ab[t] + anobib[t] - fy > xx[9] && ab[t] + anobib[t] - fy < xx[9] + sd[tt] - xx[1] && ad[t] >= -100) {
+                ab[t] = sb[tt] - fy - anobib[t] + 100 + fy;
+                ad[t] = 0;
+                axzimen[t] = 1;
+            }
+
+            if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + sc[tt] - xx[0] && ab[t] - fy > xx[9] + sd[tt] - xx[1] && ab[t] - fy < xx[9] + sd[tt] + xx[0]) {
+                ab[t] = xx[9] + sd[tt] + xx[0] + fy;
+                if (ad[t] < 0) {
+                    ad[t] = -ad[t] * 2 / 3;
+                }
+            }
+        }
+    }
+
+    // ブロック
+    for (tt = 0; tt < tmax; tt++) {
+        xx[0] = 200;
+        xx[1] = 3000;
+        xx[2] = 1000;
+        xx[8] = ta[tt] - fx;
+        xx[9] = tb[tt] - fy;
+        if (ta[tt] - fx + xx[1] >= -12010 && ta[tt] - fx <= fxmax + 12000) {
+            if (atype[t] != 86 && atype[t] != 90 && ttype[tt] != 140) {
+
+                // 上
+                if (ttype[tt] != 7) {
+                    if (!(ttype[tt] == 117)) {
+                        if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + xx[1] - xx[0] * 1 && ab[t] + anobib[t] - fy > xx[9] && ab[t] + anobib[t] - fy < xx[9] + xx[1] && ad[t] >= -100) {
+                            ab[t] = xx[9] - anobib[t] + 100 + fy;
+                            ad[t] = 0;
+                            axzimen[t] = 1;
+                            // ジャンプ台
+                            if (ttype[tt] == 120) {
+                                ad[t] = -1600;
+                                azimentype[t] = 30;
+                            }
+                        }
+                    }
+                }
+                // 下
+                if (ttype[tt] != 117) {
+                    if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + xx[1] - xx[0] * 1 && ab[t] - fy > xx[9] + xx[1] - xx[1] && ab[t] - fy < xx[9] + xx[1] + xx[0]) {
+                        ab[t] = xx[9] + xx[1] + xx[0] + fy;
+                        if (ad[t] < 0) {
+                            ad[t] = 0;
+                        }
+                    }
+                }
+                // 左右
+                xx[27] = 0;
+                if ((atype[t] >= 100 || ttype[tt] != 7 || atype[t] == 2) && ttype[tt] != 117) {
+                    if (aa[t] + anobia[t] - fx > xx[8] && aa[t] - fx < xx[8] + xx[2] && ab[t] + anobib[t] - fy > xx[9] + xx[1] / 2 - xx[0] && ab[t] - fy < xx[9] + xx[2]) {
+                        aa[t] = xx[8] - anobia[t] + fx;
+                        ac[t] = 0;
+                        amuki[t] = 0;
+                        xx[27] = 1;
+                    }
+                    if (aa[t] + anobia[t] - fx > xx[8] + xx[1] - xx[0] * 2 && aa[t] - fx < xx[8] + xx[1] && ab[t] + anobib[t] - fy > xx[9] + xx[1] / 2 - xx[0] && ab[t] - fy < xx[9] + xx[2]) {
+                        aa[t] = xx[8] + xx[1] + fx;
+                        ac[t] = 0;
+                        amuki[t] = 1;
+                        xx[27] = 1;
+                    }
+                    // こうらブレイク
+                    if (xx[27] == 1 && (ttype[tt] == 7 || ttype[tt] == 1) && atype[t] == 2) {
+                        if (ttype[tt] == 7) {
+                            play_sound_effect(oto[4]);
+                            ttype[tt] = 3;
+                            eyobi(ta[tt] + 10, tb[tt], 0, -800, 0, 40, 3000, 3000, 0, 16);
+                        } else if (ttype[tt] == 1) {
+                            brockbreak(tt);
+                        }
+                    }
+                }
+            }
+            if (atype[t] == 86 || atype[t] == 90) {
+                if (aa[t] + anobia[t] - fx > xx[8] && aa[t] - fx < xx[8] + xx[1] && ab[t] + anobib[t] - fy > xx[9] && ab[t] - fy < xx[9] + xx[1]) {
+                    brockbreak(tt);
+                }
+            }
+        }
+        // 剣とってクリア
+        if (ttype[tt] == 140) {
+            if (ab[t] - fy > xx[9] - xx[0] * 2 - 2000 && ab[t] - fy < xx[9] + xx[1] - xx[0] * 2 + 2000 && aa[t] + anobia[t] - fx > xx[8] - 400 && aa[t] - fx < xx[8] + xx[1]) {
+                ta[tt] = -800000;
+                sracttype[20] = 1;
+                sron[20] = 1;
+            }
+        }
+    } // tt
+
+} // tekizimen
+
+// moves player to the checkpoint that
+// corresponds to the checkpoint index (tyuukan)
+void player_init_checkpoint(void) {
+    if (tyuukan >= 1) {
+        xx[17] = 0;
+        for (t = 0; t < smax; t++) {
+            if (stype[t] == 500 && tyuukan >= 1) {
+                fx = sa[t] - fxmax / 2;
+                ma = sa[t] - fx;
+                mb = sb[t] - fy;
+                tyuukan--;
+                xx[17]++;
+
+                sa[t] = -80000000;
+            }
+        }
+        tyuukan += xx[17];
+    }
+}
+
+void stage() {
 
     //1-レンガ,2-コイン,3-空,4-土台//5-6地面//7-隠し//
 
@@ -3537,8 +3406,7 @@ void brockbreak(int t) {
 }
 
 //グラ作成
-void
-eyobi(int xa, int xb, int xc, int xd, int xe, int xf, int xnobia, int xnobib, int xgtype, int xtm) {
+void eyobi(int xa, int xb, int xc, int xd, int xe, int xf, int xnobia, int xnobib, int xgtype, int xtm) {
 
     ea[eco] = xa;
     eb[eco] = xb;

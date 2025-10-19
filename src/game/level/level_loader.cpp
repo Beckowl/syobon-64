@@ -105,9 +105,8 @@ void level_randomize(void) {
 
             ttype[i] = rand(142); // 142?? most of these ids are just air!
 
-            // most of these ids aren't even blocks, wtf
-            if (ttype[t] >= 9 && ttype[t] <= 99) {
-                ttype[t] = rand(8);
+            if (ttype[i] >= 9 && ttype[i] <= 99) {
+                ttype[i] = rand(8);
             }
 
             txtype[i] = rand(4);
@@ -132,6 +131,63 @@ void level_randomize(void) {
     // change level palette if lucky
     if (rand(4) == 0) {
         stagecolor = rand(5);
+    }
+}
+
+static void level_parse_stagedate(void) {
+    for (tt = 0; tt <= 1000; tt++) {
+        for (t = 0; t <= 16; t++) {
+            int tileType = stagedate[t][tt];
+            int xPos = tt * 29;
+            int yPos = t * 29 - 12;
+
+            if (tileType >= 1 && tileType <= 19 && tileType != 9) {
+                tyobi(tt * 29, t * 29 - 12, tileType);
+            }
+
+            if (tileType >= 20 && tileType <= 29) {
+                spawn_platform(PLATFORM_YELLOW, 0, 0, xPos, yPos, 30);
+            }
+
+            if (tileType == 30) {
+                spawn_general_object(OBJECT_CHECKPOINT, 0, xPos, yPos, 30, 60);
+            }
+
+            if (tileType == 40) {
+                spawn_general_object(OBJECT_VERTICAL_PIPE_HEAD, 0, xPos, yPos, 60, 30);
+            }
+
+            if (tileType == 41) {
+                spawn_general_object(OBJECT_PIPE_BODY, 0, xPos + 5, yPos, 50, 30);
+            }
+
+            if (tileType == 43) {
+                // isn't this supposed to be a horizontal pipe body?
+                spawn_general_object(OBJECT_VERTICAL_PIPE_HEAD, 0, xPos, yPos + 5, 29, 53);
+            }
+
+            if (tileType == 44) {
+                spawn_general_object(OBJECT_HORIZONTAL_PIPE_HEAD, 0, xPos, yPos + 7, 39, 50);
+            }
+
+            // これなぜかバグの原因ｗ
+            if (tileType >= 50 && tileType <= 79) {
+                set_enemy_spawn(tileType - 50, 0, xPos, yPos);
+            }
+
+            if (tileType >= 80 && tileType <= 89) {
+                spawn_decoration(tileType - 80, xPos, yPos);
+            }
+
+            // コイン
+            if (tileType == 9) {
+                tyobi(tt * 29, t * 29 - 12, 800);
+            }
+
+            if (tileType == 99) {
+                spawn_general_object(OBJECT_GOAL_POLE, 0, xPos, yPos, 30, (12 - t) * 30);
+            }
+        }
     }
 }
 
@@ -164,6 +220,9 @@ void level_load(const uint8_t* levelScript) {
 
         return;
     }
+
+    level_parse_stagedate();
+    player_init_checkpoint();
 
     // over means mystery dungeon (randomized levels) mode is enabled
     if (over) {
