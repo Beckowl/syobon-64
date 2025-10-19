@@ -36,6 +36,12 @@ static void handle_scrolling(void) {
 }
 
 static void enter_stage() {
+    nokori = 2;
+	fast = 0;
+	trap = 0;
+	tyuukan = 0;
+    over = sStageNum == STAGE_MYSTERY_DUNGEON;
+
     if (sStageNum >= STAGE_MYSTERY_DUNGEON) {
         sStageNum = STAGE_MIN;
     }
@@ -43,13 +49,6 @@ static void enter_stage() {
     sta = (sStageNum - 1) / 4 + 1;  // current world
     stb = (sStageNum - 1) % 4 + 1;  // current level
     stc = 0;                        // current area
-
-	nokori = 2;
-	fast = 0;
-	trap = 0;
-	tyuukan = 0;
-
-    over = sStageNum == STAGE_MYSTERY_DUNGEON;
 
     play_transition(&STATE_PLAY, 30, true);
 }
