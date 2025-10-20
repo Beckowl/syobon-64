@@ -26,7 +26,7 @@ void debug_overlay_update(void) {
     if (is_button_pressed(BUTTON_Z)) {
         sDrawOverlay = !sDrawOverlay;
 
-        if (sProfilers) {
+        if (sProfilers && sDrawOverlay) {
             for (int i = 0; i < sNumProfilers; i++) {
                 profiler_clear(sProfilers[i]);
             }
@@ -37,13 +37,8 @@ void debug_overlay_update(void) {
 static int draw_profilers(int x, int y) {
     for (int i = 0; i < sNumProfilers; i++) {
         Profiler *p = sProfilers[i];
-
-        draw_text_fmt(x, y, "%s: %llu us | avg: %llu us", 
-            p->name,
-            (unsigned long long)p->elapsedTime,
-            (unsigned long long)p->avgTime
-        );
-
+        
+        draw_text_fmt(x, y, "%s: %llu us | avg: %llu us", p->name, p->elapsedTime, p->avgTime);
         y += LINE_SPACING;
     }
 
