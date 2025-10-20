@@ -88,20 +88,15 @@ static void title_screen_draw(void) {
         draw_sprite_region(grap[6][1], t * 29, 394);
     }
 
+	const char* text;
+    int textX;
     uint16_t textWidth = 0;
-    int16_t textX = 0;
 
     if (!gControllerFound) {
-        const char* text = "NO CONTROLLER!";
-
-        measure_text(text, &textWidth, NULL);
-        textX = (SCREEN_WIDTH - textWidth) / 2;
-
-        draw_text(text, textX, 250);
-        return;
-    }
-
-    const char* text = "STARTボタンを押せ!!";
+        text = "NO CONTROLLER!";
+    } else {
+		text = "STARTボタンを押せ!!";
+	}
 
     measure_text(text, &textWidth, NULL);
     textX = (SCREEN_WIDTH - textWidth) / 2;
