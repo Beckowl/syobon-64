@@ -191,6 +191,32 @@ static void level_parse_stagedate(void) {
     }
 }
 
+static void level_script_dump(const uint8_t* script) {
+    unsigned int index = 0;
+
+    debugf("\n---- LEVEL SCRIPT DUMP ----\n\n");
+
+    while (true) {
+        uint8_t opcode = script[index];
+        uint8_t argLen = script[index + 1];
+
+        debugf("%04X: %02X %02X ", index, opcode, argLen);
+
+        for (int i = 0; i < argLen; i++) {
+            debugf("%02X ", script[index + 2 + i]);
+        }
+
+        debugf("\n");
+
+        index += 2 + argLen;
+
+        if (opcode == OP_LEVEL_END)
+            break;
+    }
+
+    debugf("\n---- END OF SCRIPT DUMP ----\n\n");
+}
+
 void level_load(const uint8_t* levelScript) {
     debugf("Loading level %p\n", (void*)levelScript);
 
@@ -202,22 +228,7 @@ void level_load(const uint8_t* levelScript) {
     if (result.status != LEVEL_SCRIPT_SUCCESS) {
         debugf("Level script execution failed! status: %02x, index: %x\n", result.status, result.index);
 
-        debugf("\n---- LEVEL SCRIPT DUMP ----\n");
-
-        for (int i = 0; ; i++) {
-            if (i % 16 == 0) {
-                debugf("\n%04X: ", i);
-            }
-
-            debugf("%02X ", levelScript[i]);
-
-            if (levelScript[i] == OP_LEVEL_END) {
-                break;
-            }
-        }
-
-        debugf("\n\n---- END OF SCRIPT DUMP ----\n");
-
+        level_script_dump(levelScript);
         return;
     }
 
