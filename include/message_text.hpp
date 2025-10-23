@@ -25,7 +25,11 @@ typedef enum {
     [id] = text
 
 inline const char *gTextMessages[MESSAGE_COUNT] = {
+#if defined(LANG_EN)
+#include "text/en/message.hpp"
+#else
 #include "text/jp/message.hpp"
+#endif
 };
 
 #endif
