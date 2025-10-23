@@ -11,7 +11,11 @@ struct CreditsLine {
 #define CREDITS_LINE(text, yOffset) { text, yOffset}
 
 CreditsLine gCreditsText[] = {
+#if defined(LANG_EN)
+#include "text/en/credits.hpp"
+#else
 #include "text/jp/credits.hpp"
+#endif
 };
 
 #define CREDITS_LINE_COUNT (sizeof(gCreditsText) / sizeof(CreditsLine))
