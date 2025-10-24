@@ -546,7 +546,7 @@ static void play_update() {
         xx[9] = tb[t] - fy;
         if (ta[t] - fx + xx[1] >= -10 - xx[3] && ta[t] - fx <= fxmax + 12000 + xx[3]) {
             if (mtype != 200 && mtype != 1 && mtype != 2) {
-                if (ttype[t] < 1000 && ttype[t] != 800 && ttype[t] != 140 && ttype[t] != 141) {
+                if (ttype[t] < 1000 && ttype[t] != TILE_COIN && ttype[t] != TILE_SWORD && ttype[t] != TILE_BRIDGE_ROPE) {
 
                     // if (!(mztype == 1)) {
                     // mztype is never assigned to
@@ -555,30 +555,30 @@ static void play_update() {
                         xx[17] = 0;
 
                         // 上
-                        if (ttype[t] != 7 && ttype[t] != 110 && !(ttype[t] == 114)) {
+                        if (ttype[t] != TILE_ITEM_BLOCK_HIDDEN && ttype[t] != TILE_ITEM_BLOCK_MUSHROOM_PURPLE && !(ttype[t] == TILE_ITEM_BLOCK_POISON_SINGLE)) {
                             if (ma + mnobia > xx[8] + xx[0] * 2 + 100 && ma < xx[8] + xx[1] - xx[0] * 2 - 100 && mb + mnobib > xx[9] && mb + mnobib < xx[9] + xx[1] && md >= -100) {
-                                if (ttype[t] != 115 && ttype[t] != 400 && ttype[t] != 117 && ttype[t] != 118 && ttype[t] != 120) {
+                                if (ttype[t] != TILE_BRICK_BRITTLE && ttype[t] != TILE_PSWITCH && ttype[t] != TILE_NOTE_BLOCK && ttype[t] != TILE_PUSH_BLOCK && ttype[t] != TILE_TRAMPOLINE) {
                                     mb = xx[9] - mnobib + 100;
                                     md = 0;
                                     mzimen = 1;
                                     xx[16] = 1;
-                                } else if (ttype[t] == 115) {
+                                } else if (ttype[t] == TILE_BRICK_BRITTLE) {
                                     brockbreak(t);
                                 }
                                 // Pスイッチ
-                                else if (ttype[t] == 400) {
+                                else if (ttype[t] == TILE_PSWITCH) {
                                     md = 0;
                                     ta[t] = -8000000;
                                     play_sound_effect(oto[13]);
                                     for (tt = 0; tt < tmax; tt++) {
-                                        if (ttype[tt] != 7) {
+                                        if (ttype[tt] != TILE_ITEM_BLOCK_HIDDEN) {
                                             ttype[tt] = 800;
                                         }
                                     }
                                     stop_background_music();
                                 }
                                 // 音符+
-                                else if (ttype[t] == 117) {
+                                else if (ttype[t] == TILE_NOTE_BLOCK) {
                                     play_sound_effect(oto[14]);
                                     md = -1500;
                                     mtype = 2;
@@ -592,7 +592,7 @@ static void play_update() {
                                         txtype[t] = 1;
                                 }
                                 // ジャンプ台
-                                else if (ttype[t] == 120) {
+                                else if (ttype[t] == TILE_TRAMPOLINE) {
                                     md = -2400;
                                     mtype = 3;
                                     mtm = 0;
@@ -625,17 +625,17 @@ static void play_update() {
                                         md = -md * 2 / 3;
                                     }
                                     // 壊れる
-                                    if (ttype[t] == 1 && mzimen == 0) {
+                                    if (ttype[t] == TILE_BRICK && mzimen == 0) {
                                         brockbreak(t);
                                     }
                                     // コイン
-                                    if (ttype[t] == 2 && mzimen == 0) {
+                                    if (ttype[t] == TILE_ITEM_BLOCK_COIN && mzimen == 0) {
                                         play_sound_effect(oto[4]);
                                         spawn_particle(ta[t] + 10, tb[t], 0, -800, 0, 40, 3000, 3000, 0, 16);
                                         ttype[t] = 3;
                                     }
                                     // 隠し
-                                    if (ttype[t] == 7) {
+                                    if (ttype[t] == TILE_ITEM_BLOCK_HIDDEN) {
                                         play_sound_effect(oto[4]);
                                         spawn_particle(ta[t] + 10, tb[t], 0, -800, 0, 40, 3000, 3000, 0, 16);
                                         mb = xx[9] + xx[1] + xx[0];
@@ -645,7 +645,7 @@ static void play_update() {
                                         }
                                     }
                                     // トゲ
-                                    if (ttype[t] == 10) {
+                                    if (ttype[t] == TILE_SPIKE) {
                                         mmsgtm = 30;
                                         mmsgtype = 3;
                                         mhp--;
@@ -654,8 +654,8 @@ static void play_update() {
                             }
                             // 左右
                             if (t3 == xx[22] && xx[15] == 0) {
-                                if (ttype[t] != 7 && ttype[t] != 110 && ttype[t] != 117) {
-                                    if (!(ttype[t] == 114)) {
+                                if (ttype[t] != TILE_ITEM_BLOCK_HIDDEN && ttype[t] != TILE_ITEM_BLOCK_MUSHROOM_PURPLE && ttype[t] != TILE_NOTE_BLOCK) {
+                                    if (!(ttype[t] == TILE_ITEM_BLOCK_POISON_SINGLE)) {
                                         if (ta[t] >= -20000) {
                                             if (ma + mnobia > xx[8] && ma < xx[8] + xx[2] && mb + mnobib > xx[9] + xx[1] / 2 - xx[0] && mb < xx[9] + xx[2] && mc >= 0) {
                                                 ma = xx[8] - mnobia;
@@ -677,7 +677,7 @@ static void play_update() {
 
                 }
 
-                if (ttype[t] == 800) {
+                if (ttype[t] == TILE_COIN) {
                     if (mb > xx[9] - xx[0] * 2 - 2000 && mb < xx[9] + xx[1] - xx[0] * 2 + 2000 && ma + mnobia > xx[8] - 400 && ma < xx[8] + xx[1]) {
                         ta[t] = -800000;
                         play_sound_effect(oto[4]);
@@ -685,7 +685,7 @@ static void play_update() {
                 }
 
                 // 剣とってクリア
-                if (ttype[t] == 140) {
+                if (ttype[t] == TILE_SWORD) {
                     if (mb > xx[9] - xx[0] * 2 - 2000 && mb < xx[9] + xx[1] - xx[0] * 2 + 2000 && ma + mnobia > xx[8] - 400 && ma < xx[8] + xx[1]) {
                         ta[t] = -800000;
                         sracttype[20] = 1;
@@ -698,7 +698,7 @@ static void play_update() {
                 }
 
                 // 特殊的
-                if (ttype[t] == 100) {
+                if (ttype[t] == TILE_ITEM_BLOCK_DODGE) {
                     if (mb > xx[9] - xx[0] * 2 - 2000 && mb < xx[9] + xx[1] - xx[0] * 2 + 2000 && ma + mnobia > xx[8] - 400 && ma < xx[8] + xx[1] && md <= 0) {
                         if (txtype[t] == 0)
                             tb[t] = mb + fy - 1200 - xx[1];
@@ -717,15 +717,15 @@ static void play_update() {
                     if (xx[17] == 1 && txtype[t] == 0) {
                         play_sound_effect(oto[4]);
                         spawn_particle(ta[t] + 10, tb[t], 0, -800, 0, 40, 3000, 3000, 0, 16);
-                        ttype[t] = 3;
+                        ttype[t] = TILE_ITEM_BLOCK_OPEN;
                     }
                 }
 
                 // 敵出現
-                if (ttype[t] == 101) {
+                if (ttype[t] == TILE_ITEM_BLOCK_ENEMY) {
                     if (xx[17] == 1) {
                         play_sound_effect(oto[8]);
-                        ttype[t] = 3;
+                        ttype[t] = TILE_ITEM_BLOCK_OPEN;
                         abrocktm[aco] = 16;
                         if (txtype[t] == 0)
                             spawn_enemy(ta[t], tb[t], 0, 0, 0, 0, 0);
@@ -743,10 +743,10 @@ static void play_update() {
                 }
 
                 // おいしいきのこ出現
-                if (ttype[t] == 102) {
+                if (ttype[t] == TILE_ITEM_BLOCK_MUSHROOM) {
                     if (xx[17] == 1) {
                         play_sound_effect(oto[8]);
-                        ttype[t] = 3;
+                        ttype[t] = TILE_ITEM_BLOCK_OPEN;
                         abrocktm[aco] = 16;
                         if (txtype[t] == 0)
                             spawn_enemy(ta[t], tb[t], 0, 0, 0, 100, 0);
@@ -758,34 +758,34 @@ static void play_update() {
                 }
 
                 // まずいきのこ出現
-                if (ttype[t] == 103) {
+                if (ttype[t] == TILE_ITEM_BLOCK_MUSHROOM_2) {
                     if (xx[17] == 1) {
                         play_sound_effect(oto[8]);
-                        ttype[t] = 3;
+                        ttype[t] = TILE_ITEM_BLOCK_OPEN;
                         abrocktm[aco] = 16;
                         spawn_enemy(ta[t], tb[t], 0, 0, 0, 100, 1);
                     }
                 }
 
                 // 悪スター出し
-                if (ttype[t] == 104) {
+                if (ttype[t] == TILE_BRICK_STAR) {
                     if (xx[17] == 1) {
                         play_sound_effect(oto[8]);
-                        ttype[t] = 3;
+                        ttype[t] = TILE_ITEM_BLOCK_OPEN;
                         abrocktm[aco] = 16;
                         spawn_enemy(ta[t], tb[t], 0, 0, 0, 110, 0);
                     }
                 }
 
                 // 毒きのこ量産
-                if (ttype[t] == 110) {
+                if (ttype[t] == TILE_ITEM_BLOCK_MUSHROOM_PURPLE) {
                     if (xx[17] == 1) {
-                        ttype[t] = 111;
+                        ttype[t] = TILE_ITEM_BLOCK_MUSHROOM_PURPLE_OPEN;
                         thp[t] = 999;
                     }
                 }
 
-                if (ttype[t] == 111 && ta[t] - fx >= 0) {
+                if (ttype[t] == TILE_ITEM_BLOCK_MUSHROOM_PURPLE_OPEN && ta[t] - fx >= 0) {
                     thp[t]++;
                     if (thp[t] >= 16) {
                         thp[t] = 0;
@@ -796,15 +796,15 @@ static void play_update() {
                 }
 
                 // コイン量産
-                if (ttype[t] == 112) {
+                if (ttype[t] == TILE_BRICK_COIN) {
                     if (xx[17] == 1) {
-                        ttype[t] = 113;
+                        ttype[t] = TILE_BRICK_COIN_OPEN;
                         thp[t] = 999;
                         titem[t] = 0;
                     }
                 }
 
-                if (ttype[t] == 113 && ta[t] - fx >= 0) {
+                if (ttype[t] == TILE_BRICK_COIN_OPEN && ta[t] - fx >= 0) {
                     if (titem[t] <= 19)
                         thp[t]++;
                     if (thp[t] >= 3) {
@@ -817,23 +817,23 @@ static void play_update() {
                 }
 
                 // 隠し毒きのこ
-                if (ttype[t] == 114) {
+                if (ttype[t] == TILE_ITEM_BLOCK_POISON_SINGLE) {
                     if (xx[17] == 1) {
                         if (txtype[t] == 0) {
                             play_sound_effect(oto[8]);
-                            ttype[t] = 3;
+                            ttype[t] = TILE_ITEM_BLOCK_OPEN;
                             abrocktm[aco] = 16;
                             spawn_enemy(ta[t], tb[t], 0, 0, 0, 102, 1);
                         }
                         if (txtype[t] == 2) {
                             play_sound_effect(oto[4]);
                             spawn_particle(ta[t] + 10, tb[t], 0, -800, 0, 40, 3000, 3000, 0, 16);
-                            ttype[t] = 115;
+                            ttype[t] = TILE_BRICK_BRITTLE;
                             txtype[t] = 0;
                         }
                         if (txtype[t] == 10) {
                             if (stageonoff == 1) {
-                                ttype[t] = 130;
+                                ttype[t] = TILE_ON_BLOCK;
                                 stageonoff = 0;
                                 play_sound_effect(oto[13]);
                                 txtype[t] = 2;
@@ -847,28 +847,23 @@ static void play_update() {
                             } else {
                                 play_sound_effect(oto[4]);
                                 spawn_particle(ta[t] + 10, tb[t], 0, -800, 0, 40, 3000, 3000, 0, 16);
-                                ttype[t] = 3;
+                                ttype[t] = TILE_ITEM_BLOCK_OPEN;
                             }
                         }
                     }
                 }
 
-                // もろいブロック
-                if (ttype[t] == 115) {
-
-                }
-
                 // Pスイッチ
-                if (ttype[t] == 116) {
+                if (ttype[t] == TILE_ITEM_BLOCK_PSWITCH) {
                     if (xx[17] == 1) {
                         play_sound_effect(oto[8]);
-                        ttype[t] = 3;
-                        tyobi(ta[t] / 100, (tb[t] / 100) - 29, 400);
+                        ttype[t] = TILE_ITEM_BLOCK_OPEN;
+                        tyobi(ta[t] / 100, (tb[t] / 100) - 29, TILE_PSWITCH);
                     }
                 }
 
                 // ファイアバー強化
-                if (ttype[t] == 124) {
+                if (ttype[t] == TILE_FIREBAR_GROW) {
                     if (xx[17] == 1) {
                         play_sound_effect(oto[13]);
                         for (t = 0; t < amax; t++) {
@@ -878,19 +873,19 @@ static void play_update() {
                                 }
                             }
                         }
-                        ttype[t] = 3;
+                        ttype[t] = TILE_ITEM_BLOCK_OPEN;
                     }
                 }
                 
                 // ONスイッチ
-                if (ttype[t] == 130) {
+                if (ttype[t] == TILE_ON_BLOCK) {
                     if (xx[17] == 1) {
                         if (txtype[t] != 1) {
                             stageonoff = 0;
                             play_sound_effect(oto[13]);
                         }
                     }
-                } else if (ttype[t] == 131) {
+                } else if (ttype[t] == TILE_OFF_BLOCK) {
                     if (xx[17] == 1 && txtype[t] != 2) {
                         stageonoff = 1;
                         play_sound_effect(oto[13]);
@@ -907,7 +902,7 @@ static void play_update() {
                     }
                 }
                 // ヒント
-                if (ttype[t] == 300) {
+                if (ttype[t] == TILE_MESSAGE_BLOCK) {
                     if (xx[17] == 1) {
                         if (txtype[t] <= 100) {
                             message_box_open((TextMessageId)txtype[t]);
@@ -919,7 +914,7 @@ static void play_update() {
                     }
                 }
 
-                if (ttype[t] == 301) {
+                if (ttype[t] == TILE_MESSAGE_BLOCK_BREAKABLE) {
                     if (xx[17] == 1) {
                         brockbreak(t);
                     }
@@ -930,14 +925,14 @@ static void play_update() {
                 }
             }
             // ONOFF
-            if (ttype[t] == 130 && stageonoff == 0) {
-                ttype[t] = 131;
+            if (ttype[t] == TILE_ON_BLOCK && stageonoff == 0) {
+                ttype[t] = TILE_OFF_BLOCK;
             }
-            if (ttype[t] == 131 && stageonoff == 1) {
-                ttype[t] = 130;
+            if (ttype[t] == TILE_OFF_BLOCK && stageonoff == 1) {
+                ttype[t] = TILE_ON_BLOCK;
             }
             // ヒント
-            if (ttype[t] == 300) {
+            if (ttype[t] == TILE_MESSAGE_BLOCK) {
                 if (txtype[t] >= 500 && ta[t] >= -6000) {
                     if (txtype[t] <= 539)
                         txtype[t]++;
@@ -1080,7 +1075,7 @@ static void play_update() {
             } else {
                 if (ma + mnobia > xx[8] + xx[0] && ma < xx[8] + sc[t] - xx[0] && mb + mnobib > xx[9] && mb < xx[9] + sd[t] + xx[0]) {
                     if (stype[t] == 100) {
-                        if (sxtype[t] == 0 || sxtype[t] == 1 && ttype[1] != 3) {
+                        if (sxtype[t] == 0 || sxtype[t] == 1 && ttype[1] != TILE_ITEM_BLOCK_OPEN) {
                             spawn_enemy(sa[t] + 1000, 32000, 0, 0, 0, 3, 0);
                             sa[t] = -800000000;
                             play_sound_effect(oto[10]);
@@ -2670,60 +2665,60 @@ static void play_draw() {
 
             if (txtype[t] != 10) {
 
-                if (ttype[t] == 100 || ttype[t] == 101 || ttype[t] == 102 || ttype[t] == 103 || ttype[t] == 104 && txtype[t] == 1 || ttype[t] == 114 && txtype[t] == 1 || ttype[t] == 116) {
+                if (ttype[t] == TILE_ITEM_BLOCK_DODGE || ttype[t] == TILE_ITEM_BLOCK_ENEMY || ttype[t] == TILE_ITEM_BLOCK_MUSHROOM || ttype[t] == TILE_ITEM_BLOCK_MUSHROOM_2 || ttype[t] == TILE_BRICK_STAR && txtype[t] == 1 || ttype[t] == TILE_ITEM_BLOCK_POISON_SINGLE && txtype[t] == 1 || ttype[t] == TILE_ITEM_BLOCK_PSWITCH) {
                     xx[6] = 2 + xx[9];
                     draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
                 }
-
-                if (ttype[t] == 112 || ttype[t] == 104 && txtype[t] == 0 || ttype[t] == 115 && txtype[t] == 1) {
+                // overdraw hell
+                if (ttype[t] == TILE_BRICK_COIN || ttype[t] == TILE_BRICK_STAR && txtype[t] == 0 || ttype[t] == TILE_BRICK_BRITTLE && txtype[t] == 1) {
                     xx[6] = 1 + xx[9];
                     draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
                 }
 
-                if (ttype[t] == 111 || ttype[t] == 113 || ttype[t] == 115 && txtype[t] == 0 || ttype[t] == 124) {
+                if (ttype[t] == TILE_ITEM_BLOCK_MUSHROOM_PURPLE_OPEN || ttype[t] == TILE_BRICK_COIN_OPEN || ttype[t] == TILE_BRICK_BRITTLE && txtype[t] == 0 || ttype[t] == TILE_FIREBAR_GROW) {
                     xx[6] = 3 + xx[9];
                     draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
                 }
             }
 
-            if (ttype[t] == 117 && txtype[t] == 1) {
+            if (ttype[t] == TILE_NOTE_BLOCK && txtype[t] == 1) {
                 draw_sprite_region(grap[4][5], xx[0] / 100, xx[1] / 100, mirror);
             }
 
-            if (ttype[t] == 117 && txtype[t] >= 3) {
+            if (ttype[t] == TILE_NOTE_BLOCK && txtype[t] >= 3) {
                 draw_sprite_region(grap[3][5], xx[0] / 100, xx[1] / 100, mirror);
             }
 
-            if (ttype[t] == 115 && txtype[t] == 3) {
+            if (ttype[t] == TILE_BRICK_BRITTLE && txtype[t] == 3) {
                 xx[6] = 1 + xx[9];
                 draw_sprite_region(grap[xx[6]][1], xx[0] / 100, xx[1] / 100, mirror);
             }
             // ジャンプ台
-            if (ttype[t] == 120 && txtype[t] != 1) {
+            if (ttype[t] == TILE_TRAMPOLINE && txtype[t] != 1) {
                 draw_sprite_region(grap[16][1], xx[0] / 100 + 3, xx[1] / 100 + 2, mirror);
             }
             // ON-OFF
-            if (ttype[t] == 130)
+            if (ttype[t] == TILE_ON_BLOCK)
                 draw_sprite_region(grap[10][5], xx[0] / 100, xx[1] / 100, mirror);
-            if (ttype[t] == 131)
+            if (ttype[t] == TILE_OFF_BLOCK)
                 draw_sprite_region(grap[11][5], xx[0] / 100, xx[1] / 100, mirror);
 
-            if (ttype[t] == 140)
+            if (ttype[t] == TILE_SWORD)
                 draw_sprite_region(grap[12][5], xx[0] / 100, xx[1] / 100, mirror);
-            if (ttype[t] == 141)
+            if (ttype[t] == TILE_BRIDGE_ROPE)
                 draw_sprite_region(grap[13][5], xx[0] / 100, xx[1] / 100, mirror);
-            if (ttype[t] == 142)
+            if (ttype[t] == TILE_ARTICHOKE)
                 draw_sprite_region(grap[14][5], xx[0] / 100, xx[1] / 100, mirror);
 
-            if (ttype[t] == 300 || ttype[t] == 301)
+            if (ttype[t] == TILE_MESSAGE_BLOCK || ttype[t] == TILE_MESSAGE_BLOCK_BREAKABLE)
                 draw_sprite_region(grap[1][5], xx[0] / 100, xx[1] / 100, mirror);
 
             // Pスイッチ
-            if (ttype[t] == 400) {
+            if (ttype[t] == TILE_PSWITCH) {
                 draw_sprite_region(grap[2][5], xx[0] / 100, xx[1] / 100, mirror);
             }
             // コイン
-            if (ttype[t] == 800) {
+            if (ttype[t] == TILE_COIN) {
                 draw_sprite_region(grap[0][2], xx[0] / 100 + 2, xx[1] / 100 + 1, mirror);
             }
         }
@@ -3148,17 +3143,17 @@ void tekizimen() {
         xx[8] = ta[tt] - fx;
         xx[9] = tb[tt] - fy;
         if (ta[tt] - fx + xx[1] >= -12010 && ta[tt] - fx <= fxmax + 12000) {
-            if (atype[t] != 86 && atype[t] != 90 && ttype[tt] != 140) {
+            if (atype[t] != 86 && atype[t] != 90 && ttype[tt] != TILE_SWORD) {
 
                 // 上
-                if (ttype[tt] != 7) {
-                    if (!(ttype[tt] == 117)) {
+                if (ttype[tt] != TILE_ITEM_BLOCK_HIDDEN) {
+                    if (!(ttype[tt] == TILE_NOTE_BLOCK)) {
                         if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + xx[1] - xx[0] * 1 && ab[t] + anobib[t] - fy > xx[9] && ab[t] + anobib[t] - fy < xx[9] + xx[1] && ad[t] >= -100) {
                             ab[t] = xx[9] - anobib[t] + 100 + fy;
                             ad[t] = 0;
                             axzimen[t] = 1;
                             // ジャンプ台
-                            if (ttype[tt] == 120) {
+                            if (ttype[tt] == TILE_TRAMPOLINE) {
                                 ad[t] = -1600;
                                 azimentype[t] = 30;
                             }
@@ -3166,7 +3161,7 @@ void tekizimen() {
                     }
                 }
                 // 下
-                if (ttype[tt] != 117) {
+                if (ttype[tt] != TILE_NOTE_BLOCK) {
                     if (aa[t] + anobia[t] - fx > xx[8] + xx[0] && aa[t] - fx < xx[8] + xx[1] - xx[0] * 1 && ab[t] - fy > xx[9] + xx[1] - xx[1] && ab[t] - fy < xx[9] + xx[1] + xx[0]) {
                         ab[t] = xx[9] + xx[1] + xx[0] + fy;
                         if (ad[t] < 0) {
@@ -3176,7 +3171,7 @@ void tekizimen() {
                 }
                 // 左右
                 xx[27] = 0;
-                if ((atype[t] >= 100 || ttype[tt] != 7 || atype[t] == 2) && ttype[tt] != 117) {
+                if ((atype[t] >= 100 || ttype[tt] != TILE_ITEM_BLOCK_HIDDEN || atype[t] == 2) && ttype[tt] != TILE_NOTE_BLOCK) {
                     if (aa[t] + anobia[t] - fx > xx[8] && aa[t] - fx < xx[8] + xx[2] && ab[t] + anobib[t] - fy > xx[9] + xx[1] / 2 - xx[0] && ab[t] - fy < xx[9] + xx[2]) {
                         aa[t] = xx[8] - anobia[t] + fx;
                         ac[t] = 0;
@@ -3190,12 +3185,12 @@ void tekizimen() {
                         xx[27] = 1;
                     }
                     // こうらブレイク
-                    if (xx[27] == 1 && (ttype[tt] == 7 || ttype[tt] == 1) && atype[t] == 2) {
-                        if (ttype[tt] == 7) {
+                    if (xx[27] == 1 && (ttype[tt] == TILE_ITEM_BLOCK_HIDDEN || ttype[tt] == TILE_BRICK) && atype[t] == 2) {
+                        if (ttype[tt] == TILE_ITEM_BLOCK_HIDDEN) {
                             play_sound_effect(oto[4]);
-                            ttype[tt] = 3;
+                            ttype[tt] = TILE_ITEM_BLOCK_OPEN;
                             spawn_particle(ta[tt] + 10, tb[tt], 0, -800, 0, 40, 3000, 3000, 0, 16);
-                        } else if (ttype[tt] == 1) {
+                        } else if (ttype[tt] == TILE_BRICK) {
                             brockbreak(tt);
                         }
                     }
@@ -3208,7 +3203,7 @@ void tekizimen() {
             }
         }
         // 剣とってクリア
-        if (ttype[tt] == 140) {
+        if (ttype[tt] == TILE_SWORD) {
             if (ab[t] - fy > xx[9] - xx[0] * 2 - 2000 && ab[t] - fy < xx[9] + xx[1] - xx[0] * 2 + 2000 && aa[t] + anobia[t] - fx > xx[8] - 400 && aa[t] - fx < xx[8] + xx[1]) {
                 ta[tt] = -800000;
                 sracttype[20] = 1;
