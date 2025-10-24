@@ -43,6 +43,8 @@ MKFONT_FLAGS += \
 	--compress 1 \
 	--range 0020-007F \
 	--range 00D7-00D7 \
+	--range 03C9-03C9 \
+    --range 2026-2026 \
 	--range 0414-0414 \
 	--range 3000-303F \
 	--range 2000-206F \
