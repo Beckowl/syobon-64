@@ -17,7 +17,7 @@ CREDITS_LINE("My friend Willowlet", 700),
 CREDITS_LINE("Stage 3 playtester:", 760),
 
 // 友人　willowlet
-CREDITS_LINE("My friend Willowlet ", 810),
+CREDITS_LINE("My friend Willowlet", 810),
 
 // ステージ４　プレイ
 CREDITS_LINE("Stage 4 playtester:", 870),

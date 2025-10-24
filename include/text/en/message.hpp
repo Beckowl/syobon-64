@@ -48,7 +48,7 @@ TEXT_MESSAGE(MESSAGE_003,
 TEXT_MESSAGE(MESSAGE_004,
     "\n"
     "\n"
-    "Watch out for the invisible block \n"
+    "Watch out for the invisible block\n"
     "right ahead!!"
 ),
 
