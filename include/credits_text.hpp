@@ -10,7 +10,7 @@ struct CreditsLine {
 
 #define CREDITS_LINE(text, yOffset) { text, yOffset}
 
-CreditsLine gCreditsText[] = {
+const CreditsLine gCreditsText[] = {
 #if defined(LANG_EN)
 #include "text/en/credits.hpp"
 #else
