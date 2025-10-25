@@ -1,6 +1,3 @@
-// todo: turn text messages into rdpq paragraphs
-// so i can do proper aligment instead of whitespace spam
-
 // テスト　hoge
 TEXT_MESSAGE(MESSAGE_000,
     "test blahblah"
@@ -12,7 +9,7 @@ TEXT_MESSAGE(MESSAGE_000,
 // 後、アイテムの一部を利用するかも…
 // ちく より
 TEXT_MESSAGE(MESSAGE_001,
-    "There will be some new traps\n"
+    "You will encounter some new traps\n"
     "from now on, so watch your step!\n"
     "\n"
     "Some items might come in handy\n"
@@ -26,7 +23,7 @@ TEXT_MESSAGE(MESSAGE_002,
     "\n"
     "\n"
     "\n"
-    "   Did you forget something (?)\n"
+    "    You need the (?) this time.\n"
     "\n"
     "\n"
     "                         m9(^^Д^^)"
@@ -69,8 +66,9 @@ TEXT_MESSAGE(MESSAGE_005,
 // 可愛いですね。
 TEXT_MESSAGE(MESSAGE_006,
     "\n"
-    "If you get close to that guy, it\n"
-    "will jump along with you.\n"
+    "If you get close to that enemy,\n"
+    "it will jump along with you.\n"
+    "\n"
     "\n"
     "Isn't that cute?"
 ),
@@ -80,12 +78,12 @@ TEXT_MESSAGE(MESSAGE_006,
 // そこの落とし穴から Let's dive!
 TEXT_MESSAGE(MESSAGE_007,
     "\n"
-    "Couldn't bring that guy with you?\n"
+    "Couldn't bring that enemy along?\n"
     "\n"
     "\n"
     "\n"
-    "Then go ahead and dive into\n"
-    "that pit!"
+    "Then feel free to dive into that\n"
+    "pit!"
 ),
 
 // そんな容易に
@@ -128,7 +126,7 @@ TEXT_MESSAGE(MESSAGE_011,
     "Huh? Me?\n"
     "\n" 
     "I'm just a hint block passing by,\n"
-    "definitely not suspicious....\n"
+    "definitely not suspicious...\n"
     "\n"
     "\n"
     "                          (...Tsk)"
