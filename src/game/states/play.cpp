@@ -838,7 +838,7 @@ static void play_update() {
                                 play_sound_effect(oto[13]);
                                 txtype[t] = 2;
                                 for (t = 0; t < amax; t++) {
-                                    if (atype[t] == 87 || atype[t] == 88) {
+                                    if (atype[t] == ENEMY_FIREBAR_CLOCKWISE || atype[t] == ENEMY_FIREBAR_COUNTERCLOCKWISE) {
                                         if (axtype[t] == 105) {
                                             axtype[t] = 110;
                                         }
@@ -867,7 +867,7 @@ static void play_update() {
                     if (xx[17] == 1) {
                         play_sound_effect(oto[13]);
                         for (t = 0; t < amax; t++) {
-                            if (atype[t] == 87 || atype[t] == 88) {
+                            if (atype[t] == ENEMY_FIREBAR_CLOCKWISE || atype[t] == ENEMY_FIREBAR_COUNTERCLOCKWISE) {
                                 if (axtype[t] == 101) {
                                     axtype[t] = 120;
                                 }
@@ -891,7 +891,7 @@ static void play_update() {
                         play_sound_effect(oto[13]);
                         if (txtype[t] == 1) {
                             for (t = 0; t < amax; t++) {
-                                if (atype[t] == 87 || atype[t] == 88) {
+                                if (atype[t] == ENEMY_FIREBAR_CLOCKWISE || atype[t] == ENEMY_FIREBAR_COUNTERCLOCKWISE) {
                                     if (axtype[t] == 105) {
                                         axtype[t] = 110;
                                     }
@@ -1473,460 +1473,462 @@ static void play_update() {
             xx[10] = 0;
 
             switch (atype[t]) {
-            case 0:
-                xx[10] = 100;
-                break;
+                case ENEMY_BALL:
+                    xx[10] = 100;
+                    break;
 
                 // こうらの敵
-            case 1:
-                xx[10] = 100;
-                break;
+                case ENEMY_BALL_SHELLED:
+                    xx[10] = 100;
+                    break;
 
                 // こうら
-            case 2:
-                xx[10] = 0;
-                xx[17] = 800;
-                // 他の敵を倒す
-                if (axtype[t] >= 1) {
-                    xx[10] = xx[17];
-                    for (tt = 0; tt < amax; tt++) {
-                        xx[0] = 250;
-                        xx[5] = -800;
-                        xx[12] = 0;
-                        xx[1] = 1600;
-                        xx[8] = aa[tt] - fx;
-                        xx[9] = ab[tt] - fy;
-                        if (t != tt) {
-                            if (aa[t] + anobia[t] - fx > xx[8] + xx[0] * 2 && aa[t] - fx < xx[8] + anobia[tt] - xx[0] * 2 && ab[t] + anobib[t] - fy > xx[9] + xx[5] && ab[t] + anobib[t] - fy < xx[9] + xx[1] * 3 + xx[12] + 1500) {
-                                aa[tt] = -800000;
-                                play_sound_effect(oto[6]);
-                            }
-                        }
-                    }
-                }
-
-                break;
-
-                // あらまき
-            case 3:
-                azimentype[t] = 0;
-                if (axtype[t] == 0) {
-                    ab[t] -= 800;
-                }
-                if (axtype[t] == 1)
-                    ab[t] += 1200;
-
-                break;
-
-                // スーパージエン
-            case 4:
-                xx[10] = 120;
-                xx[0] = 250;
-                xx[8] = aa[t] - fx;
-                xx[9] = ab[t] - fy;
-                if (atm[t] >= 0)
-                    atm[t]--;
-                if (abs(ma + mnobia - xx[8] - xx[0] * 2) < 9000 && abs(ma < xx[8] - anobia[t] + xx[0] * 2) < 3000 && md <= -600 && atm[t] <= 0) {
-                    if (axtype[t] == 1 && mzimen == 0 && axzimen[t] == 1) {
-                        ad[t] = -1600;
-                        atm[t] = 40;
-                        ab[t] -= 1000;
-                    }
-                }
-                break;
-
-                // クマー
-            case 5:
-                xx[10] = 160;
-                break;
-
-                // デフラグさん
-            case 6:
-                if (azimentype[t] == 30) {
-                    ad[t] = -1600;
-                    ab[t] += ad[t];
-                }
-
-                xx[10] = 120;
-                if (atm[t] >= 10) {
-                    atm[t]++;
-                    if (mhp >= 1) {
-                        if (atm[t] <= 19) {
-                            ma = xx[0];
-                            mb = xx[1] - 3000;
-                            mtype = 0;
-                        }
-                        xx[10] = 0;
-                        if (atm[t] == 20) {
-                            mc = 700;
-                            mkeytm = 24;
-                            md = -1200;
-                            mb = xx[1] - 1000 - 3000;
-                            amuki[t] = 1;
-                            if (axtype[t] == 1) {
-                                mc = 840;
-                                axtype[t] = 0;
-                            }
-                        }
-                        if (atm[t] == 40) {
-                            amuki[t] = 0;
-                            atm[t] = 0;
-                        }
-                    }
-                }
-                // ポール捨て
-                if (axtype[t] == 1) {
-                    for (tt = 0; tt < smax; tt++) {
-                        if (stype[tt] == 300) {
-                            if (aa[t] - fx >= -8000 && aa[t] >= sa[tt] + 2000 && aa[t] <= sa[tt] + 3600 && axzimen[t] == 1) {
-                                sa[tt] = -800000;
-                                atm[t] = 100;
-                            }
-                        }
-                    }
-
-                    if (atm[t] == 100) {
-                        spawn_particle(aa[t] + 1200 - 1200, ab[t] + 3000 - 10 * 3000 - 1500, 0, 0, 0, 0, 1000, 10 * 3000 - 1200, 4, 20);
-                        if (mtype == 300) {
-                            mtype = 0;
-                            set_background_music(otom[1]);
-                        }
-                        for (t1 = 0; t1 < smax; t1++) {
-                            if (stype[t1] == 104)
-                                sa[t1] = -80000000;
-                        }
-                    }
-                    if (atm[t] == 120) {
-                        spawn_particle(aa[t] + 1200 - 1200, ab[t] + 3000 - 10 * 3000 - 1500, 600, -1200, 0, 160, 1000, 10 * 3000 - 1200, 4, 240);
-                        amuki[t] = 1;
-                    }
-                    if (atm[t] == 140) {
-                        amuki[t] = 0;
-                        atm[t] = 0;
-                    }
-                }
-                if (atm[t] >= 220) {
-                    atm[t] = 0;
-                    amuki[t] = 0;
-                }
-                // 他の敵を投げる
-                for (tt = 0; tt < amax; tt++) {
-                    xx[0] = 250;
-                    xx[5] = -800;
-                    xx[12] = 0;
-                    xx[1] = 1600;
-                    xx[8] = aa[tt] - fx;
-                    xx[9] = ab[tt] - fy;
-                    if (t != tt && atype[tt] >= 100) {
-                        if (aa[t] + anobia[t] - fx > xx[8] + xx[0] * 2 && aa[t] - fx < xx[8] + anobia[tt] - xx[0] * 2 && ab[t] + anobib[t] - fy > xx[9] + xx[5] && ab[t] + anobib[t] - fy < xx[9] + xx[1] * 3 + xx[12] + 1500) {
-                            amuki[tt] = 1;
-                            aa[tt] = aa[t] + 300;
-                            ab[tt] = ab[t] - 3000;
-                            abrocktm[tt] = 120;
-                            atm[t] = 200;
-                            amuki[t] = 1;
-                        }
-                    }
-                }
-
-                break;
-
-                // ジエン大砲
-            case 7:
-                azimentype[t] = 0;
-                xx[10] = 0;
-                xx[11] = 400;
-                if (axtype[t] == 0)
-                    xx[10] = xx[11];
-                if (axtype[t] == 1)
-                    xx[10] = -xx[11];
-                if (axtype[t] == 2)
-                    ab[t] -= xx[11];
-                if (axtype[t] == 3)
-                    ab[t] += xx[11];
-                break;
-
-                // スーパーブーン
-            case 8:
-                azimentype[t] = 0;
-                xx[22] = 20;
-                if (atm[t] == 0) {
-                    af[t] += xx[22];
-                    ad[t] += xx[22];
-                }
-                if (atm[t] == 1) {
-                    af[t] -= xx[22];
-                    ad[t] -= xx[22];
-                }
-                if (ad[t] > 300)
-                    ad[t] = 300;
-                if (ad[t] < -300)
-                    ad[t] = -300;
-                if (af[t] >= 1200)
-                    atm[t] = 1;
-                if (af[t] < -0)
-                    atm[t] = 0;
-                ab[t] += ad[t];
-                // atype[t]=151;
-                break;
-                // ノーマルブーン
-            case 151:
-                azimentype[t] = 2;
-                break;
-
-                // ファイアー玉
-            case 9:
-                azimentype[t] = 5;
-                ab[t] += ad[t];
-                ad[t] += 100;
-                if (ab[t] >= fymax + 1000) {
-                    ad[t] = 900;
-                }
-                if (ab[t] >= fymax + 12000) {
-                    ab[t] = fymax;
-                    ad[t] = -2600;
-                }
-                break;
-
-                // ファイアー
-            case 10:
-                azimentype[t] = 0;
-                xx[10] = 0;
-                xx[11] = 400;
-                if (axtype[t] == 0)
-                    xx[10] = xx[11];
-                if (axtype[t] == 1)
-                    xx[10] = -xx[11];
-                break;
-
-                // モララー
-            case 30:
-                atm[t] += 1;
-                if (axtype[t] == 0) {
-                    if (atm[t] == 50 && mb >= 6000) {
-                        ac[t] = 300;
-                        ad[t] -= 1600;
-                        ab[t] -= 1000;
-                    }
-
-                    for (tt = 0; tt < amax; tt++) {
-                        xx[0] = 250;
-                        xx[5] = -800;
-                        xx[12] = 0;
-                        xx[1] = 1600;
-                        xx[8] = aa[tt] - fx;
-                        xx[9] = ab[tt] - fy;
-                        if (t != tt && atype[tt] == 102) {
-                            if (aa[t] + anobia[t] - fx > xx[8] + xx[0] * 2 && aa[t] - fx < xx[8] + anobia[tt] - xx[0] * 2 && ab[t] + anobib[t] - fy > xx[9] + xx[5] && ab[t] + anobib[t] - fy < xx[9] + xx[1] * 3 + xx[12] + 1500) {
-                                aa[tt] = -800000;
-                                axtype[t] = 1;
-                                ad[t] = -1600;
-                                amsgtm[t] = 30;
-                                amsgtype[t] = 25;
-                            }
-                        }
-                    }
-                }
-                if (axtype[t] == 1) {
-                    azimentype[t] = 0;
-                    ab[t] += ad[t];
-                    ad[t] += 120;
-                }
-                break;
-
-                // レーザー
-            case 79:
-                azimentype[t] = 0;
-                xx[10] = 1600;
-                if (axtype[t] == 1) {
-                    xx[10] = 1200;
-                    ab[t] -= 200;
-                }
-                if (axtype[t] == 2) {
-                    xx[10] = 1200;
-                    ab[t] += 200;
-                }
-                if (axtype[t] == 3) {
-                    xx[10] = 900;
-                    ab[t] -= 600;
-                }
-                if (axtype[t] == 4) {
-                    xx[10] = 900;
-                    ab[t] += 600;
-                }
-                break;
-
-                // 雲の敵
-            case 80:
-                azimentype[t] = 0;
-                break;
-            case 81:
-                azimentype[t] = 0;
-                break;
-            case 82:
-                azimentype[t] = 0;
-                break;
-            case 83:
-                azimentype[t] = 0;
-                break;
-
-            case 84:
-                azimentype[t] = 2;
-                break;
-
-            case 85:
-                xx[23] = 400;
-                if (axtype[t] == 0) {
-                    axtype[t] = 1;
-                    amuki[t] = 1;
-                }
-                if (mb >= 30000 && ma >= aa[t] - 3000 * 5 - fx && ma <= aa[t] - fx && axtype[t] == 1) {
-                    axtype[t] = 5;
-                    amuki[t] = 0;
-                }
-                if (mb >= 24000 && ma <= aa[t] + 3000 * 8 - fx && ma >= aa[t] - fx && axtype[t] == 1) {
-                    axtype[t] = 5;
-                    amuki[t] = 1;
-                }
-                if (axtype[t] == 5)
-                    xx[10] = xx[23];
-                break;
-
-            case 86:
-                azimentype[t] = 4;
-                xx[23] = 1000;
-                if (ma >= aa[t] - fx - mnobia - xx[26] && ma <= aa[t] - fx + anobia[t] + xx[26]) {
-                    atm[t] = 1;
-                }
-                if (atm[t] == 1) {
-                    ab[t] += 1200;
-                }
-                break;
-
-                // ファイアバー
-            case 87:
-                azimentype[t] = 0;
-                if (aa[t] % 10 != 1)
-                    atm[t] += 6;
-                else {
-                    atm[t] -= 6;
-                }
-                xx[25] = 2;
-                if (atm[t] > 360 * xx[25])
-                    atm[t] -= 360 * xx[25];
-                if (atm[t] < 0)
-                    atm[t] += 360 * xx[25];
-
-                for (tt = 0; tt <= axtype[t] % 100; tt++) {
-                    xx[26] = 18;
-                    xd[4] = tt * xx[26] * cos(atm[t] * FM_PI / 180 / 2);
-                    xd[5] = tt * xx[26] * sin(atm[t] * FM_PI / 180 / 2);
-
-                    xx[4] = 1800;
-                    xx[5] = 800;
-                    xx[8] = aa[t] - fx + int(xd[4]) * 100 - xx[4] / 2;
-                    xx[9] = ab[t] - fy + int(xd[5]) * 100 - xx[4] / 2;
-
-                    if (ma + mnobia > xx[8] + xx[5] && ma < xx[8] + xx[4] - xx[5] && mb + mnobib > xx[9] + xx[5] && mb < xx[9] + xx[4] - xx[5]) {
-                        mhp -= 1;
-                        mmsgtype = 51;
-                        mmsgtm = 30;
-                    }
-                }
-
-                break;
-
-            case 88:
-                azimentype[t] = 0;
-                if (aa[t] % 10 != 1)
-                    atm[t] += 6;
-                else {
-                    atm[t] -= 6;
-                }
-                xx[25] = 2;
-                if (atm[t] > 360 * xx[25])
-                    atm[t] -= 360 * xx[25];
-                if (atm[t] < 0)
-                    atm[t] += 360 * xx[25];
-
-                for (tt = 0; tt <= axtype[t] % 100; tt++) {
-                    xx[26] = 18;
-                    xd[4] = -tt * xx[26] * cos(atm[t] * FM_PI / 180 / 2);
-                    xd[5] = tt * xx[26] * sin(atm[t] * FM_PI / 180 / 2);
-
-                    xx[4] = 1800;
-                    xx[5] = 800;
-                    xx[8] = aa[t] - fx + int(xd[4]) * 100 - xx[4] / 2;
-                    xx[9] = ab[t] - fy + int(xd[5]) * 100 - xx[4] / 2;
-
-                    if (ma + mnobia > xx[8] + xx[5] && ma < xx[8] + xx[4] - xx[5] && mb + mnobib > xx[9] + xx[5] && mb < xx[9] + xx[4] - xx[5]) {
-                        mhp -= 1;
-                        mmsgtype = 51;
-                        mmsgtm = 30;
-                    }
-                }
-
-                break;
-
-            case 90:
-                xx[10] = 160;
-                break;
-
-                // おいしいキノコ
-            case 100:
-                azimentype[t] = 1;
-                xx[10] = 100;
-
-                // ほかの敵を巨大化
-                if (axtype[t] == 2) {
-                    for (tt = 0; tt < amax; tt++) {
-                        xx[0] = 250;
-                        xx[5] = -800;
-                        xx[12] = 0;
-                        xx[1] = 1600;
-                        xx[8] = aa[tt] - fx;
-                        xx[9] = ab[tt] - fy;
-                        if (t != tt) {
-                            if (aa[t] + anobia[t] - fx > xx[8] + xx[0] * 2 && aa[t] - fx < xx[8] + anobia[tt] - xx[0] * 2 && ab[t] + anobib[t] - fy > xx[9] + xx[5] && ab[t] + anobib[t] - fy < xx[9] + xx[1] * 3 + xx[12]) {
-                                if (atype[tt] == 0 || atype[tt] == 4) {
-                                    atype[tt] = 90;
-                                    anobia[tt] = 6400;
-                                    anobib[tt] = 6300;
-                                    axtype[tt] = 0;
-                                    aa[tt] -= 1050;
-                                    ab[tt] -= 1050;
-                                    play_sound_effect(oto[9]);
-                                    aa[t] = -80000000;
+                case ENEMY_SHELL:
+                    xx[10] = 0;
+                    xx[17] = 800;
+                    // 他の敵を倒す
+                    if (axtype[t] >= 1) {
+                        xx[10] = xx[17];
+                        for (tt = 0; tt < amax; tt++) {
+                            xx[0] = 250;
+                            xx[5] = -800;
+                            xx[12] = 0;
+                            xx[1] = 1600;
+                            xx[8] = aa[tt] - fx;
+                            xx[9] = ab[tt] - fy;
+                            if (t != tt) {
+                                if (aa[t] + anobia[t] - fx > xx[8] + xx[0] * 2 && aa[t] - fx < xx[8] + anobia[tt] - xx[0] * 2 && ab[t] + anobib[t] - fy > xx[9] + xx[5] && ab[t] + anobib[t] - fy < xx[9] + xx[1] * 3 + xx[12] + 1500) {
+                                    aa[tt] = -800000;
+                                    play_sound_effect(oto[6]);
                                 }
                             }
                         }
                     }
-                }
 
-                break;
+                    break;
+
+                // あらまき
+                case ENEMY_SEAL:
+                    azimentype[t] = 0;
+                    if (axtype[t] == 0) {
+                        ab[t] -= 800;
+                    }
+                    if (axtype[t] == 1)
+                        ab[t] += 1200;
+
+                    break;
+
+                // スーパージエン
+                case ENEMY_BALL_SPIKY:
+                    xx[10] = 120;
+                    xx[0] = 250;
+                    xx[8] = aa[t] - fx;
+                    xx[9] = ab[t] - fy;
+                    if (atm[t] >= 0)
+                        atm[t]--;
+                    if (abs(ma + mnobia - xx[8] - xx[0] * 2) < 9000 && abs(ma < xx[8] - anobia[t] + xx[0] * 2) < 3000 && md <= -600 && atm[t] <= 0) {
+                        if (axtype[t] == 1 && mzimen == 0 && axzimen[t] == 1) {
+                            ad[t] = -1600;
+                            atm[t] = 40;
+                            ab[t] -= 1000;
+                        }
+                    }
+                    break;
+
+                // クマー
+                case ENEMY_BEAR:
+                    xx[10] = 160;
+                    break;
+
+                // デフラグさん
+                case ENEMY_ROBOT:
+                    if (azimentype[t] == 30) {
+                        ad[t] = -1600;
+                        ab[t] += ad[t];
+                    }
+
+                    xx[10] = 120;
+                    if (atm[t] >= 10) {
+                        atm[t]++;
+                        if (mhp >= 1) {
+                            if (atm[t] <= 19) {
+                                ma = xx[0];
+                                mb = xx[1] - 3000;
+                                mtype = 0;
+                            }
+                            xx[10] = 0;
+                            if (atm[t] == 20) {
+                                mc = 700;
+                                mkeytm = 24;
+                                md = -1200;
+                                mb = xx[1] - 1000 - 3000;
+                                amuki[t] = 1;
+                                if (axtype[t] == 1) {
+                                    mc = 840;
+                                    axtype[t] = 0;
+                                }
+                            }
+                            if (atm[t] == 40) {
+                                amuki[t] = 0;
+                                atm[t] = 0;
+                            }
+                        }
+                    }
+                    // ポール捨て
+                    if (axtype[t] == 1) {
+                        for (tt = 0; tt < smax; tt++) {
+                            if (stype[tt] == 300) {
+                                if (aa[t] - fx >= -8000 && aa[t] >= sa[tt] + 2000 && aa[t] <= sa[tt] + 3600 && axzimen[t] == 1) {
+                                    sa[tt] = -800000;
+                                    atm[t] = 100;
+                                }
+                            }
+                        }
+
+                        if (atm[t] == 100) {
+                            spawn_particle(aa[t] + 1200 - 1200, ab[t] + 3000 - 10 * 3000 - 1500, 0, 0, 0, 0, 1000, 10 * 3000 - 1200, 4, 20);
+                            if (mtype == 300) {
+                                mtype = 0;
+                                set_background_music(otom[1]);
+                            }
+                            for (t1 = 0; t1 < smax; t1++) {
+                                if (stype[t1] == 104)
+                                    sa[t1] = -80000000;
+                            }
+                        }
+                        if (atm[t] == 120) {
+                            spawn_particle(aa[t] + 1200 - 1200, ab[t] + 3000 - 10 * 3000 - 1500, 600, -1200, 0, 160, 1000, 10 * 3000 - 1200, 4, 240);
+                            amuki[t] = 1;
+                        }
+                        if (atm[t] == 140) {
+                            amuki[t] = 0;
+                            atm[t] = 0;
+                        }
+                    }
+                    if (atm[t] >= 220) {
+                        atm[t] = 0;
+                        amuki[t] = 0;
+                    }
+                    // 他の敵を投げる
+                    for (tt = 0; tt < amax; tt++) {
+                        xx[0] = 250;
+                        xx[5] = -800;
+                        xx[12] = 0;
+                        xx[1] = 1600;
+                        xx[8] = aa[tt] - fx;
+                        xx[9] = ab[tt] - fy;
+                        if (t != tt && atype[tt] >= 100) {
+                            if (aa[t] + anobia[t] - fx > xx[8] + xx[0] * 2 && aa[t] - fx < xx[8] + anobia[tt] - xx[0] * 2 && ab[t] + anobib[t] - fy > xx[9] + xx[5] && ab[t] + anobib[t] - fy < xx[9] + xx[1] * 3 + xx[12] + 1500) {
+                                amuki[tt] = 1;
+                                aa[tt] = aa[t] + 300;
+                                ab[tt] = ab[t] - 3000;
+                                abrocktm[tt] = 120;
+                                atm[t] = 200;
+                                amuki[t] = 1;
+                            }
+                        }
+                    }
+
+                    break;
+
+                // ジエン大砲
+                case ENEMY_BALL_ROCKET:
+                    azimentype[t] = 0;
+                    xx[10] = 0;
+                    xx[11] = 400;
+                    if (axtype[t] == 0)
+                        xx[10] = xx[11];
+                    if (axtype[t] == 1)
+                        xx[10] = -xx[11];
+                    if (axtype[t] == 2)
+                        ab[t] -= xx[11];
+                    if (axtype[t] == 3)
+                        ab[t] += xx[11];
+                    break;
+
+                // スーパーブーン
+                case ENEMY_CAPE_GUY:
+                    azimentype[t] = 0;
+                    xx[22] = 20;
+                    if (atm[t] == 0) {
+                        af[t] += xx[22];
+                        ad[t] += xx[22];
+                    }
+                    if (atm[t] == 1) {
+                        af[t] -= xx[22];
+                        ad[t] -= xx[22];
+                    }
+                    if (ad[t] > 300)
+                        ad[t] = 300;
+                    if (ad[t] < -300)
+                        ad[t] = -300;
+                    if (af[t] >= 1200)
+                        atm[t] = 1;
+                    if (af[t] < -0)
+                        atm[t] = 0;
+                    ab[t] += ad[t];
+                    // atype[t]=151;
+                    break;
+                // ノーマルブーン
+                // todo: doc this
+                case 151:
+                    azimentype[t] = 2;
+                    break;
+
+                // ファイアー玉
+                case ENEMY_MAGMA:
+                    azimentype[t] = 5;
+                    ab[t] += ad[t];
+                    ad[t] += 100;
+                    if (ab[t] >= fymax + 1000) {
+                        ad[t] = 900;
+                    }
+                    if (ab[t] >= fymax + 12000) {
+                        ab[t] = fymax;
+                        ad[t] = -2600;
+                    }
+                    break;
+
+                // ファイアー
+                case ENEMY_FLAME:
+                    azimentype[t] = 0;
+                    xx[10] = 0;
+                    xx[11] = 400;
+                    if (axtype[t] == 0)
+                        xx[10] = xx[11];
+                    if (axtype[t] == 1)
+                        xx[10] = -xx[11];
+                    break;
+
+                // モララー
+                case ENEMY_MOLALA: // ENEMY_BOSS
+                    atm[t] += 1;
+                    if (axtype[t] == 0) {
+                        if (atm[t] == 50 && mb >= 6000) {
+                            ac[t] = 300;
+                            ad[t] -= 1600;
+                            ab[t] -= 1000;
+                        }
+
+                        for (tt = 0; tt < amax; tt++) {
+                            xx[0] = 250;
+                            xx[5] = -800;
+                            xx[12] = 0;
+                            xx[1] = 1600;
+                            xx[8] = aa[tt] - fx;
+                            xx[9] = ab[tt] - fy;
+                            if (t != tt && atype[tt] == ENEMY_MUSHROOM_PURPLE) {
+                                if (aa[t] + anobia[t] - fx > xx[8] + xx[0] * 2 && aa[t] - fx < xx[8] + anobia[tt] - xx[0] * 2 && ab[t] + anobib[t] - fy > xx[9] + xx[5] && ab[t] + anobib[t] - fy < xx[9] + xx[1] * 3 + xx[12] + 1500) {
+                                    aa[tt] = -800000;
+                                    axtype[t] = 1;
+                                    ad[t] = -1600;
+                                    amsgtm[t] = 30;
+                                    amsgtype[t] = 25;
+                                }
+                            }
+                        }
+                    }
+                    if (axtype[t] == 1) {
+                        azimentype[t] = 0;
+                        ab[t] += ad[t];
+                        ad[t] += 120;
+                    }
+                    break;
+
+                // レーザー
+                case ENEMY_LASER:
+                    azimentype[t] = 0;
+                    xx[10] = 1600;
+                    if (axtype[t] == 1) {
+                        xx[10] = 1200;
+                        ab[t] -= 200;
+                    }
+                    if (axtype[t] == 2) {
+                        xx[10] = 1200;
+                        ab[t] += 200;
+                    }
+                    if (axtype[t] == 3) {
+                        xx[10] = 900;
+                        ab[t] -= 600;
+                    }
+                    if (axtype[t] == 4) {
+                        xx[10] = 900;
+                        ab[t] += 600;
+                    }
+                    break;
+
+                // 雲の敵
+                case ENEMY_EVIL_CLOUD:
+                    azimentype[t] = 0;
+                    break;
+                case ENEMY_EVIL_CLOUD_TOUCHED:
+                    azimentype[t] = 0;
+                    break;
+                case ENEMY_SPIKY_BLOCK:
+                    azimentype[t] = 0;
+                    break;
+                case ENEMY_SPIKY_BLOCK_TOUCHED:
+                    azimentype[t] = 0;
+                    break;
+
+                case ENEMY_LAVA_FROM_PIPE:
+                    azimentype[t] = 2;
+                    break;
+
+                case ENEMY_FAKE_POLE:
+                    xx[23] = 400;
+                    if (axtype[t] == 0) {
+                        axtype[t] = 1;
+                        amuki[t] = 1;
+                    }
+                    if (mb >= 30000 && ma >= aa[t] - 3000 * 5 - fx && ma <= aa[t] - fx && axtype[t] == 1) {
+                        axtype[t] = 5;
+                        amuki[t] = 0;
+                    }
+                    if (mb >= 24000 && ma <= aa[t] + 3000 * 8 - fx && ma >= aa[t] - fx && axtype[t] == 1) {
+                        axtype[t] = 5;
+                        amuki[t] = 1;
+                    }
+                    if (axtype[t] == 5)
+                        xx[10] = xx[23];
+                    break;
+                
+                // thwomp
+                case ENEMY_FALLING_CAT: 
+                    azimentype[t] = 4;
+                    xx[23] = 1000;
+                    if (ma >= aa[t] - fx - mnobia - xx[26] && ma <= aa[t] - fx + anobia[t] + xx[26]) {
+                        atm[t] = 1;
+                    }
+                    if (atm[t] == 1) {
+                        ab[t] += 1200;
+                    }
+                    break;
+
+                // ファイアバー
+                case ENEMY_FIREBAR_CLOCKWISE:
+                    azimentype[t] = 0;
+                    if (aa[t] % 10 != 1)
+                        atm[t] += 6;
+                    else {
+                        atm[t] -= 6;
+                    }
+                    xx[25] = 2;
+                    if (atm[t] > 360 * xx[25])
+                        atm[t] -= 360 * xx[25];
+                    if (atm[t] < 0)
+                        atm[t] += 360 * xx[25];
+
+                    for (tt = 0; tt <= axtype[t] % 100; tt++) {
+                        xx[26] = 18;
+                        xd[4] = tt * xx[26] * cos(atm[t] * FM_PI / 180 / 2);
+                        xd[5] = tt * xx[26] * sin(atm[t] * FM_PI / 180 / 2);
+
+                        xx[4] = 1800;
+                        xx[5] = 800;
+                        xx[8] = aa[t] - fx + int(xd[4]) * 100 - xx[4] / 2;
+                        xx[9] = ab[t] - fy + int(xd[5]) * 100 - xx[4] / 2;
+
+                        if (ma + mnobia > xx[8] + xx[5] && ma < xx[8] + xx[4] - xx[5] && mb + mnobib > xx[9] + xx[5] && mb < xx[9] + xx[4] - xx[5]) {
+                            mhp -= 1;
+                            mmsgtype = 51;
+                            mmsgtm = 30;
+                        }
+                    }
+
+                    break;
+
+                case ENEMY_FIREBAR_COUNTERCLOCKWISE:
+                    azimentype[t] = 0;
+                    if (aa[t] % 10 != 1)
+                        atm[t] += 6;
+                    else {
+                        atm[t] -= 6;
+                    }
+                    xx[25] = 2;
+                    if (atm[t] > 360 * xx[25])
+                        atm[t] -= 360 * xx[25];
+                    if (atm[t] < 0)
+                        atm[t] += 360 * xx[25];
+
+                    for (tt = 0; tt <= axtype[t] % 100; tt++) {
+                        xx[26] = 18;
+                        xd[4] = -tt * xx[26] * cos(atm[t] * FM_PI / 180 / 2);
+                        xd[5] = tt * xx[26] * sin(atm[t] * FM_PI / 180 / 2);
+
+                        xx[4] = 1800;
+                        xx[5] = 800;
+                        xx[8] = aa[t] - fx + int(xd[4]) * 100 - xx[4] / 2;
+                        xx[9] = ab[t] - fy + int(xd[5]) * 100 - xx[4] / 2;
+
+                        if (ma + mnobia > xx[8] + xx[5] && ma < xx[8] + xx[4] - xx[5] && mb + mnobib > xx[9] + xx[5] && mb < xx[9] + xx[4] - xx[5]) {
+                            mhp -= 1;
+                            mmsgtype = 51;
+                            mmsgtm = 30;
+                        }
+                    }
+
+                    break;
+                
+                case ENEMY_BALL_GIANT:
+                    xx[10] = 160;
+                    break;
+
+                // おいしいキノコ
+                case ENEMY_MUSHROOM_RED:
+                    azimentype[t] = 1;
+                    xx[10] = 100;
+
+                    // ほかの敵を巨大化
+                    if (axtype[t] == 2) {
+                        for (tt = 0; tt < amax; tt++) {
+                            xx[0] = 250;
+                            xx[5] = -800;
+                            xx[12] = 0;
+                            xx[1] = 1600;
+                            xx[8] = aa[tt] - fx;
+                            xx[9] = ab[tt] - fy;
+                            if (t != tt) {
+                                if (aa[t] + anobia[t] - fx > xx[8] + xx[0] * 2 && aa[t] - fx < xx[8] + anobia[tt] - xx[0] * 2 && ab[t] + anobib[t] - fy > xx[9] + xx[5] && ab[t] + anobib[t] - fy < xx[9] + xx[1] * 3 + xx[12]) {
+                                    if (atype[tt] == ENEMY_BALL || atype[tt] == ENEMY_BALL_SPIKY) {
+                                        atype[tt] = ENEMY_BALL_GIANT;
+                                        anobia[tt] = 6400;
+                                        anobib[tt] = 6300;
+                                        axtype[tt] = 0;
+                                        aa[tt] -= 1050;
+                                        ab[tt] -= 1050;
+                                        play_sound_effect(oto[9]);
+                                        aa[t] = -80000000;
+                                    }
+                                }
+                            }
+                        }
+                    }
+
+                    break;
 
                 // 毒キノコ
-            case 102:
-                azimentype[t] = 1;
-                xx[10] = 100;
-                if (axtype[t] == 1)
-                    xx[10] = 200;
-                break;
+                case ENEMY_MUSHROOM_PURPLE:
+                    azimentype[t] = 1;
+                    xx[10] = 100;
+                    if (axtype[t] == 1)
+                        xx[10] = 200;
+                    break;
 
                 // 悪スター
-            case 110:
-                azimentype[t] = 1;
-                xx[10] = 200;
-                if (axzimen[t] == 1) {
-                    ab[t] -= 1200;
-                    ad[t] = -1400;
-                }
-                break;
+                case ENEMY_STAR:
+                    azimentype[t] = 1;
+                    xx[10] = 200;
+                    if (axzimen[t] == 1) {
+                        ab[t] -= 1200;
+                        ad[t] = -1400;
+                    }
+                    break;
 
-            case 200:
-                azimentype[t] = 1;
-                xx[10] = 100;
-                break;
+                case ENEMY_BALL_NO_COLLISION:
+                    azimentype[t] = 1;
+                    xx[10] = 100;
+                    break;
             }
 
             if (abrocktm[t] >= 1)
@@ -2007,9 +2009,9 @@ static void play_update() {
             xx[25] = 0;
 
             if (ma + mnobia > xx[8] + xx[0] * 2 && ma < xx[8] + anobia[t] - xx[0] * 2 && mb + mnobib > xx[9] - xx[5] && mb + mnobib < xx[9] + xx[1] + xx[12] && (mmutekitm <= 0 || md >= 100) && abrocktm[t] <= 0) {
-                if (atype[t] != 4 && atype[t] != 9 && atype[t] != 10 && (atype[t] <= 78 || atype[t] == 85) && mzimen != 1 && mtype != 200) { // && atype[t]!=4 && atype[t]!=7){
+                if (atype[t] != ENEMY_BALL_SPIKY && atype[t] != ENEMY_MAGMA && atype[t] != ENEMY_FLAME && (atype[t] <= 78 || atype[t] == ENEMY_FAKE_POLE) && mzimen != 1 && mtype != 200) {
 
-                    if (atype[t] == 0) {
+                    if (atype[t] == ENEMY_BALL) {
                         if (axtype[t] == 0)
                             aa[t] = -900000;
                         if (axtype[t] == 1) {
@@ -2021,13 +2023,13 @@ static void play_update() {
                         }
                     }
 
-                    if (atype[t] == 1) {
-                        atype[t] = 2;
+                    if (atype[t] == ENEMY_BALL_SHELLED) {
+                        atype[t] = ENEMY_SHELL;
                         anobib[t] = 3000;
                         axtype[t] = 0;
                     }
                     // こうら
-                    else if (atype[t] == 2 && md >= 0) {
+                    else if (atype[t] == ENEMY_SHELL && md >= 0) {
                         if (axtype[t] == 1 || axtype[t] == 2) {
                             axtype[t] = 0;
                         } else if (axtype[t] == 0) {
@@ -2040,33 +2042,33 @@ static void play_update() {
                             }
                         }
                     }
-                    if (atype[t] == 3) {
+                    if (atype[t] == ENEMY_SEAL) {
                         xx[25] = 1;
                     }
 
-                    if (atype[t] == 6) {
+                    if (atype[t] == ENEMY_ROBOT) {
                         atm[t] = 10;
                         md = 0;
                         actaon[2] = 0;
                     }
 
-                    if (atype[t] == 7) {
+                    if (atype[t] == ENEMY_BALL_ROCKET) {
                         aa[t] = -900000;
                     }
 
-                    if (atype[t] == 8) {
-                        atype[t] = 151;
+                    if (atype[t] == ENEMY_CAPE_GUY) {
+                        atype[t] = ENEMY_CAPE_GUY_NO_CAP;
                         ad[t] = 0;
                     }
 
-                    if (atype[t] != 85) {
+                    if (atype[t] != ENEMY_FAKE_POLE) {
                         if (xx[25] == 0) {
                             play_sound_effect(oto[5]);
                             mb = xx[9] - 1000 - anobib[t];
                             md = -1000;
                         }
                     }
-                    if (atype[t] == 85) {
+                    if (atype[t] == ENEMY_FAKE_POLE) {
                         if (xx[25] == 0) {
                             play_sound_effect(oto[5]);
                             mb = xx[9] - 4000;
@@ -2086,11 +2088,11 @@ static void play_update() {
 
             // プレイヤーに触れた時
             xx[16] = 0;
-            if (atype[t] == 4 || atype[t] == 9 || atype[t] == 10)
+            if (atype[t] == ENEMY_BALL_SPIKY || atype[t] == ENEMY_MAGMA || atype[t] == ENEMY_FLAME)
                 xx[16] = -3000;
-            if (atype[t] == 82 || atype[t] == 83 || atype[t] == 84)
+            if (atype[t] == ENEMY_SPIKY_BLOCK || atype[t] == ENEMY_SPIKY_BLOCK_TOUCHED || atype[t] == ENEMY_LAVA_FROM_PIPE)
                 xx[16] = -3200;
-            if (atype[t] == 85)
+            if (atype[t] == ENEMY_FAKE_POLE)
                 xx[16] = -anobib[t] + 6000;
             if (ma + mnobia > xx[8] + xx[4] && ma < xx[8] + anobia[t] - xx[4] && mb < xx[9] + anobib[t] + xx[15] && mb + mnobib > xx[9] + anobib[t] - xx[0] + xx[16] && anotm[t] <= 0 && abrocktm[t] <= 0) {
                 if (mmutekion == 1) {
@@ -2100,90 +2102,90 @@ static void play_update() {
                     if (mmutekion != 1 && mtype != 200) {
 
                         // ダメージ
-                        if ((atype[t] != 2 || axtype[t] != 0) && mhp >= 1) {
-                            if (atype[t] != 6) {
+                        if ((atype[t] != ENEMY_SHELL || axtype[t] != 0) && mhp >= 1) {
+                            if (atype[t] != ENEMY_ROBOT) {
                                 mhp -= 1;
                             }
                         }
 
-                        if (atype[t] == 6) {
+                        if (atype[t] == ENEMY_ROBOT) {
                             atm[t] = 10;
                         }
                         // せりふ
                         if (mhp == 0) {
 
-                            if (atype[t] == 0 || atype[t] == 7) {
+                            if (atype[t] == ENEMY_BALL || atype[t] == ENEMY_BALL_ROCKET) {
                                 amsgtm[t] = 60;
                                 amsgtype[t] = rand(7) + 1 + 1000 + (stb - 1) * 10;
                             }
 
-                            if (atype[t] == 1) {
+                            if (atype[t] == ENEMY_BALL_SHELLED) {
                                 amsgtm[t] = 60;
                                 amsgtype[t] = rand(2) + 15;
                             }
 
-                            if (atype[t] == 2 && axtype[t] >= 1 && mmutekitm <= 0) {
+                            if (atype[t] == ENEMY_SHELL && axtype[t] >= 1 && mmutekitm <= 0) {
                                 amsgtm[t] = 60;
                                 amsgtype[t] = 18;
                             }
 
-                            if (atype[t] == 3) {
+                            if (atype[t] == ENEMY_SEAL) {
                                 amsgtm[t] = 60;
                                 amsgtype[t] = 20;
                             }
 
-                            if (atype[t] == 4) {
+                            if (atype[t] == ENEMY_BALL_SPIKY) {
                                 amsgtm[t] = 60;
                                 amsgtype[t] = rand(7) + 1 + 1000 + (stb - 1) * 10;
                             }
 
-                            if (atype[t] == 5) {
+                            if (atype[t] == ENEMY_BEAR) {
                                 amsgtm[t] = 60;
                                 amsgtype[t] = 21;
                             }
 
-                            if (atype[t] == 9 || atype[t] == 10) {
+                            if (atype[t] == ENEMY_MAGMA || atype[t] == ENEMY_FLAME) {
                                 mmsgtm = 30;
                                 mmsgtype = 54;
                             }
 
-                            if (atype[t] == 31) {
+                            if (atype[t] == ENEMY_KUKKURU) {
                                 amsgtm[t] = 30;
                                 amsgtype[t] = 24;
                             }
 
-                            if (atype[t] == 80 || atype[t] == 81) {
+                            if (atype[t] == ENEMY_EVIL_CLOUD || atype[t] == ENEMY_EVIL_CLOUD_TOUCHED) {
                                 amsgtm[t] = 60;
                                 amsgtype[t] = 30;
                             }
 
-                            if (atype[t] == 82) {
+                            if (atype[t] == ENEMY_SPIKY_BLOCK) {
                                 amsgtm[t] = 20;
                                 amsgtype[t] = 31;
                                 xx[24] = 900;
-                                atype[t] = 83;
+                                atype[t] = ENEMY_SPIKY_BLOCK_TOUCHED;
                                 aa[t] -= xx[24] + 100;
                                 ab[t] -= xx[24] - 100 * 0;
                             }
 
-                            if (atype[t] == 84) {
+                            if (atype[t] == ENEMY_LAVA_FROM_PIPE) {
                                 mmsgtm = 30;
                                 mmsgtype = 50;
                             }
 
-                            if (atype[t] == 85) {
+                            if (atype[t] == ENEMY_FAKE_POLE) {
                                 amsgtm[t] = 60;
                                 amsgtype[t] = 85;
                             }
                             // 雲
-                            if (atype[t] == 80) {
-                                atype[t] = 81;
+                            if (atype[t] == ENEMY_EVIL_CLOUD) {
+                                atype[t] = ENEMY_EVIL_CLOUD_TOUCHED;
                             }
 
                         }
 
                         // こうら
-                        if (atype[t] == 2) {
+                        if (atype[t] == ENEMY_SHELL) {
                             if (axtype[t] == 0) {
                                 if (ma + mnobia > xx[8] + xx[0] * 2 && ma < xx[8] + anobia[t] / 2 - xx[0] * 4) {
                                     axtype[t] = 1;
@@ -2205,17 +2207,17 @@ static void play_update() {
                 // アイテム
                 if (atype[t] >= 100 && atype[t] <= 199) {
 
-                    if (atype[t] == 100 && axtype[t] == 0) {
+                    if (atype[t] == ENEMY_MUSHROOM_RED && axtype[t] == 0) {
                         mmsgtm = 30;
                         mmsgtype = 1;
                         play_sound_effect(oto[9]);
                     }
-                    if (atype[t] == 100 && axtype[t] == 1) {
+                    if (atype[t] == ENEMY_MUSHROOM_RED && axtype[t] == 1) {
                         mmsgtm = 30;
                         mmsgtype = 2;
                         play_sound_effect(oto[9]);
                     }
-                    if (atype[t] == 100 && axtype[t] == 2) {
+                    if (atype[t] == ENEMY_MUSHROOM_RED && axtype[t] == 2) {
                         mnobia = 5200;
                         mnobib = 7300;
                         play_sound_effect(oto[9]);
@@ -2225,18 +2227,18 @@ static void play_update() {
                         mhp = 50000000;
                     }
 
-                    if (atype[t] == 101) {
+                    if (atype[t] == ENEMY_FIRE_FLOWER) {
                         mhp -= 1;
                         mmsgtm = 30;
                         mmsgtype = 11;
                     }
-                    if (atype[t] == 102) {
+                    if (atype[t] == ENEMY_MUSHROOM_PURPLE) {
                         mhp -= 1;
                         mmsgtm = 30;
                         mmsgtype = 10;
                     }
                     //?ボール
-                    if (atype[t] == 105) {
+                    if (atype[t] == ENEMY_MYSTERY_BALL) {
                         if (axtype[t] == 0) {
                             play_sound_effect(oto[4]);
                             sgtype[26] = 6;
@@ -2257,7 +2259,7 @@ static void play_update() {
                         }
                     } // 105
 
-                    if (atype[t] == 110) {
+                    if (atype[t] == ENEMY_STAR) {
                         mhp -= 1;
                         mmsgtm = 30;
                         mmsgtype = 3;
@@ -2494,11 +2496,11 @@ static void play_draw() {
             if (amuki[t] == 1) {
                 mirror = 1;
             }
-            if (atype[t] == 3 && axtype[t] == 1) {
+            if (atype[t] == ENEMY_SEAL && axtype[t] == 1) {
                 draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, false, true);
                 xx[16] = 1;
             }
-            if (atype[t] == 9 && ad[t] >= 1) {
+            if (atype[t] == ENEMY_MAGMA && ad[t] >= 1) {
                 draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, false, true);
                 xx[16] = 1;
             }
@@ -2506,13 +2508,13 @@ static void play_draw() {
                 mirror = 0;
 
             // メイン
-            if (atype[t] < 200 && xx[16] == 0 && atype[t] != 6 && atype[t] != 79 && atype[t] != 86 && atype[t] != 30) {
-                if (!((atype[t] == 80 || atype[t] == 81) && axtype[t] == 1)) {
+            if (atype[t] < 200 && xx[16] == 0 && atype[t] != ENEMY_ROBOT && atype[t] != ENEMY_LASER && atype[t] != ENEMY_FALLING_CAT && atype[t] != ENEMY_MOLALA) {
+                if (!((atype[t] == ENEMY_EVIL_CLOUD || atype[t] == ENEMY_EVIL_CLOUD_TOUCHED) && axtype[t] == 1)) {
                     draw_sprite_region(grap[atype[t]][3], xx[0] / 100, xx[1] / 100, mirror);
                 }
             }
             // デフラグさん
-            if (atype[t] == 6) {
+            if (atype[t] == ENEMY_ROBOT) {
                 if (atm[t] >= 10 && atm[t] <= 19 || atm[t] >= 100 && atm[t] <= 119 || atm[t] >= 200) {
                     draw_sprite_region(grap[150][3], xx[0] / 100, xx[1] / 100, mirror);
                 } else {
@@ -2520,18 +2522,18 @@ static void play_draw() {
                 }
             }
             // モララー
-            if (atype[t] == 30) {
+            if (atype[t] == ENEMY_MOLALA) {
                 if (axtype[t] == 0)
                     draw_sprite_region(grap[30][3], xx[0] / 100, xx[1] / 100, mirror);
                 if (axtype[t] == 1)
                     draw_sprite_region(grap[155][3], xx[0] / 100, xx[1] / 100, mirror);
             }
             // ステルス雲
-            if ((atype[t] == 81) && axtype[t] == 1) {
+            if ((atype[t] == ENEMY_EVIL_CLOUD_TOUCHED) && axtype[t] == 1) {
                 draw_sprite_region(grap[130][3], xx[0] / 100, xx[1] / 100, mirror);
             }
 
-            if (atype[t] == 79) {
+            if (atype[t] == ENEMY_LASER) {
                 set_draw_color(250, 250, 0);
                 draw_rectangle_filled(xx[0] / 100, xx[1] / 100, xx[2], xx[3]);
                 set_draw_color(0, 0, 0);
@@ -2539,7 +2541,7 @@ static void play_draw() {
                 draw_rectangle_outline(xx[0] / 100, xx[1] / 100, xx[2], xx[3]);
             }
 
-            if (atype[t] == 82) {
+            if (atype[t] == ENEMY_SPIKY_BLOCK) {
 
                 if (axtype[t] == 0) {
                     xx[9] = 0;
@@ -2575,7 +2577,7 @@ static void play_draw() {
                     draw_sprite_region(grap[1][5], xx[0] / 100, xx[1] / 100, mirror);
                 }
             }
-            if (atype[t] == 83) {
+            if (atype[t] == ENEMY_SPIKY_BLOCK_TOUCHED) {
 
                 if (axtype[t] == 0) {
                     xx[9] = 0;
@@ -2608,7 +2610,7 @@ static void play_draw() {
                 }
             }
             // 偽ポール
-            if (atype[t] == 85) {
+            if (atype[t] == ENEMY_FAKE_POLE) {
                 set_draw_color(255, 255, 255);
 
                 draw_rectangle_filled((xx[0]) / 100 + 10, (xx[1]) / 100, 10, xx[3]);
@@ -2624,7 +2626,7 @@ static void play_draw() {
             }
 
             // ニャッスン
-            if (atype[t] == 86) {
+            if (atype[t] == ENEMY_FALLING_CAT) {
                 if (ma >= aa[t] - fx - mnobia - 4000 && ma <= aa[t] - fx + anobia[t] + 4000) {
                     draw_sprite_region(grap[152][3], xx[0] / 100, xx[1] / 100, mirror);
                 } else {
@@ -2632,7 +2634,7 @@ static void play_draw() {
                 }
             }
 
-            if (atype[t] == 200)
+            if (atype[t] == ENEMY_BALL_NO_COLLISION)
                 draw_sprite_region(grap[0][3], xx[0] / 100, xx[1] / 100, mirror);
 
             mirror = 0;
@@ -2896,7 +2898,7 @@ static void play_draw() {
         xx[1] = ab[t] - fy;
         xx[14] = 12000;
         xx[16] = 0;
-        if (atype[t] == 87 || atype[t] == 88) {
+        if (atype[t] == ENEMY_FIREBAR_CLOCKWISE || atype[t] == ENEMY_FIREBAR_COUNTERCLOCKWISE) {
             if (xx[0] + xx[2] * 100 >= -10 - xx[14] && xx[1] <= fxmax + xx[14] && xx[1] + xx[3] * 100 >= -10 && xx[3] <= fymax) {
 
                 for (tt = 0; tt <= axtype[t] % 100; tt++) {
@@ -2907,7 +2909,7 @@ static void play_draw() {
                     xx[25] = (int)xd[5];
                     set_draw_color(230, 120, 0);
                     xx[23] = 8;
-                    if (atype[t] == 87) {
+                    if (atype[t] == ENEMY_FIREBAR_CLOCKWISE) {
                         draw_circle_filled(xx[0] / 100 + xx[24], xx[1] / 100 + xx[25], xx[23]);
                         set_draw_color(0, 0, 0);
                         draw_circle_outline(xx[0] / 100 + xx[24], xx[1] / 100 + xx[25], xx[23]);
@@ -3143,7 +3145,7 @@ void tekizimen() {
         xx[8] = ta[tt] - fx;
         xx[9] = tb[tt] - fy;
         if (ta[tt] - fx + xx[1] >= -12010 && ta[tt] - fx <= fxmax + 12000) {
-            if (atype[t] != 86 && atype[t] != 90 && ttype[tt] != TILE_SWORD) {
+            if (atype[t] != ENEMY_FALLING_CAT && atype[t] != ENEMY_BALL_GIANT && ttype[tt] != TILE_SWORD) {
 
                 // 上
                 if (ttype[tt] != TILE_ITEM_BLOCK_HIDDEN) {
@@ -3171,7 +3173,7 @@ void tekizimen() {
                 }
                 // 左右
                 xx[27] = 0;
-                if ((atype[t] >= 100 || ttype[tt] != TILE_ITEM_BLOCK_HIDDEN || atype[t] == 2) && ttype[tt] != TILE_NOTE_BLOCK) {
+                if ((atype[t] >= 100 || ttype[tt] != TILE_ITEM_BLOCK_HIDDEN || atype[t] == ENEMY_SHELL) && ttype[tt] != TILE_NOTE_BLOCK) {
                     if (aa[t] + anobia[t] - fx > xx[8] && aa[t] - fx < xx[8] + xx[2] && ab[t] + anobib[t] - fy > xx[9] + xx[1] / 2 - xx[0] && ab[t] - fy < xx[9] + xx[2]) {
                         aa[t] = xx[8] - anobia[t] + fx;
                         ac[t] = 0;
@@ -3185,7 +3187,7 @@ void tekizimen() {
                         xx[27] = 1;
                     }
                     // こうらブレイク
-                    if (xx[27] == 1 && (ttype[tt] == TILE_ITEM_BLOCK_HIDDEN || ttype[tt] == TILE_BRICK) && atype[t] == 2) {
+                    if (xx[27] == 1 && (ttype[tt] == TILE_ITEM_BLOCK_HIDDEN || ttype[tt] == TILE_BRICK) && atype[t] == ENEMY_SHELL) {
                         if (ttype[tt] == TILE_ITEM_BLOCK_HIDDEN) {
                             play_sound_effect(oto[4]);
                             ttype[tt] = TILE_ITEM_BLOCK_OPEN;
@@ -3196,7 +3198,7 @@ void tekizimen() {
                     }
                 }
             }
-            if (atype[t] == 86 || atype[t] == 90) {
+            if (atype[t] == ENEMY_FALLING_CAT || atype[t] == ENEMY_BALL_GIANT) {
                 if (aa[t] + anobia[t] - fx > xx[8] && aa[t] - fx < xx[8] + xx[1] && ab[t] + anobib[t] - fy > xx[9] && ab[t] - fy < xx[9] + xx[1]) {
                     brockbreak(tt);
                 }
