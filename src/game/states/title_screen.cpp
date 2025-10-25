@@ -9,6 +9,8 @@
 #include "sa_graphics.hpp"
 #include "sa_input.hpp"
 
+#include "misc_text.hpp"
+
 #define STAGE_MAX 10 // 1-9 + mystery dungeon (randomized map)
 #define STAGE_MIN 1
 #define STAGE_MYSTERY_DUNGEON 10
@@ -93,9 +95,9 @@ static void title_screen_draw(void) {
     uint16_t textWidth = 0;
 
     if (!gControllerFound) {
-        text = "NO CONTROLLER!";
+        text = gMiscText[TEXT_NO_CONTROLLER];
     } else {
-		text = "STARTボタンを押せ!!";
+		text = gMiscText[TEXT_PRESS_START];
 	}
 
     measure_text(text, &textWidth, NULL);
@@ -105,9 +107,9 @@ static void title_screen_draw(void) {
 
     if (sShowStageNum) {
         if (sStageNum != STAGE_MYSTERY_DUNGEON) {
-            draw_text_fmt(textX, 270, "Stage number: %d", sStageNum);
+            draw_text_fmt(textX, 270, gMiscText[TEXT_STAGE_NUM], sStageNum);
         } else {
-            draw_text("Mystery Dungeon", textX, 270);
+            draw_text(gMiscText[TEXT_MYSTERY_DUNGEON], textX, 270);
         }
     }
 }

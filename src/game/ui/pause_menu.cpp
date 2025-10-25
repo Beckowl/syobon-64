@@ -10,6 +10,8 @@
 #include "sa_input.hpp"
 #include "sa_audio.hpp"
 
+#include "misc_text.hpp"
+
 static bool sMenuOpen = false;
 static uint8_t sSelectIndex = 0;
 
@@ -26,8 +28,8 @@ typedef struct {
 } MenuOption;
 
 static const MenuOption sMenuOptions[] = {
-    {"Continue", menu_opt_continue},
-    {"Go to title screen", menu_opt_title},
+    {gMiscText[TEXT_CONTINUE], menu_opt_continue},
+    {gMiscText[TEXT_GO_TO_TITLE], menu_opt_title},
 };
 
 #define MENU_OPT_COUNT (sizeof(sMenuOptions) / sizeof(sMenuOptions[0]))
@@ -83,7 +85,7 @@ void pause_menu_draw(void) {
     set_draw_color(255, 255, 255);
     draw_rectangle_outline(menuX, menuY, MENU_WIDTH, MENU_HEIGHT);
 
-    const char* headerText = "PAUSED";
+    const char* headerText = gMiscText[TEXT_PAUSED];
     
     uint16_t headerWidth, headerHeight;
     measure_text(headerText, &headerWidth, &headerHeight);

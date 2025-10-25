@@ -15,6 +15,8 @@
 #include "level/level_loader.hpp"
 #include "levels.hpp"
 
+#include "misc_text.hpp"
+
 static bool sPaused = false;
 
 static void play_enter() {
@@ -2392,10 +2394,11 @@ static void play_draw() {
                 draw_text("51", xx[0] / 100, xx[1] / 100);
             }
 
+            // TODO: fix text alignment
             if (ntype[t] == 101)
-                draw_text("ゲームクリアー", xx[0] / 100, xx[1] / 100);
+                draw_text(gMiscText[TEXT_GAME_CLEAR], xx[0] / 100, xx[1] / 100);
             if (ntype[t] == 102)
-                draw_text("プレイしてくれてありがとー", xx[0] / 100, xx[1] / 100);
+                draw_text(gMiscText[TEXT_THANKS_FOR_PLAYING], xx[0] / 100, xx[1] / 100);
         }
     }
 
