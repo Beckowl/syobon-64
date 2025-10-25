@@ -43,10 +43,10 @@ void level_1_3_5_load(void) {
 	sco++;
 
 	txtype[tco] = 0;
-	tyobi(12 * 29, 4 * 29 - 12, 112);
+	spawn_block(12 * 29, 4 * 29 - 12, 112);
     //ヒント3
 	txtype[tco] = 3;
-	tyobi(12 * 29, 8 * 29 - 12, 300);
+	spawn_block(12 * 29, 8 * 29 - 12, 300);
 
 	for (tt = 0; tt <= 1000; tt++) {
 	    for (t = 0; t <= 16; t++) {

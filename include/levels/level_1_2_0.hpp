@@ -31,10 +31,10 @@ void level_1_2_0_load(void) {
 	tco = 0;
     //ヒント1
 	txtype[tco] = 1;
-	tyobi(4 * 29, 9 * 29 - 12, 300);
+	spawn_block(4 * 29, 9 * 29 - 12, 300);
 
     //毒1
-	tyobi(13 * 29, 8 * 29 - 12, 114);
+	spawn_block(13 * 29, 8 * 29 - 12, 114);
 
     //t=28;
 	sco = 0;

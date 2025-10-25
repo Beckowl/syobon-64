@@ -30,15 +30,15 @@ void level_3_1_0_load(void) {
     tco = 0;
 	//
 	txtype[tco] = 10;
-	tyobi(2 * 29, 9 * 29 - 12, 300);
+	spawn_block(2 * 29, 9 * 29 - 12, 300);
 	tco += 1;
 	//
 	txtype[tco] = 1;
-	tyobi(63 * 29, 13 * 29 - 12, 115);
+	spawn_block(63 * 29, 13 * 29 - 12, 115);
 	tco += 1;
 	//
 	txtype[tco] = 1;
-	tyobi(64 * 29, 13 * 29 - 12, 115);
+	spawn_block(64 * 29, 13 * 29 - 12, 115);
 	tco += 1;
 	//
 	sco = 0;

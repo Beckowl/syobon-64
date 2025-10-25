@@ -163,48 +163,48 @@ void level_2_2_1_load(void) {
 	//
 	tco = 0;
 	txtype[tco] = 0;
-	tyobi(0 * 29, 0 * 29 - 12, 4);
+	spawn_block(0 * 29, 0 * 29 - 12, 4);
 	tco = 1;
 	txtype[tco] = 0;
-	tyobi(2 * 29, 9 * 29 - 12, 4);
+	spawn_block(2 * 29, 9 * 29 - 12, 4);
 	tco = 2;
 	txtype[tco] = 0;
-	tyobi(3 * 29, 9 * 29 - 12, 4);
+	spawn_block(3 * 29, 9 * 29 - 12, 4);
 	tco += 1;
 	//
 	txtype[tco] = 1;
-	tyobi(5 * 29, 9 * 29 - 12, 115);
+	spawn_block(5 * 29, 9 * 29 - 12, 115);
 	tco += 1;
 	txtype[tco] = 1;
-	tyobi(6 * 29, 9 * 29 - 12, 115);
-	tco += 1;
-	//
-	txtype[tco] = 1;
-	tyobi(5 * 29, 10 * 29 - 12, 115);
-	tco += 1;
-	txtype[tco] = 1;
-	tyobi(6 * 29, 10 * 29 - 12, 115);
+	spawn_block(6 * 29, 9 * 29 - 12, 115);
 	tco += 1;
 	//
 	txtype[tco] = 1;
-	tyobi(5 * 29, 11 * 29 - 12, 115);
+	spawn_block(5 * 29, 10 * 29 - 12, 115);
 	tco += 1;
 	txtype[tco] = 1;
-	tyobi(6 * 29, 11 * 29 - 12, 115);
-	tco += 1;
-	//
-	txtype[tco] = 1;
-	tyobi(5 * 29, 12 * 29 - 12, 115);
-	tco += 1;
-	txtype[tco] = 1;
-	tyobi(6 * 29, 12 * 29 - 12, 115);
+	spawn_block(6 * 29, 10 * 29 - 12, 115);
 	tco += 1;
 	//
 	txtype[tco] = 1;
-	tyobi(70 * 29, 7 * 29 - 12, 115);
+	spawn_block(5 * 29, 11 * 29 - 12, 115);
 	tco += 1;
 	txtype[tco] = 1;
-	tyobi(71 * 29, 7 * 29 - 12, 115);
+	spawn_block(6 * 29, 11 * 29 - 12, 115);
+	tco += 1;
+	//
+	txtype[tco] = 1;
+	spawn_block(5 * 29, 12 * 29 - 12, 115);
+	tco += 1;
+	txtype[tco] = 1;
+	spawn_block(6 * 29, 12 * 29 - 12, 115);
+	tco += 1;
+	//
+	txtype[tco] = 1;
+	spawn_block(70 * 29, 7 * 29 - 12, 115);
+	tco += 1;
+	txtype[tco] = 1;
+	spawn_block(71 * 29, 7 * 29 - 12, 115);
 	tco += 1;
 	//
 	for (tt = 0; tt <= 1000; tt++) {

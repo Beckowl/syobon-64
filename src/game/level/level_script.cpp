@@ -86,7 +86,7 @@ static void level_cmd_tile(void) {
 
     txtype[tco] = subtype;
 
-    tyobi(TILES_TO_PIXELS(x, y), type);
+    spawn_block(TILES_TO_PIXELS(x, y), type);
     sCurrCmd = CMD_NEXT;
 }
 
@@ -102,7 +102,7 @@ static void level_cmd_tile_range(void) {
         for (uint16_t y = 0; y < height; y++) {
             txtype[tco] = subtype;
 
-            tyobi(TILES_TO_PIXELS(startX + x, startY + y), type);
+            spawn_block(TILES_TO_PIXELS(startX + x, startY + y), type);
         }
     }
 

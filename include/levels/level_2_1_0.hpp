@@ -33,27 +33,27 @@ void level_2_1_0_load(void) {
     tco = 0;
 	//
 	txtype[tco] = 6;
-	tyobi(1 * 29, 9 * 29 - 12, 300);
+	spawn_block(1 * 29, 9 * 29 - 12, 300);
 	tco += 1;
 	//
 	txtype[tco] = 0;
-	tyobi(40 * 29, 9 * 29 - 12, 110);
+	spawn_block(40 * 29, 9 * 29 - 12, 110);
 	tco += 1;
 	//
 	txtype[tco] = 7;
-	tyobi(79 * 29, 7 * 29 - 12, 300);
+	spawn_block(79 * 29, 7 * 29 - 12, 300);
 	tco += 1;
 	//
 	txtype[tco] = 2;
-	tyobi(83 * 29, 7 * 29 - 12, 102);
+	spawn_block(83 * 29, 7 * 29 - 12, 102);
 	tco += 1;
 	//
 	txtype[tco] = 0;
-	tyobi(83 * 29, 2 * 29 - 12, 114);
+	spawn_block(83 * 29, 2 * 29 - 12, 114);
 	tco += 1;
 	//
 	for (int i = -1; i > -7; i -= 1) {
-	    tyobi(85 * 29, i * 29 - 12, 4);
+	    spawn_block(85 * 29, i * 29 - 12, 4);
 	    tco += 1;
 	}
 	//

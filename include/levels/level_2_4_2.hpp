@@ -31,35 +31,35 @@ void level_2_4_2_load(void) {
     //
 	tco = 0;
 	txtype[tco] = 0;
-	tyobi(1 * 29, 14 * 29 - 12, 5);
+	spawn_block(1 * 29, 14 * 29 - 12, 5);
 	tco += 1;
 	//
 	txtype[tco] = 0;
-	tyobi(2 * 29, 14 * 29 - 12, 5);
+	spawn_block(2 * 29, 14 * 29 - 12, 5);
 	tco += 1;
 	//
 	txtype[tco] = 9;
-	tyobi(3 * 29, 4 * 29 - 12, 300);
+	spawn_block(3 * 29, 4 * 29 - 12, 300);
 	tco += 1;
 	//
 	txtype[tco] = 1;
-	tyobi(32 * 29, 9 * 29 - 12, 115);
+	spawn_block(32 * 29, 9 * 29 - 12, 115);
 	tco += 1;
 	//
 	txtype[tco] = 0;
-	tyobi(76 * 29, 14 * 29 - 12, 5);
+	spawn_block(76 * 29, 14 * 29 - 12, 5);
 	tco += 1;
 	//
 	txtype[tco] = 0;
-	tyobi(108 * 29, 11 * 29 - 12, 141);
+	spawn_block(108 * 29, 11 * 29 - 12, 141);
 	tco += 1;
 	//
 	txtype[tco] = 0;
-	tyobi(109 * 29, 10 * 29 - 12 - 3, 140);
+	spawn_block(109 * 29, 10 * 29 - 12 - 3, 140);
 	tco += 1;
 	//
 	txtype[tco] = 0;
-	tyobi(121 * 29, 10 * 29 - 12, 142);
+	spawn_block(121 * 29, 10 * 29 - 12, 142);
 	tco += 1;
 	//
 	bco = 0;

@@ -563,7 +563,7 @@ static void play_update() {
                                     mzimen = 1;
                                     xx[16] = 1;
                                 } else if (ttype[t] == TILE_BRICK_BRITTLE) {
-                                    brockbreak(t);
+                                    break_block(t);
                                 }
                                 // Pスイッチ
                                 else if (ttype[t] == TILE_PSWITCH) {
@@ -626,7 +626,7 @@ static void play_update() {
                                     }
                                     // 壊れる
                                     if (ttype[t] == TILE_BRICK && mzimen == 0) {
-                                        brockbreak(t);
+                                        break_block(t);
                                     }
                                     // コイン
                                     if (ttype[t] == TILE_ITEM_BLOCK_COIN && mzimen == 0) {
@@ -858,7 +858,7 @@ static void play_update() {
                     if (xx[17] == 1) {
                         play_sound_effect(oto[8]);
                         ttype[t] = TILE_ITEM_BLOCK_OPEN;
-                        tyobi(ta[t] / 100, (tb[t] / 100) - 29, TILE_PSWITCH);
+                        spawn_block(ta[t] / 100, (tb[t] / 100) - 29, TILE_PSWITCH);
                     }
                 }
 
@@ -916,12 +916,12 @@ static void play_update() {
 
                 if (ttype[t] == TILE_MESSAGE_BLOCK_BREAKABLE) {
                     if (xx[17] == 1) {
-                        brockbreak(t);
+                        break_block(t);
                     }
                 }
             } else if (mtype == 1) {
                 if (ma + mnobia > xx[8] && ma < xx[8] + xx[1] && mb + mnobib > xx[9] && mb < xx[9] + xx[1]) {
-                    brockbreak(t);
+                    break_block(t);
                 }
             }
             // ONOFF
@@ -3193,14 +3193,14 @@ void tekizimen() {
                             ttype[tt] = TILE_ITEM_BLOCK_OPEN;
                             spawn_particle(ta[tt] + 10, tb[tt], 0, -800, 0, 40, 3000, 3000, 0, 16);
                         } else if (ttype[tt] == TILE_BRICK) {
-                            brockbreak(tt);
+                            break_block(tt);
                         }
                     }
                 }
             }
             if (atype[t] == ENEMY_FALLING_CAT || atype[t] == ENEMY_BALL_GIANT) {
                 if (aa[t] + anobia[t] - fx > xx[8] && aa[t] - fx < xx[8] + xx[1] && ab[t] + anobib[t] - fy > xx[9] && ab[t] - fy < xx[9] + xx[1]) {
-                    brockbreak(tt);
+                    break_block(tt);
                 }
             }
         }
@@ -3330,7 +3330,7 @@ void stage() {
 }
 
 //ブロック出現
-void tyobi(int x, int y, int type) {
+void spawn_block(int x, int y, int type) {
 
     ta[tco] = x * 100;
     tb[tco] = y * 100;
@@ -3342,7 +3342,7 @@ void tyobi(int x, int y, int type) {
 }
 
 //ブロック破壊
-void brockbreak(int t) {
+void break_block(int t) {
     play_sound_effect(oto[3]);
     spawn_particle(ta[t] + 1200, tb[t] + 1200, 300, -1000, 0, 160, 1000, 1000, 1, 120);
     spawn_particle(ta[t] + 1200, tb[t] + 1200, -300, -1000, 0, 160, 1000, 1000, 1, 120);

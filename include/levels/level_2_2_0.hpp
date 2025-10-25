@@ -57,7 +57,7 @@ void level_2_2_0_load(void) {
 	sxtype[sco] = 1;
 	sco += 1;
 	//
-	tyobi(6 * 29, 9 * 29 - 12, 110);
+	spawn_block(6 * 29, 9 * 29 - 12, 110);
 	//
 	for (tt = 0; tt <= 1000; tt++) {
 	    for (t = 0; t <= 16; t++) {

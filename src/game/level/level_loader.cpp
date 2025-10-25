@@ -142,7 +142,7 @@ static void level_parse_stagedate(void) {
             int yPos = t * 29 - 12;
 
             if (tileType >= 1 && tileType <= 19 && tileType != 9) {
-                tyobi(tt * 29, t * 29 - 12, tileType);
+                spawn_block(tt * 29, t * 29 - 12, tileType);
             }
 
             if (tileType >= 20 && tileType <= 29) {
@@ -181,7 +181,7 @@ static void level_parse_stagedate(void) {
 
             // コイン
             if (tileType == 9) {
-                tyobi(tt * 29, t * 29 - 12, 800);
+                spawn_block(tt * 29, t * 29 - 12, 800);
             }
 
             if (tileType == 99) {
