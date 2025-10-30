@@ -1280,7 +1280,7 @@ static void play_update() {
                         sre[11] = 900;
                     }
 
-                    if (srsp[t] != 12) {
+                    if (srsp[t] != PLATFORM_PILLAR_BOUNCY) {
                         mzimen = 1;
                         md = 0;
                     } else {
@@ -1307,14 +1307,14 @@ static void play_update() {
                         }
                     }
                     // 特殊
-                    if (srsp[t] == 1) {
+                    if (srsp[t] == PLATFORM_BREAKING) {
                         play_sound_effect(oto[3]);
                         spawn_particle(sra[t] + 200, srb[t] - 1000, -240, -1400, 0, 160, 4500, 4500, 2, 120);
                         spawn_particle(sra[t] + 4500 - 200, srb[t] - 1000, 240, -1400, 0, 160, 4500, 4500, 3, 120);
                         sra[t] = -70000000;
                     }
 
-                    if (srsp[t] == 2) {
+                    if (srsp[t] == PLATFORM_PUSH_LEFT) {
                         mc = -2400;
                         srmove[t] += 1;
                         if (srmove[t] >= 100) {
@@ -1325,7 +1325,7 @@ static void play_update() {
                         }
                     }
 
-                    if (srsp[t] == 3) {
+                    if (srsp[t] == PLATFORM_PUSH_RIGHT) {
                         mc = 2400;
                         srmove[t] += 1;
                         if (srmove[t] >= 100) {
@@ -1338,11 +1338,11 @@ static void play_update() {
                 } // 判定内
 
                 // 疲れ初期化
-                if ((srsp[t] == 2 || srsp[t] == 3) && mc != -2400 && srmove[t] > 0) {
+                if ((srsp[t] == PLATFORM_PUSH_LEFT || srsp[t] == PLATFORM_PUSH_RIGHT) && mc != -2400 && srmove[t] > 0) {
                     srmove[t]--;
                 }
 
-                if (srsp[t] == 11) {
+                if (srsp[t] == PLATFORM_PILLAR_FALL) {
                     if (ma + mnobia > xx[8] + xx[0] - 2000 && ma < xx[8] + xx[12] - xx[0]) {
                         sron[t] = 1;
                     }
@@ -1670,8 +1670,7 @@ static void play_update() {
                     // atype[t]=151;
                     break;
                 // ノーマルブーン
-                // todo: doc this
-                case 151:
+                case ENEMY_CAPE_GUY_NO_CAP:
                     azimentype[t] = 2;
                     break;
 
@@ -2404,25 +2403,25 @@ static void play_draw() {
         xx[1] = srb[t] - fy;
         if (xx[0] + src[t] >= -10 && xx[1] <= fxmax + 12100 && src[t] / 100 >= 1) {
             xx[2] = 14;
-            if (srsp[t] == 1) {
+            if (srsp[t] == PLATFORM_BREAKING) {
                 xx[2] = 12;
             }
 
             if (srsp[t] <= 9 || srsp[t] >= 20) {
                 set_draw_color(220, 220, 0);
-                if (srsp[t] == 2 || srsp[t] == 3) {
+                if (srsp[t] == PLATFORM_PUSH_LEFT || srsp[t] == PLATFORM_PUSH_RIGHT) {
                     set_draw_color(0, 220, 0);
                 }
-                if (srsp[t] == 21) {
+                if (srsp[t] == PLATFORM_GRAY) {
                     set_draw_color(180, 180, 180);
                 }
                 draw_rectangle_filled((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, xx[2]);
 
                 set_draw_color(180, 180, 0);
-                if (srsp[t] == 2 || srsp[t] == 3) {
+                if (srsp[t] == PLATFORM_PUSH_LEFT || srsp[t] == PLATFORM_PUSH_RIGHT) {
                     set_draw_color(0, 180, 0);
                 }
-                if (srsp[t] == 21) {
+                if (srsp[t] == PLATFORM_GRAY) {
                     set_draw_color(150, 150, 150);
                 }
                 draw_rectangle_outline((sra[t] - fx) / 100, (srb[t] - fy) / 100, src[t] / 100, xx[2]);
@@ -2439,7 +2438,7 @@ static void play_draw() {
                     draw_rectangle_outline((sra[t] - fx) / 100 + 20, (srb[t] - fy) / 100 + 30, src[t] / 100 - 40, 480);
                 }
             }
-            if (srsp[t] == 15) {
+            if (srsp[t] == PLATFORM_PILLAR_BRICKS) {
                 for (t2 = 0; t2 <= 2; t2++) {
                     xx[6] = 1 + 0;
                     draw_sprite_region(grap[xx[6]][1], (sra[t] - fx) / 100 + t2 * 29, (srb[t] - fy) / 100, mirror);
