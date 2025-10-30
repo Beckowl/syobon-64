@@ -2324,24 +2324,24 @@ static void play_draw() {
 
         if (xx[0] + xx[2] >= -10 && xx[0] <= fxmax && xx[1] + xx[3] >= -10 && xx[3] <= fymax) {
 
-            if (ntype[t] != 3) {
-                if ((ntype[t] == 1 || ntype[t] == 2) && stagecolor == 5) {
+            if (ntype[t] != DECORATION_CASTLE) {
+                if ((ntype[t] == DECORATION_GRASS || ntype[t] == DECORATION_CLOUD) && stagecolor == 5) {
                     draw_sprite_region(grap[ntype[t] + 30][4], xx[0] / 100, xx[1] / 100, mirror);
                 } else {
                     draw_sprite_region(grap[ntype[t]][4], xx[0] / 100, xx[1] / 100, mirror);
                 }
             }
-            if (ntype[t] == 3)
+            if (ntype[t] == DECORATION_CASTLE)
                 draw_sprite_region(grap[ntype[t]][4], xx[0] / 100 - 5, xx[1] / 100, mirror);
 
             // 51
-            if (ntype[t] == 100) {
+            if (ntype[t] == DECORATION_TEXT_51) {
                 draw_text("51", xx[0] / 100, xx[1] / 100);
             }
 
-            if (ntype[t] == 101)
+            if (ntype[t] == DECORATION_TEXT_GAME_CLEAR)
                 draw_text("ゲームクリアー", xx[0] / 100, xx[1] / 100);
-            if (ntype[t] == 102)
+            if (ntype[t] == DECORATION_TEXT_THANKS_FOR_PLAYING)
                 draw_text("プレイしてくれてありがとー", xx[0] / 100, xx[1] / 100);
         }
     }
