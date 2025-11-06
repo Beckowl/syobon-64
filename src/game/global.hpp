@@ -105,7 +105,6 @@ inline int srsok[srmax], srmovep[srmax], srmove[srmax];
 //スクロール範囲
 inline int fx = 0, fy = 0, scrollx, scrolly;
 
-//画面サイズ(ファミコンサイズ×2)(256-224)
 inline int fxmax = SCREEN_WIDTH * 100, fymax = SCREEN_HEIGHT * 100;
 
 //自由な値

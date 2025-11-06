@@ -48,12 +48,8 @@ SpriteRegion* get_sprite_region(sprite_t* source, int sourceX, int sourceY, int 
     return sprite;
 }
 
-static inline bool offscreen(int x, int y, int w, int h) {
-   return (x + w <= 0) || (x >= SCREEN_WIDTH) || (y + h <= 0) || (y >= SCREEN_HEIGHT);
-}
-
 void draw_sprite_region(SpriteRegion* sprite, int x, int y, bool flipX, bool flipY) {
-    if (!sprite || offscreen(x, y, sprite->width, sprite->height)) { return; }
+    if (!sprite) { return; }
 
     rdpq_set_mode_standard();
     rdpq_mode_alphacompare(1);
@@ -71,17 +67,13 @@ void draw_sprite_region(SpriteRegion* sprite, int x, int y, bool flipX, bool fli
 }
 
 void draw_rectangle_filled(int x, int y, int width, int height) {
-    if (offscreen(x, y, width, height)) { return; }
-
     rdpq_set_mode_standard();
     rdpq_set_mode_fill(sDrawColor);
 
     rdpq_fill_rectangle(x, y, x + width, y + height);
 }
 
-void draw_rectangle_outline(int x, int y, int width, int height) {
-    if (offscreen(x, y, width, height)) { return; }
-    
+void draw_rectangle_outline(int x, int y, int width, int height) { 
     rdpq_set_mode_standard();
     rdpq_set_mode_fill(sDrawColor);
 
@@ -140,8 +132,6 @@ static void get_circle_points(int cx, int cy, int radius, float points[][2]) {
 }
 
 void draw_circle_filled(int x, int y, int radius) {
-    if (offscreen(x - radius, y - radius, radius * 2, radius * 2)) { return; }
-
     rdpq_set_mode_standard();
     rdpq_mode_combiner(RDPQ_COMBINER_FLAT);
     rdpq_set_prim_color(sDrawColor);
@@ -158,8 +148,6 @@ void draw_circle_filled(int x, int y, int radius) {
 }
 
 void draw_circle_outline(int x, int y, int radius) {
-    if (offscreen(x - radius, y - radius, radius * 2, radius * 2)) { return; }
-
     float points[NUM_CIRCLE_POINTS][2];
     
     get_circle_points(x, y, radius, points);

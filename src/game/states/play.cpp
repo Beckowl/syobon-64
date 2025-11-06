@@ -2646,7 +2646,7 @@ static void play_draw() {
         xx[1] = tb[t] - fy;
         xx[2] = 32;
         xx[3] = xx[2];
-        if (xx[0] + xx[2] * 100 >= -10 && xx[1] <= fxmax) {
+        if (xx[0] + xx[2] * 100 >= -10 && xx[0] <= fxmax) {
 
             xx[9] = 0;
             if (stagecolor == 2) {
@@ -3324,7 +3324,7 @@ void stage() {
 
     // 3-1
     if (sta == 3 && stb == 1 && stc == 0) {	
-        level_load(level_3_1_0);
+        level_load(testLevel);
     }
 }
 
