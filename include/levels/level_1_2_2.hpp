@@ -2,6 +2,7 @@
 
 #include "level_commands.hpp"
 #include "level_enums.hpp"
+#include "level/level_loader.hpp"
 
 void level_1_2_2_load(void) {
     //マリ　地上　入れ
@@ -11,7 +12,7 @@ void level_1_2_2_load(void) {
 	ma = 7500;
 	mb = 3000 * 9;
 
-    unsigned char stagedatex[17][1001] = {
+    uint8_t stagedatex[17][1001] = {
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 82, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
         {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 99, 0, 0, 0, 0, 0, 0, 0, 0, 0, 82, 0, 0, 0, 0, 0},
@@ -55,12 +56,7 @@ void level_1_2_2_load(void) {
 	bxtype[t] = 0;
 	bco++;
 
-	for (tt = 0; tt <= 1000; tt++) {
-	    for (t = 0; t <= 16; t++) {
-		stagedate[t][tt] = 0;
-		stagedate[t][tt] = stagedatex[t][tt];
-	    }
-	}
+    level_parse_stagedate(stagedatex);
 }
 
 const uint8_t level_1_2_2[] = {

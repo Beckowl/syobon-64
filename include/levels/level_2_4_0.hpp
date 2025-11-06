@@ -2,6 +2,7 @@
 
 #include "level_commands.hpp"
 #include "level_enums.hpp"
+#include "level/level_loader.hpp"
 
 void level_2_4_0_load(void) {
     if (stc == 0) {
@@ -16,7 +17,7 @@ void level_2_4_0_load(void) {
 	stagecolor = 4;
 	scrollx = 2900 * (40 - 19);
 	//
-    unsigned char stagedatex[17][1001] = {
+    uint8_t stagedatex[17][1001] = {
         {5, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5, 5},
         {5, 5, 5, 5, 5, 5, 5, 0, 0, 7, 0, 0, 0, 0, 0, 0, 0, 10, 0, 0, 0, 10, 10, 10, 0, 0, 0, 0, 0, 0, 5, 5, 5, 5, 5, 5, 5, 5},
         {5, 5, 5, 5, 5, 5, 5, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 7, 7, 10, 10, 10, 5, 5, 5, 5, 5},
@@ -94,12 +95,7 @@ void level_2_4_0_load(void) {
 	sxtype[sco] = 1;
 	sco += 1;
 	//
-	for (tt = 0; tt <= 1000; tt++) {
-	    for (t = 0; t <= 16; t++) {
-		stagedate[t][tt] = 0;
-		stagedate[t][tt] = stagedatex[t][tt];
-	    }
-	}
+    level_parse_stagedate(stagedatex);
 }
 
 const uint8_t level_2_4_0[] = {

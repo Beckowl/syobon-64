@@ -134,10 +134,10 @@ void level_randomize(void) {
     }
 }
 
-static void level_parse_stagedate(void) {
+void level_parse_stagedate(uint8_t stagedate[17][1001] ) {
     for (tt = 0; tt <= 1000; tt++) {
         for (t = 0; t <= 16; t++) {
-            int tileType = stagedate[t][tt];
+            uint8_t tileType = stagedate[t][tt];
             int xPos = tt * 29;
             int yPos = t * 29 - 12;
 
@@ -232,7 +232,6 @@ void level_load(const uint8_t* levelScript) {
         return;
     }
 
-    level_parse_stagedate();
     player_init_checkpoint();
 
     // over means mystery dungeon (randomized levels) mode is enabled

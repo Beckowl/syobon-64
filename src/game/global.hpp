@@ -108,9 +108,6 @@ inline int fx = 0, fy = 0, scrollx, scrolly;
 //画面サイズ(ファミコンサイズ×2)(256-224)
 inline int fxmax = SCREEN_WIDTH * 100, fymax = SCREEN_HEIGHT * 100;
 
-//ステージ
-inline unsigned char stagedate[17][2001];
-
 //自由な値
 inline int xx[91];
 inline double xd[11];

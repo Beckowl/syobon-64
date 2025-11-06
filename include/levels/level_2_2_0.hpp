@@ -2,13 +2,14 @@
 
 #include "level_commands.hpp"
 #include "level_enums.hpp"
+#include "level/level_loader.hpp"
 
 void level_2_2_0_load(void) {
     set_background_music(otom[1]);
 	stagecolor = 1;
 	scrollx = 2900 * (19 - 19);
 	//
-	unsigned char stagedatex[17][1001] = {
+	uint8_t stagedatex[17][1001] = {
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
 	    {0, 0, 0, 0, 0, 0, 0, 0, 0, 82, 0, 0, 0, 0, 0, 0, 0},
@@ -59,12 +60,7 @@ void level_2_2_0_load(void) {
 	//
 	spawn_block(6 * 29, 9 * 29 - 12, 110);
 	//
-	for (tt = 0; tt <= 1000; tt++) {
-	    for (t = 0; t <= 16; t++) {
-		stagedate[t][tt] = 0;
-		stagedate[t][tt] = stagedatex[t][tt];
-	    }
-	}
+    level_parse_stagedate(stagedatex);
 }
 
 const uint8_t level_2_2_0[] = {
