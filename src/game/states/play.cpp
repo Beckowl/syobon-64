@@ -3324,7 +3324,7 @@ void stage() {
 
     // 3-1
     if (sta == 3 && stb == 1 && stc == 0) {	
-        level_load(testLevel);
+        level_load(level_3_1_0);
     }
 }
 
